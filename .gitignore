@@ -1,0 +1,12 @@
+# Fichiers objets
+*.o
+
+# Exécutables
+minishell
+*.out
+
+# Fichiers cachés de l'OS (si quelqu'un est sur Mac)
+.DS_Store
+
+# Dossiers de test (optionnel, si vous créez un dossier pour vos tests brouillons)
+/tests_brouillons/
