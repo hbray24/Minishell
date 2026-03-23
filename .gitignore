@@ -1,5 +1,5 @@
 # Fichiers objets
-*.o
+obj/
 
 # Exécutables
 minishell
