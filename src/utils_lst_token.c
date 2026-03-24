@@ -6,6 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
+/*   Updated: 2026/03/24 14:58:59 by asauvage         ###   ########.fr       */
 /*   Updated: 2026/03/24 11:21:54 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -43,6 +44,7 @@ int	create_token(t_token *token)
 	token = last_token(token);
 	token->next = new_token;
 	new_token->pre = token;
+	new_token->token = NULL;
 	new_token->next = NULL;
 	return (1);
 }

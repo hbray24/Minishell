@@ -6,6 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
+/*   Updated: 2026/03/24 14:50:41 by asauvage         ###   ########.fr       */
 /*   Updated: 2026/03/24 11:21:58 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -23,17 +24,20 @@ void	free_array(char **str)
 		free(str);
 }
 
-void	clear_token(t_token *token)
+void	clear_token(t_token **token)
 {
 	t_token	*tmp;
 
-	token = first_token(token);
-	while (token)
+	if (!token || !(*token))
+		return ;
+	*token = first_token(*token);
+	while (*token)
 	{
-		if (token->token)
-			free(token->token);
-		tmp = token;
-		token = token->next;
+		if ((*token)->token)
+			free((*token)->token);
+		tmp = *token;
+		*token = (*token)->next;
 		free(tmp);
 	}
+	(*token) = NULL;
 }
