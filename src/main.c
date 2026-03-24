@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 14:50:14 by asauvage         ###   ########.fr       */
-/*   Updated: 2026/03/24 14:31:26 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/24 15:13:50 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <minishell.h>
 
@@ -43,9 +43,8 @@ int	main(int ac, char **av, char **envp)
 			clear_token(&token);
 			return (1);
 		}
-		clear_token(&token);
 		parse(token, env);
-		clear_token(token);
+		clear_token(&token);
 		free(line);
 	}
 	return (0);
