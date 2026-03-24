@@ -3,10 +3,11 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
+#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
 #    Updated: 2026/03/24 14:17:24 by asauvage         ###   ########.fr        #
+#    Updated: 2026/03/24 11:48:47 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +30,9 @@ SRCS = split.c \
 	   free.c \
 	   utils_lst_token.c \
 	   lexer.c \
-	   main.c
+	   brut_cmd.c \
+	   envp.c \
+	   main.c \
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
