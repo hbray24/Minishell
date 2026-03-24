@@ -3,58 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/23 18:44:10 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:31:26 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// int	find_substr(char *find, char *str)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	len;
-// 	int	len_str;
-
-// 	i = 0;
-// 	len_str = ft_strlen(str);
-// 	len = ft_strlen(find);
-// 	while (str && str[i] && i < len_str - len)
-// 	{
-// 		j = 0;
-// 		while (j < len && find[j++] == str[i++]);
-// 		if (j == len)
-// 			return (1);
-// 		i = i - j + 1;
-// 	}
-// 	return (0);
-// }
-
-// char	*find_pwd(char **str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str && str[i])
-// 	{
-// 		if (find_substr("PWD=", str[i]))
-// 			return (&str[i][4]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
+void	parse(t_token *token, t_env *env)
+{
+	if (ft_strcmp(token->token, "cd") == 0)
+		ft_cd(token, env);
+	else if (ft_strcmp(token->token, "pwd") == 0)
+		ft_pwd();
+	return ;
+}
 
 int	main(int ac, char **av, char **envp)
 {
-	(void)ac;
-	(void)av;
-	(void)envp;
 	char	*line;
 	t_token	*token;
+	t_env	*env;
 
+	(void)ac;
+	(void)av;
+	env = init_env(envp);
 	token = malloc_struct();
 	while ((line = readline("minishell> ")) != NULL)
 	{
@@ -65,6 +40,8 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			return (1);
 		}
+		parse(token, env);
+		clear_token(token);
 		free(line);
 	}
 	return (0);
