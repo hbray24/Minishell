@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/23 18:55:20 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:53:11 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ int	fill_token(char *str, t_token *token)
 	else
 		status |= add_node(token, str, WORD);
 	if (status)
-		clear_token(token);
+		clear_token(&token);
 	return (status);
 }
 
 void	print_token(t_token *token)
 {
 	token = first_token(token);
-	while (token)
+	while (token->next)
 	{
 		printf("%s, %d\n", token->token, token->type);
 		token = token->next;
 	}
+	printf("%s, %d\n", token->token, token->type);
 }
 
 int	lexer(char *str, t_token *token)
@@ -68,6 +69,7 @@ int	lexer(char *str, t_token *token)
 		}
 		i++;
 	}
+	free_array(tokens);
 	print_token(token);
 	return (status);
 }

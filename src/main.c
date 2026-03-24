@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/23 18:44:10 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:50:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,18 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*token;
 
-	token = malloc_struct();
 	while ((line = readline("minishell> ")) != NULL)
 	{
+		token = malloc_struct();
 		if (ft_strlen(line) > 0)
 			add_history(line);
 		if (lexer(line, token))
 		{
 			free(line);
+			clear_token(&token);
 			return (1);
 		}
+		clear_token(&token);
 		free(line);
 	}
 	return (0);

@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   spit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 14:50:41 by asauvage         ###   ########.fr       */
+/*   Created: 2026/03/24 12:07:29 by asauvage          #+#    #+#             */
+/*   Updated: 2026/03/24 12:07:47 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_array(char **str)
+int	ft_issep(char *str, int *i, int index_go)
 {
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		free(str[i++]);
-	if (str)
-		free(str);
+	if (str[*i] && (str[*i] == '|' || str[*i] == '<' || str[*i] == '>'))
+	{
+		if (index_go && (!ft_strncmp(&str[*i], "<<", 2) || !ft_strncmp(&str[*i],
+					">>", 2)))
+			(*i) += 2;
+		else if (index_go)
+			(*i)++;
+		return (1);
+	}
+	return (0);
 }
 
-void	clear_token(t_token **token)
+int	skip_w_quote(char *str, int i)
 {
-	t_token	*tmp;
+	char	quote;
 
-	if (!token || !(*token))
-		return ;
-	*token = first_token(*token);
-	while (*token)
-	{
-		if ((*token)->token)
-			free((*token)->token);
-		tmp = *token;
-		*token = (*token)->next;
-		free(tmp);
-	}
-	(*token) = NULL;
+	quote = str[i];
+	i++;
+	while (str[i] && str[i] != quote)
+		i++;
+	return (i);
 }

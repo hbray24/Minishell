@@ -6,40 +6,22 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 13:00:48 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/23 18:04:40 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:15:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_issep(char *str, int *i)
+int	next_token(char *str, int i)
 {
-	if (str[*i] && (str[*i] == '|' || str[*i] == '<' || str[*i] == '>'))
+	if (ft_issep(str, &i, 1))
+		return (i);
+	while (str[i] && !ft_isspace(str[i]) && !ft_issep(str, &i, 0))
 	{
-		if ((!ft_strncmp(&str[*i], "<<", 2) || !ft_strncmp(&str[*i], ">>", 2)))
-			(*i) += 2;
-		else
-			(*i)++;
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_issep2(char *str, int i)
-{
-	if (str[i] && (str[i] == '|' || str[i] == '<' || str[i] == '>'))
-		return (1);
-	return (0);
-}
-
-int	skip_w_quote(char *str, int i)
-{
-	char	quote;
-
-	quote = str[i];
-	i++;
-	while (str[i] && str[i] != quote)
+		if (str[i] == '\'' || str[i] == '\"')
+			i = skip_w_quote(str, i);
 		i++;
+	}
 	return (i);
 }
 
@@ -54,20 +36,10 @@ int	count_token(char *str)
 	{
 		while (str[i] && ft_isspace(str[i]))
 			i++;
-		if (!str[i])
-			break ;
-		if (!ft_issep2(str, i))
-			nb_word++;
-		while (str[i] && !ft_isspace(str[i]))
+		if (str[i])
 		{
-			if (str[i] == '\'' || str[i] == '\"')
-				i = skip_w_quote(str, i);
-			if (ft_issep(str, &i))
-			{
-				nb_word++;
-				break;
-			}
-			i++;
+			nb_word++;
+			i = next_token(str, i);
 		}
 	}
 	return (nb_word);
@@ -80,18 +52,18 @@ int	len_word(char *str, int *start)
 	while (ft_isspace(str[*start]))
 		(*start)++;
 	end = *start;
-	while (str && str[end] && !ft_isspace(str[end]) && !ft_issep2(str, end))
+	while (str && str[end] && !ft_isspace(str[end]) && !ft_issep(str, &end, 0))
 	{
 		if (str[end] == '\'' || str[end] == '\"')
 			end = skip_w_quote(str, end);
 		end++;
 	}
-	if (ft_issep2(str, *start))
-		ft_issep(str, &end);
+	if (ft_issep(str, start, 0))
+		ft_issep(str, &end, 1);
 	return (end - *start);
 }
 
-char	*ft_dup_w(char *res, char *str, int *i)
+char	*ft_dup_token(char *res, char *str, int *i)
 {
 	int	len_w;
 	int	start;
@@ -129,7 +101,7 @@ char	**split(char *str)
 	w = 0;
 	while (w < nb_word)
 	{
-		res[w] = ft_dup_w(res[w], str, &i);
+		res[w] = ft_dup_token(res[w], str, &i);
 		if (!res[w])
 		{
 			free_array(res);

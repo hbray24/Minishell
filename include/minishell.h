@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/23 18:40:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:49:57 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ t_token				*malloc_struct(void);
 char				**split(char *str);
 void				free_array(char **str);
 int					lexer(char *str, t_token *token);
-void				clear_token(t_token *token);
+void				clear_token(t_token **token);
 int					add_node(t_token *token, char *str, int type);
 t_token				*last_token(t_token *token);
 t_token				*first_token(t_token *token);
+int					skip_w_quote(char *str, int i);
+int					ft_issep(char *str, int *i, int index_go);
 
 #endif
