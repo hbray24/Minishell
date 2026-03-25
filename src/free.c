@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 11:14:59 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/25 14:11:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	free_array(char **str)
 	i = 0;
 	while (str && str[i])
 		free(str[i++]);
-	if (str)
-		free(str);
+	free(str);
 }
 
 void	clear_token(t_token **token)
@@ -32,8 +31,7 @@ void	clear_token(t_token **token)
 		return ;
 	while (*token)
 	{
-		if ((*token)->token)
-			free((*token)->token);
+		free((*token)->token);
 		tmp = *token;
 		*token = (*token)->next;
 		free(tmp);
@@ -49,10 +47,8 @@ void	clear_env(t_env **env)
 		return ;
 	while (*env)
 	{
-		if ((*env)->key)
-			free((*env)->key);
-		if ((*env)->value)
-			free((*env)->value);
+		free((*env)->key);
+		free((*env)->value);
 		tmp = *env;
 		*env = (*env)->next;
 		free(tmp);

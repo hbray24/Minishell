@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 11:09:18 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/25 14:21:31 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,35 +28,46 @@ int	parse(t_token *token, t_env *env)
 	return (status);
 }
 
-int	main(int ac, char **av, char **envp)
+int	main(int ac, char **envp)
 {
 	char	*line;
 	t_token	*token;
 	t_env	*env;
 
-	(void)ac;
-	(void)av;
+	if (ac != 1)
+		return (1);
 	env = init_env(envp);
-	token = malloc_struct();
-	while ((line = readline("minishell> ")) != NULL)
+	token = NULL;
+	while (1)
 	{
+		line = readline("minishell> ");
+		if (!line)
+		{
+			printf("exit\n");
+			break ;
+		}
 		token = malloc_struct();
-		if (ft_strlen(line) > 0)
-			add_history(line);
+		if (ft_strlen(line) == 0)
+		{
+			free(line);
+			clear_token(&token);
+			continue ;
+		}
+		add_history(line);
 		if (lexer(line, token))
 		{
 			free(line);
 			clear_token(&token);
+			rl_clear_history();
 			return (1);
 		}
 		free(line);
 		if (!parse(token, env))
-		{
-			clear_token(&token);
 			break ;
-		}
 		clear_token(&token);
 	}
+	rl_clear_history();
+	clear_token(&token);
 	clear_env(&env);
 	return (0);
 }
