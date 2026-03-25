@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 14:50:41 by asauvage         ###   ########.fr       */
-/*   Updated: 2026/03/24 11:21:58 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/25 11:14:59 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -30,7 +30,6 @@ void	clear_token(t_token **token)
 
 	if (!token || !(*token))
 		return ;
-	*token = first_token(*token);
 	while (*token)
 	{
 		if ((*token)->token)
@@ -39,5 +38,24 @@ void	clear_token(t_token **token)
 		*token = (*token)->next;
 		free(tmp);
 	}
-	(*token) = NULL;
+	*token = NULL;
+}
+
+void	clear_env(t_env **env)
+{
+	t_env	*tmp;
+
+	if (!env || !(*env))
+		return ;
+	while (*env)
+	{
+		if ((*env)->key)
+			free((*env)->key);
+		if ((*env)->value)
+			free((*env)->value);
+		tmp = *env;
+		*env = (*env)->next;
+		free(tmp);
+	}
+	*env = NULL;
 }

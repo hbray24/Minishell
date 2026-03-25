@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 16:18:05 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:07:34 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ t_token				*last_token(t_token *token);
 t_token				*first_token(t_token *token);
 int					skip_w_quote(char *str, int i);
 int					ft_issep(char *str, int *i, int index_go);
-void				ft_cd(t_token *token, t_env *env);
+int					ft_cd(t_token *token, t_env *env);
 void				uptade_env(t_env **env, char *key, char *new_value);
 t_env				*init_env(char **envp);
-void				ft_pwd(void);
+int					ft_pwd(void);
 void				ft_env(t_env **env);
+void				clear_env(t_env **env);
 
 #endif

@@ -6,22 +6,26 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 16:17:53 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:09:18 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include <minishell.h>
 
-void	parse(t_token *token, t_env *env)
+int	parse(t_token *token, t_env *env)
 {
+	int	status;
+
+	status = 1;
 	if (ft_strcmp(token->token, "cd") == 0)
-		ft_cd(token, env);
+		status |= ft_cd(token, env);
 	else if (ft_strcmp(token->token, "pwd") == 0)
-		ft_pwd();
+		status |= ft_pwd();
 	else if (ft_strcmp(token->token, "env") == 0)
 		ft_env(&env);
-	return ;
+	else if (ft_strcmp(token->token, "exit") == 0)
+		return (0);
+	return (status);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -45,9 +49,14 @@ int	main(int ac, char **av, char **envp)
 			clear_token(&token);
 			return (1);
 		}
-		parse(token, env);
-		clear_token(&token);
 		free(line);
+		if (!parse(token, env))
+		{
+			clear_token(&token);
+			break ;
+		}
+		clear_token(&token);
 	}
+	clear_env(&env);
 	return (0);
 }
