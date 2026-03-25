@@ -6,10 +6,9 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 15:12:51 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:18:05 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -69,5 +68,6 @@ void				ft_cd(t_token *token, t_env *env);
 void				uptade_env(t_env **env, char *key, char *new_value);
 t_env				*init_env(char **envp);
 void				ft_pwd(void);
+void				ft_env(t_env **env);
 
 #endif

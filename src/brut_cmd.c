@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   brut_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:28:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/24 15:00:46 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/25 10:44:29 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_cd(t_token *token, t_env *env)
 		return;
 	}
 	uptade_env(&env, "OLDPWD", old_path);
-	uptade_env(&env, "PDW", new_path);
+	uptade_env(&env, "PWD", new_path);
 	free(old_path);
 	free(new_path);
 }
@@ -50,4 +50,17 @@ void	ft_pwd(void)
 	}
 	printf("%s\n", path);
 	free(path);
+}
+
+void	ft_env(t_env **env)
+{
+	t_env	*current_env;
+
+	current_env = *env;
+	while (current_env)
+	{
+		printf("%s=", current_env->key);
+		printf("%s\n", current_env->value);
+		current_env = current_env->next;
+	}
 }

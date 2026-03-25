@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/24 11:54:45 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/25 10:42:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ void	add_env(t_env **env_list, t_env *new_node)
 	}
 	tmp = *env_list;
 	while (tmp->next)
-	{
 		tmp = tmp->next;
-		tmp->next = new_node;
-	}
+	tmp->next = new_node;
 }
 void	uptade_env(t_env **env, char *key, char *new_value)
 {
