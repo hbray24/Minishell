@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 14:50:14 by asauvage         ###   ########.fr       */
-/*   Updated: 2026/03/24 14:31:26 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/24 16:17:53 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <minishell.h>
 
@@ -19,6 +19,8 @@ void	parse(t_token *token, t_env *env)
 		ft_cd(token, env);
 	else if (ft_strcmp(token->token, "pwd") == 0)
 		ft_pwd();
+	else if (ft_strcmp(token->token, "env") == 0)
+		ft_env(&env);
 	return ;
 }
 
@@ -43,9 +45,8 @@ int	main(int ac, char **av, char **envp)
 			clear_token(&token);
 			return (1);
 		}
-		clear_token(&token);
 		parse(token, env);
-		clear_token(token);
+		clear_token(&token);
 		free(line);
 	}
 	return (0);

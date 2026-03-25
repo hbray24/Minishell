@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 14:49:57 by asauvage         ###   ########.fr       */
-/*   Updated: 2026/03/24 14:32:22 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/24 16:18:05 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +57,6 @@ typedef struct s_env
 t_token				*malloc_struct(void);
 char				**split(char *str);
 void				free_array(char **str);
-void				clear_token(t_token *token);
 int					lexer(char *str, t_token *token);
 void				clear_token(t_token **token);
 int					add_node(t_token *token, char *str, int type);
@@ -70,5 +68,6 @@ void				ft_cd(t_token *token, t_env *env);
 void				uptade_env(t_env **env, char *key, char *new_value);
 t_env				*init_env(char **envp);
 void				ft_pwd(void);
+void				ft_env(t_env **env);
 
 #endif
