@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/24 15:13:50 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:17:53 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	parse(t_token *token, t_env *env)
 		ft_cd(token, env);
 	else if (ft_strcmp(token->token, "pwd") == 0)
 		ft_pwd();
+	else if (ft_strcmp(token->token, "env") == 0)
+		ft_env(&env);
 	return ;
 }
 
