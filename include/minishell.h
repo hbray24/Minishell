@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 11:07:34 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:50:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ typedef struct s_env
 }					t_env;
 
 t_token				*malloc_struct(void);
-char				**split(char *str);
-void				free_array(char **str);
-int					lexer(char *str, t_token *token);
-void				clear_token(t_token **token);
-int					add_node(t_token *token, char *str, int type);
-t_token				*last_token(t_token *token);
+t_token				*last_token(t_token **token);
 t_token				*first_token(t_token *token);
+t_env				*init_env(char **envp);
+char				**split(char *str);
+void				clear_token(t_token **token);
+void				free_array(char **str);
+void				uptade_env(t_env **env, char *key, char *new_value);
+void				clear_env(t_env **env);
+void				ft_env(t_env **env);
+int					add_node(t_token *token, char *str, int type);
+int					lexer(char *str, t_token *token);
 int					skip_w_quote(char *str, int i);
 int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_token *token, t_env *env);
-void				uptade_env(t_env **env, char *key, char *new_value);
-t_env				*init_env(char **envp);
 int					ft_pwd(void);
-void				ft_env(t_env **env);
-void				clear_env(t_env **env);
 
 #endif
