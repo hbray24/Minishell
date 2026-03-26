@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 13:50:49 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/26 14:34:17 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,17 @@ typedef enum s_type
 	REDIR_OUT,
 	REDIR_ADD,
 	HERE_DOC,
+	SINGLE_Q,
+	DOUBLE_Q,
 }					t_type;
+
+typedef struct s_ast
+{
+	char			**token;
+	int				type;
+	struct s_ast	*l_child;
+	struct s_ast	*r_child;
+}					t_ast;
 
 typedef struct s_token
 {
