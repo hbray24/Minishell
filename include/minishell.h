@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/26 14:34:17 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/27 14:19:55 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 typedef enum s_type
 {
 	WORD,
+	FILE,
+	LIMITER,
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
@@ -44,6 +46,8 @@ typedef enum s_type
 typedef struct s_ast
 {
 	char			**token;
+	char			**fd;
+	char			**file;
 	int				type;
 	struct s_ast	*l_child;
 	struct s_ast	*r_child;

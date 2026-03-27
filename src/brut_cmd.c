@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   brut_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:28:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/25 11:07:50 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/27 11:46:23 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,49 @@ void	ft_env(t_env **env)
 		current_env = current_env->next;
 	}
 }
+
+/* int	is_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(str[0]) && str[0] != ' ')
+		return (0);
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+void	ft_export(t_token *token, t_env **env)
+{
+	char	*new_key;
+
+	if (token->next == NULL)
+		ft_env(env);
+	token = token->next;
+	while (token)
+	{
+		if (!is_valid(token->token))
+		{
+			write(2, "not a valid indentifier", 24);
+			return;
+		}
+		else
+		{
+			new_key = ft_strchr(token->token, '=');
+			while((*env))
+			{
+				if(ft_strcmp(new_key, (*env)->key) == 0)
+				{
+					ft_strlcpy()
+				}
+				(*env) = (*env)->next;
+			}
+		}
+		token = token->next;
+	}
+	return;
+} */
