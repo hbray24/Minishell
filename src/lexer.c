@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 11:08:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/27 13:52:11 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
 int	fill_token(char *str, t_token *token)
 {
-	int		status;
+	int	status;
 
 	status = 0;
 	if (!ft_strcmp(str, "|"))
@@ -28,10 +27,16 @@ int	fill_token(char *str, t_token *token)
 		status |= add_node(token, str, REDIR_OUT);
 	else if (!ft_strcmp(str, ">>"))
 		status |= add_node(token, str, REDIR_ADD);
+	else if (token->pre)
+	{
+		if (token->pre->type == REDIR_IN || token->pre->type == REDIR_OUT
+			|| token->pre->type == REDIR_ADD)
+			status |= add_node(token, str, FILE);
+		else if (token->pre->type == HERE_DOC)
+			status |= add_node(token, str, LIMITER);
+	}
 	else
 		status |= add_node(token, str, WORD);
-	if (status)
-		clear_token(&token);
 	return (status);
 }
 
@@ -54,6 +59,7 @@ int	lexer(char *str, t_token *token)
 		status |= fill_token(tokens[i], token);
 		if (status)
 		{
+			clear_token(&token);
 			free_array(tokens);
 			return (status);
 		}
