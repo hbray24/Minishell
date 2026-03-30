@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 11:45:10 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/24 14:37:19 by asauvage         ###   ########.fr       */
-/*   Updated: 2026/03/24 11:21:57 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/30 17:16:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -23,8 +23,6 @@ t_token	*malloc_struct(void)
 		write(2, "hbray: Malloc\n", 15);
 		exit (1);
 	}
-	token->pre = NULL;
-	token->token = NULL;
-	token->next = NULL;
+	memset(token, 0, sizeof(t_token));
 	return (token);
 }

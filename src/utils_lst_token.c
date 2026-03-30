@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 11:55:44 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/30 17:17:53 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	create_token(t_token *token)
 		return (0);
 	}
 	token = last_token(&token);
+	token->limite = 0;
 	token->next = new_token;
 	new_token->pre = token;
 	new_token->token = NULL;

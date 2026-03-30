@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 15:35:56 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/30 18:09:17 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,23 @@ void print_ast(t_ast *node, int depth)
 int	parse(t_token *token, t_env *env)
 {
 	t_ast *ast;
+	t_token	*token_tmp;
 	int	status;
 	(void)env;
 	(void)token;
 
 	status = 1;
-	ast = parsing(last_token(&token));
-	// print_ast(ast, 0);
-	/* if (ft_strcmp(token->token, "cd") == 0)
+	token_tmp = last_token(&token);
+	ast = parsing(token_tmp);
+	print_ast(ast, 0);
+	if (ft_strcmp(token->token, "cd") == 0)
 		status |= ft_cd(token, env);
 	else if (ft_strcmp(token->token, "pwd") == 0)
 		status |= ft_pwd();
 	else if (ft_strcmp(token->token, "env") == 0)
 		ft_env(&env);
 	else if (ft_strcmp(token->token, "exit") == 0)
-		return (0); */
+		return (0);
 	return (status);
 }
 

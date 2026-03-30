@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 15:24:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/30 19:21:07 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ t_ast	*new_ast_node(void)
 		return (NULL);
 	new->type = 0;
 	new->token = NULL;
+	new->limiter = NULL;
+	new->fd = NULL;
+	new->files = NULL;
 	new->l_child = NULL;
 	new->r_child = NULL;
 	return (new);
@@ -28,25 +31,11 @@ t_ast	*new_ast_node(void)
 
 t_token	*search_pipe(t_token *tokens)
 {
-	while (tokens)
+	while (tokens && !tokens->limite)
 	{
 		if (ft_strcmp(tokens->token, "|") == 0)
 			return (tokens);
 		tokens = tokens->pre;
-	}
-	return (NULL);
-}
-
-t_token	*search_redir(t_token *token)
-{
-	token = last_token(&token);
-	while (token)
-	{
-		if (ft_strcmp(token->token, "<<") == 0 || ft_strcmp(token->token,
-				">>") == 0 || ft_strcmp(token->token, "<") == 0
-			|| ft_strcmp(token->token, ">") == 0)
-			return (token);
-		token = token->pre;
 	}
 	return (NULL);
 }
@@ -74,7 +63,7 @@ char	**add_array(char **cmd, char *new_str)
 	i = 0;
 	while (cmd && cmd[i])
 		i++;
-	res = malloc(sizeof(char *) * i + 2);
+	res = malloc(sizeof(char *) * (i + 2));
 	if (!res)
 		return (NULL);
 	i = 0;
@@ -93,7 +82,7 @@ int	count_redir(t_token *token)
 	int	i;
 
 	i = 0;
-	while (token)
+	while (token && !token->limite)
 	{
 		if (token->type == REDIR_ADD || token->type == REDIR_IN
 			|| token->type == REDIR_OUT || token->type == HERE_DOC)
@@ -111,7 +100,7 @@ t_ast	*fill_exec_node(t_ast *ast, t_token *token)
 	ast->token = NULL;
 	ast->files = NULL;
 	ast->type = EXEC;
-	while (token && token->pre && token->type != PIPE)
+	while (!token->limite && token->pre && token->type != PIPE)
 		token = token->pre;
 	ast->redir = malloc(sizeof(t_type) * count_redir(token));
 	if (!ast->redir)
@@ -135,8 +124,6 @@ t_ast	*fill_exec_node(t_ast *ast, t_token *token)
 t_ast	*parsing(t_token *token)
 {
 	t_ast	*ast;
-	t_token	*token_right;
-	t_token	*token_left;
 	t_token	*tmp_token;
 
 	tmp_token = search_pipe(token);
@@ -144,16 +131,12 @@ t_ast	*parsing(t_token *token)
 	if (tmp_token)
 	{
 		ast->type = PIPE;
-		token_left = token->pre;
-		token_right = token->next;
-		if (token_right)
-			token_right->pre = NULL;
-		if (token_left)
-			token_left->next = NULL;
-		ast->l_child = parsing(token_left);
-		ast->r_child = parsing(token_right);
+		token->limite = 1;
+		ast->l_child = parsing(token->pre);
+		ast->r_child = parsing(token->next);
 		return (ast);
 	}
-	ast = fill_exec_node(ast, token);
+	if (token)
+		ast = fill_exec_node(ast, token);
 	return (ast);
 }
