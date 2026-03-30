@@ -6,14 +6,14 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/24 14:17:24 by asauvage         ###   ########.fr        #
-#    Updated: 2026/03/24 11:48:47 by hbray            ###   ########.fr        #
+#    Updated: 2026/03/30 15:33:15 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -I include/
+CFLAGS = -Wall -Werror -Wextra -g3 -I include/
 
 NAME = minishell
 
@@ -32,6 +32,7 @@ SRCS = split.c \
 	   lexer.c \
 	   brut_cmd.c \
 	   envp.c \
+	   ast.c \
 	   main.c \
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)

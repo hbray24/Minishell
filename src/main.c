@@ -3,28 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/25 14:21:31 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/30 15:35:56 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+#include <stdio.h>
+
+void print_string_array(char **array, const char *name, int depth)
+{
+    if (!array || !array[0])
+        return;
+    
+    for (int i = 0; i < depth; i++)
+        printf("    ");
+    printf("|- %s : [", name);
+    for (int i = 0; array[i] != NULL; i++)
+    {
+        printf("\"%s\"", array[i]);
+        if (array[i + 1] != NULL)
+            printf(", ");
+    }
+    printf("]\n");
+}
+
+void print_ast(t_ast *node, int depth)
+{
+    if (!node)
+        return;
+
+    for (int i = 0; i < depth; i++)
+        printf("    ");
+    printf("NODE (Type: %d)\n", node->type);
+    print_string_array(node->token, "Tokens", depth);
+    print_string_array(node->files, "Files", depth);
+    print_string_array(node->fd, "FDs", depth);
+    print_string_array(node->limiter, "Limiters", depth);
+    if (node->l_child)
+    {
+        for (int i = 0; i < depth; i++) printf("    ");
+        printf("|- Left:\n");
+        print_ast(node->l_child, depth + 1);
+    }
+    
+    if (node->r_child)
+    {
+        for (int i = 0; i < depth; i++) printf("    ");
+        printf("|- Right:\n");
+        print_ast(node->r_child, depth + 1);
+    }
+}
+
 int	parse(t_token *token, t_env *env)
 {
+	t_ast *ast;
 	int	status;
+	(void)env;
+	(void)token;
 
 	status = 1;
-	if (ft_strcmp(token->token, "cd") == 0)
+	ast = parsing(last_token(&token));
+	// print_ast(ast, 0);
+	/* if (ft_strcmp(token->token, "cd") == 0)
 		status |= ft_cd(token, env);
 	else if (ft_strcmp(token->token, "pwd") == 0)
 		status |= ft_pwd();
 	else if (ft_strcmp(token->token, "env") == 0)
 		ft_env(&env);
 	else if (ft_strcmp(token->token, "exit") == 0)
-		return (0);
+		return (0); */
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/27 14:19:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/30 13:33:53 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 typedef enum s_type
 {
 	WORD,
-	FILE,
+	FILES,
 	LIMITER,
 	PIPE,
 	REDIR_IN,
@@ -41,14 +41,17 @@ typedef enum s_type
 	HERE_DOC,
 	SINGLE_Q,
 	DOUBLE_Q,
+	EXEC,
 }					t_type;
 
 typedef struct s_ast
 {
 	char			**token;
 	char			**fd;
-	char			**file;
-	int				type;
+	char			**files;
+	char			**limiter;
+	t_type			*redir;
+	t_type			type;
 	struct s_ast	*l_child;
 	struct s_ast	*r_child;
 }					t_ast;
@@ -84,5 +87,6 @@ int					skip_w_quote(char *str, int i);
 int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_token *token, t_env *env);
 int					ft_pwd(void);
+t_ast				*parsing(t_token *token);
 
 #endif
