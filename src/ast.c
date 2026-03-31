@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 19:21:07 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:51:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_ast	*new_ast_node(void)
-{
-	t_ast	*new;
-
-	new = malloc(sizeof(t_ast));
-	if (!new)
-		return (NULL);
-	new->type = 0;
-	new->token = NULL;
-	new->limiter = NULL;
-	new->fd = NULL;
-	new->files = NULL;
-	new->l_child = NULL;
-	new->r_child = NULL;
-	return (new);
-}
 
 t_token	*search_pipe(t_token *tokens)
 {
@@ -38,21 +21,6 @@ t_token	*search_pipe(t_token *tokens)
 		tokens = tokens->pre;
 	}
 	return (NULL);
-}
-
-char	**sub_strstr(char **str, int start, int end)
-{
-	char	**res;
-	int		i;
-
-	i = 0;
-	res = malloc(sizeof(char *) * (end - start + 2));
-	if (!res)
-		return (NULL);
-	while (start <= end)
-		res[i++] = ft_strdup(str[start++]);
-	res[i] = NULL;
-	return (res);
 }
 
 char	**add_array(char **cmd, char *new_str)
@@ -77,6 +45,7 @@ char	**add_array(char **cmd, char *new_str)
 	free_array(cmd);
 	return (res);
 }
+
 int	count_redir(t_token *token)
 {
 	int	i;
@@ -100,11 +69,11 @@ t_ast	*fill_exec_node(t_ast *ast, t_token *token)
 	ast->token = NULL;
 	ast->files = NULL;
 	ast->type = EXEC;
-	while (!token->limite && token->pre && token->type != PIPE)
+	while (token->pre && !token->pre->limite && token->type != PIPE)
 		token = token->pre;
 	ast->redir = malloc(sizeof(t_type) * count_redir(token));
 	if (!ast->redir)
-		return(NULL);
+		return (NULL);
 	while (token && token->type != PIPE)
 	{
 		if (token->type == WORD)
@@ -131,9 +100,9 @@ t_ast	*parsing(t_token *token)
 	if (tmp_token)
 	{
 		ast->type = PIPE;
-		token->limite = 1;
-		ast->l_child = parsing(token->pre);
-		ast->r_child = parsing(token->next);
+		tmp_token->limite = 1;
+		ast->r_child = parsing(tmp_token->next);
+		ast->l_child = parsing(tmp_token->pre);
 		return (ast);
 	}
 	if (token)

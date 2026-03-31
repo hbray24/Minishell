@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 17:17:53 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:51:39 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -65,4 +64,15 @@ int	add_node(t_token *token, char *str, int type)
 	token->type = type;
 	token->next = NULL;
 	return (0);
+}
+
+t_ast	*new_ast_node(void)
+{
+	t_ast	*new;
+
+	new = malloc(sizeof(t_ast));
+	if (!new)
+		return (NULL);
+	memset(new, 0, sizeof(t_ast));
+	return (new);
 }

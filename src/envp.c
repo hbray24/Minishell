@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/25 10:42:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:47:14 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,19 @@ void	add_env(t_env **env_list, t_env *new_node)
 		tmp = tmp->next;
 	tmp->next = new_node;
 }
+
 void	uptade_env(t_env **env, char *key, char *new_value)
 {
-	t_env *new_env;
+	t_env	*new_env;
 
 	new_env = *env;
 	while (new_env)
 	{
-		if(ft_strcmp(new_env->key, key) == 0)
+		if (ft_strcmp(new_env->key, key) == 0)
 		{
 			free(new_env->value);
 			new_env->value = ft_strdup(new_value);
-			return;
+			return ;
 		}
 		new_env = new_env->next;
 	}
@@ -58,11 +59,11 @@ void	uptade_env(t_env **env, char *key, char *new_value)
 
 t_env	*init_env(char **envp)
 {
-	t_env *env_list;
-	int i;
-	int j;
-	char *key;
-	char *value;
+	t_env	*env_list;
+	int		i;
+	int		j;
+	char	*key;
+	char	*value;
 
 	env_list = NULL;
 	i = 0;

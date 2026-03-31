@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 17:16:13 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:51:49 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef enum s_type
 typedef struct s_ast
 {
 	char			**token;
-	char			**fd;
+	int				*fd;
 	char			**files;
 	char			**limiter;
 	t_type			*redir;
@@ -81,6 +81,7 @@ void				clear_token(t_token **token);
 void				free_array(char **str);
 void				uptade_env(t_env **env, char *key, char *new_value);
 void				clear_env(t_env **env);
+void				clear_ast(t_ast **ast);
 void				ft_env(t_env **env);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token);
@@ -89,5 +90,6 @@ int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_token *token, t_env *env);
 int					ft_pwd(void);
 t_ast				*parsing(t_token *token);
+t_ast				*new_ast_node(void);
 
 #endif

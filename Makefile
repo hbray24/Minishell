@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/30 15:33:15 by hbray            ###   ########.fr        #
+#    Updated: 2026/03/31 14:52:14 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = split.c \
 	   split_utils.c \
 	   init_struct.c \
 	   free.c \
-	   utils_lst_token.c \
+	   utils_linked_lst.c \
 	   lexer.c \
 	   brut_cmd.c \
 	   envp.c \

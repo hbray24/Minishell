@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 16:48:44 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:47:47 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -54,4 +53,19 @@ void	clear_env(t_env **env)
 		free(tmp);
 	}
 	*env = NULL;
+}
+
+void	clear_ast(t_ast **ast)
+{
+	if (!ast || !(*ast))
+		return ;
+	free_array((*ast)->token);
+	free_array((*ast)->files);
+	free_array((*ast)->limiter);
+	free((*ast)->redir);
+	free((*ast)->fd);
+	clear_ast(&(*ast)->l_child);
+	clear_ast(&(*ast)->r_child);
+	free(*ast);
+	*ast = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/30 12:49:07 by hbray            ###   ########.fr       */
+/*   Updated: 2026/03/31 14:48:40 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	fill_token(char *str, t_token *token)
 {
-	int	status;
+	int		status;
 	t_token	*tmp;
 
 	tmp = last_token(&token);
@@ -29,16 +29,11 @@ int	fill_token(char *str, t_token *token)
 		status |= add_node(token, str, REDIR_OUT);
 	else if (!ft_strcmp(str, ">>"))
 		status |= add_node(token, str, REDIR_ADD);
-	else if (tmp)
-	{
-		if (tmp->type == REDIR_IN || tmp->type == REDIR_OUT
-			|| tmp->type == REDIR_ADD)
-			status |= add_node(token, str, FILES);
-		else if (tmp->type == HERE_DOC)
-			status |= add_node(token, str, LIMITER);
-		else
-			status |= add_node(token, str, WORD);
-	}
+	else if (tmp && (tmp->type == REDIR_IN || tmp->type == REDIR_OUT
+			|| tmp->type == REDIR_ADD))
+		status |= add_node(token, str, FILES);
+	else if (tmp && tmp->type == HERE_DOC)
+		status |= add_node(token, str, LIMITER);
 	else
 		status |= add_node(token, str, WORD);
 	return (status);
