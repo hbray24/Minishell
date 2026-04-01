@@ -6,21 +6,38 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:28:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/27 11:46:23 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/01 14:16:44 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(t_token *token, t_env *env)
+int	ft_cd(t_ast *ast, t_env *env)
 {
 	char	*old_path;
 	char	*new_path;
 
+	if (ast->token[2] != NULL)
+	{
+		write(2, "asauvage: cd: too many arguments\n", 34);
+		return (0);
+	}
 	old_path = getcwd(NULL, 0);
 	if (!old_path)
 		return (0);
-	if (chdir(token->next->token) == -1)
+	if (ft_strcmp(ast->token[1], "-") == 0)
+	{
+		uptade_env(&env, "PWD", search_value("OLDPWD", env));
+		if (chdir(search_value("OLDPWD", env)) == -1)
+		{
+			perror("hbray: cd");
+			free(old_path);
+			return (0);
+		}
+		ft_pwd();
+		return (1);
+	}
+	if (chdir(ast->token[1]) == -1)
 	{
 		perror("hbray: cd");
 		free(old_path);
@@ -67,7 +84,7 @@ void	ft_env(t_env **env)
 	}
 }
 
-/* int	is_valid(char *str)
+int	is_valid(char *str)
 {
 	int	i;
 
@@ -82,33 +99,42 @@ void	ft_env(t_env **env)
 	}
 	return (1);
 }
-void	ft_export(t_token *token, t_env **env)
+void	ft_export(t_ast *ast, t_env **env)
 {
 	char	*new_key;
+	int		i;
 
-	if (token->next == NULL)
-		ft_env(env);
-	token = token->next;
-	while (token)
+	i = 0;
+	while (env)
 	{
-		if (!is_valid(token->token))
+		if (!ft_strcmp((*env)->key, ast->token))
+		{
+			new_key = ft_strcpy(new_key, (*env)->key);
+			break ;
+		}
+		*env = (*env)->next;
+	}
+	ast = ast->token[i++];
+	while (ast->token)
+	{
+		if (!is_valid(ast->token))
 		{
 			write(2, "not a valid indentifier", 24);
-			return;
+			return ;
 		}
 		else
 		{
-			new_key = ft_strchr(token->token, '=');
-			while((*env))
+			new_key = ft_strchr(ast->token, '=');
+			while ((*env))
 			{
-				if(ft_strcmp(new_key, (*env)->key) == 0)
+				if (ft_strcmp(new_key, (*env)->key) == 0)
 				{
-					ft_strlcpy()
+					ft_strlcpy();
 				}
 				(*env) = (*env)->next;
 			}
 		}
-		token = token->next;
+		ast = ast->token[i++];
 	}
-	return;
-} */
+	return ;
+}

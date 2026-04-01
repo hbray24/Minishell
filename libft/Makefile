@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
+#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 11:16:46 by asauvage          #+#    #+#              #
-#    Updated: 2026/01/07 14:41:04 by asauvage         ###   ########.fr        #
+#    Updated: 2026/04/01 14:20:19 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ SRC = ft_atoi.c \
 	 ft_lstiter.c \
 	 get_next_line.c \
 	 get_next_line_utils.c \
-	 ft_strcmp.c
+	 ft_strcmp.c \
 
 NAME = libft.a
 

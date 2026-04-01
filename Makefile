@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/31 14:52:14 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/01 11:40:36 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRCS = split.c \
 	   brut_cmd.c \
 	   envp.c \
 	   ast.c \
+	   exec_ast.c \
+	   expander.c \
 	   main.c \
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
