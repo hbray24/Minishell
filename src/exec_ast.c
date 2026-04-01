@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/01 10:35:52 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/01 15:20:31 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ int	execute_cmd(t_ast *ast, t_env *env)
 	int	status;
 
 	status = 1;
-	if (ft_strcmp(*ast->token, "cd") == 0)
+	if (!ft_strcmp(*ast->token, "cd"))
 		status |= ft_cd(ast, env);
-	else if (ft_strcmp(*ast->token, "pwd") == 0)
+	else if (!ft_strcmp(*ast->token, "pwd"))
 		status |= ft_pwd();
-	else if (ft_strcmp(*ast->token, "env") == 0)
+	else if (!ft_strcmp(*ast->token, "env"))
 		ft_env(&env);
-	else if (ft_strcmp(*ast->token, "exit") == 0)
+	else if (!ft_strcmp(*ast->token, "export"))
+		ft_export(ast, &env);
+	else if (!ft_strcmp(*ast->token, "exit"))
 		return (0);
 	return (status);
 }

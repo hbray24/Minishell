@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:28:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/01 14:16:44 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/01 16:51:48 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	ft_env(t_env **env)
 	current_env = *env;
 	while (current_env)
 	{
-		printf("%s=", current_env->key);
-		printf("%s\n", current_env->value);
+		if ( current_env->value != NULL)
+			printf("%s=%s\n", current_env->key, current_env->value);
 		current_env = current_env->next;
 	}
 }
@@ -89,7 +89,7 @@ int	is_valid(char *str)
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(str[0]) && str[0] != ' ')
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 	while (str[i] && str[i] != '=')
 	{
@@ -99,42 +99,85 @@ int	is_valid(char *str)
 	}
 	return (1);
 }
-void	ft_export(t_ast *ast, t_env **env)
+void	ft_printf_export(t_env *env)
 {
-	char	*new_key;
-	int		i;
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (tmp->value != NULL)
+			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
+		else
+			printf("export %s\n", tmp->key);
+		tmp = tmp->next;
+	}
+}
+
+char	*get_value(char *str)
+{
+	char	*res;
+
+	res = ft_strchr(str, '=');
+	if (!res)
+		return(NULL);
+	return (ft_strdup(res + 1));
+}
+
+char	*get_key(char *str)
+{
+	int	i;
 
 	i = 0;
-	while (env)
+	while (str[i] && str[i] != '=')
+		i++;
+	return (ft_substr(str, 0, i));
+}
+
+void	ft_export(t_ast *ast, t_env **env)
+{
+	int		i;
+	t_env	*tmp;
+	char	*key;
+	char	*value;
+
+	i = 1;
+	if (!ast->token[1])
 	{
-		if (!ft_strcmp((*env)->key, ast->token))
-		{
-			new_key = ft_strcpy(new_key, (*env)->key);
-			break ;
-		}
-		*env = (*env)->next;
+		ft_printf_export(*env);
+		return ;
 	}
-	ast = ast->token[i++];
-	while (ast->token)
+	while (ast->token[i])
 	{
-		if (!is_valid(ast->token))
+		if (!is_valid(ast->token[i]))
 		{
-			write(2, "not a valid indentifier", 24);
-			return ;
+			write(2, "export: not a valid indentifier\n", 33);
+			i++;
+			continue ;
+		}
+		key = get_key(ast->token[i]);
+		value = get_value(ast->token[i]);
+		tmp = *env;
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->key,key))
+				break ;
+			tmp = tmp->next;
+		}
+		if (tmp)
+		{
+			if ( ft_strchr(ast->token[i], '='))
+			{
+				if (tmp->value)
+					free(tmp->value);
+				tmp->value = value;
+			}
+			else if (value)
+				free(value);
+			free(key);
 		}
 		else
-		{
-			new_key = ft_strchr(ast->token, '=');
-			while ((*env))
-			{
-				if (ft_strcmp(new_key, (*env)->key) == 0)
-				{
-					ft_strlcpy();
-				}
-				(*env) = (*env)->next;
-			}
-		}
-		ast = ast->token[i++];
+			add_node_env(env, key, value);
+		i++;
 	}
-	return ;
 }

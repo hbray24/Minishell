@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/01 11:37:49 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/01 15:19:51 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ t_ast				*parsing(t_token *token);
 t_ast				*new_ast_node(void);
 int					execute_ast(t_ast *ast, t_env *envp);
 char				*search_value(char *key, t_env *env);
+int					add_node_env(t_env **env, char *key, char *value);
+void				ft_export(t_ast *ast, t_env **env);
 
 #endif

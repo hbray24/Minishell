@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_lst_token.c                                  :+:      :+:    :+:   */
+/*   utils_linked_lst.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/31 14:51:39 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/01 16:42:45 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,57 @@ int	add_node(t_token *token, char *str, int type)
 	token->next = NULL;
 	return (0);
 }
+t_env	*last_env(t_env **env)
+{
+	t_env	*tmp;
 
+	tmp = *env;
+	if(!env)
+		return (NULL);
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+int	create_env(t_env *env)
+{
+	t_env	*new_env;
+
+	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+	{
+		write(2, "asauvage: Malooc\n", 18);
+		return (1);
+	}
+	env->next = new_env;
+	new_env->next = env;
+	new_env->key = NULL;
+	new_env->value = NULL;
+	return (0);
+}
+
+int	add_node_env(t_env **env, char *key, char *value)
+{
+	t_env	*new_node;
+	t_env	*tmp;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return(1);
+	new_node->key = key;
+	new_node->value = value;
+	new_node->next = NULL;
+	if (*env == NULL)
+	{
+		*env = new_node;
+		return(0);
+	}
+	tmp = *env;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new_node;
+	return (0);
+}
 t_ast	*new_ast_node(void)
 {
 	t_ast	*new;
