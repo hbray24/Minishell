@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/01 12:00:39 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 16:16:32 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	add_env(t_env **env_list, t_env *new_node)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
+	new_node->pre = tmp;
 }
 
 void	uptade_env(t_env **env, char *key, char *new_value)

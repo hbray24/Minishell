@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/01 11:40:36 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/02 16:12:29 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,21 +24,27 @@ LIBFT_DIR = ./libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
 LIBFT_INC = $(LIBFT_DIR)
 
-SRCS = split.c \
-	   split_utils.c \
-	   init_struct.c \
-	   free.c \
-	   utils_linked_lst.c \
-	   lexer.c \
-	   brut_cmd.c \
-	   envp.c \
-	   ast.c \
-	   exec_ast.c \
-	   expander.c \
-	   main.c \
+SRCS = src/split.c \
+	   src/split_utils.c \
+	   src/init_struct.c \
+	   src/free.c \
+	   src/utils_linked_lst.c \
+	   src/lexer.c \
+	   src/envp.c \
+	   src/ast.c \
+	   src/exec_ast.c \
+	   src/expander.c \
+	   src/main.c \
+	   src/new_node.c \
+	   src/build_in/ft_cd.c \
+	   src/build_in/ft_env.c \
+	   src/build_in/ft_export_utils.c \
+	   src/build_in/ft_export.c \
+	   src/build_in/ft_pwd.c \
+	   src/build_in/ft_unset.c
 
-SRCS := $(SRCS:%=$(SRC_DIR)/%)
-OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:build_in/%.c=$(OBJ_DIR)/%.o)
 
 all : $(NAME)
 

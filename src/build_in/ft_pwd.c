@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 15:36:44 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 16:47:53 by hbray            ###   ########.fr       */
+/*   Created: 2026/04/02 11:39:21 by hbray             #+#    #+#             */
+/*   Updated: 2026/04/02 11:39:46 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_pwd(void)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
-	size_t			i;
+	char	*path;
 
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	i = 0;
-	if (str1 == NULL || str2 == NULL)
-		return (1);
-	while (str1[i] == str2[i] && str1[i] != '\0')
-		i++;
-	return (str1[i] - str2[i]);
+	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		perror("hbray: ");
+		return (0);
+	}
+	printf("%s\n", path);
+	free(path);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/01 15:20:31 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 16:10:27 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	execute_cmd(t_ast *ast, t_env *env)
 		ft_env(&env);
 	else if (!ft_strcmp(*ast->token, "export"))
 		ft_export(ast, &env);
+	else if (!ft_strcmp(*ast->token, "unset"))
+		ft_unset(ast, &env);
 	else if (!ft_strcmp(*ast->token, "exit"))
 		return (0);
 	return (status);

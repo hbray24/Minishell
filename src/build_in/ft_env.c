@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 15:36:44 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 16:47:53 by hbray            ###   ########.fr       */
+/*   Created: 2026/04/02 11:40:01 by hbray             #+#    #+#             */
+/*   Updated: 2026/04/02 11:40:18 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	ft_env(t_env **env)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
-	size_t			i;
+	t_env	*current_env;
 
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	i = 0;
-	if (str1 == NULL || str2 == NULL)
-		return (1);
-	while (str1[i] == str2[i] && str1[i] != '\0')
-		i++;
-	return (str1[i] - str2[i]);
+	current_env = *env;
+	while (current_env)
+	{
+		if (current_env->value != NULL)
+			printf("%s=%s\n", current_env->key, current_env->value);
+		current_env = current_env->next;
+	}
 }

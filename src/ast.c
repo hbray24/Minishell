@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/31 14:51:29 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 14:16:25 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_token	*search_pipe(t_token *tokens)
 {
+	if (!tokens)
+		return (NULL);
 	while (tokens && !tokens->limite)
 	{
 		if (ft_strcmp(tokens->token, "|") == 0)
@@ -51,6 +53,8 @@ int	count_redir(t_token *token)
 	int	i;
 
 	i = 0;
+	if (!token)
+		return (0);
 	while (token && !token->limite)
 	{
 		if (token->type == REDIR_ADD || token->type == REDIR_IN

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 11:45:10 by hbray             #+#    #+#             */
-/*   Updated: 2026/03/31 14:47:37 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 14:05:25 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ t_token	*malloc_struct(void)
 		write(2, "hbray: Malloc\n", 15);
 		exit(1);
 	}
-	memset(token, 0, sizeof(t_token));
+	ft_memset(token, 0, sizeof(t_token));
 	return (token);
 }
