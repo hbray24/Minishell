@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_linked_lst.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 14:59:24 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 18:17:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	add_node_env(t_env **env, char *key, char *value)
 	new_node->key = key;
 	new_node->value = value;
 	new_node->next = NULL;
-	if (*env == NULL)
+	new_node->pre = NULL;
+	if (!*env)
 	{
 		*env = new_node;
 		return (0);
@@ -79,5 +80,6 @@ int	add_node_env(t_env **env, char *key, char *value)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_node;
+	new_node->pre = tmp;
 	return (0);
 }

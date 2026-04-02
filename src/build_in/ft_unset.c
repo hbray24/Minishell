@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 15:02:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/02 16:53:11 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 17:31:03 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_unset(t_ast *ast, t_env **env)
 	int		i;
 
 	i = 0;
-	if (!ast->token[1])
+	if (!ast || !ast->token[1] || !env || !*env)
 		return ;
 	while (ast->token[++i])
 	{
@@ -32,7 +32,9 @@ void	ft_unset(t_ast *ast, t_env **env)
 				free(tmp->value);
 				if (tmp->pre)
 					tmp->pre->next = tmp->next;
-				if (tmp->next && tmp->pre)
+				else
+					*env = tmp->next;
+				if (tmp->next)
 					tmp->next->pre = tmp->pre;
 				tmp2 = tmp;
 				tmp = tmp->next;

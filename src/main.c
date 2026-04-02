@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/01 12:00:16 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/02 17:15:00 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse(t_token *token, t_env *env)
 	return (status);
 }
 
-int	cacaboudin(char *line, t_token **token, t_env *env)
+int	 check_line(char *line, t_token **token, t_env *env)
 {
 	if (!line)
 	{
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline("minishell> ");
-		if (cacaboudin(line, &token, env) == 1)
+		if (check_line(line, &token, env) == 1)
 			break ;
 	}
 	rl_clear_history();
