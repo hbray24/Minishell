@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/02 18:56:27 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/03 09:55:24 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*copy_env(t_env	*env)
+t_env	*copy_env(t_env *env)
 {
 	t_env	*cpy_env;
+	char	*cpy_value;
 
 	cpy_env = NULL;
+	cpy_value = NULL;
 	while (env)
 	{
-		add_node_env(&cpy_env, ft_strdup(env->key), ft_strdup(env->value));
+		if (env->value)
+			cpy_value = ft_strdup(env->value);
+		else
+			cpy_value = NULL;
+		add_node_env(&cpy_env, ft_strdup(env->key), cpy_value);
 		env = env->next;
 	}
 	return (cpy_env);

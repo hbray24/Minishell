@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 17:15:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/03 09:57:28 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse(t_token *token, t_env *env)
 	return (status);
 }
 
-int	 check_line(char *line, t_token **token, t_env *env)
+int	check_line(char *line, t_token **token, t_env *env)
 {
 	if (!line)
 	{
