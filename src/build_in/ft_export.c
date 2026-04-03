@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 15:43:05 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 18:21:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_printf_export(t_env *env)
 			printf("export %s\n", tmp->key);
 		tmp = tmp->next;
 	}
+	clear_env(&tmp);
 }
 
 void	ft_export2(t_ast *ast, t_env **env, t_env *tmp, int i)

@@ -6,7 +6,7 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/03 13:02:26 by asauvage         ###   ########.fr        #
+#    Updated: 2026/04/03 18:31:11 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS = src/split.c \
 	   src/build_in/ft_export_utils.c \
 	   src/build_in/ft_export.c \
 	   src/build_in/ft_pwd.c \
-	   src/build_in/ft_unset.c
+	   src/build_in/ft_unset.c \
+	   src/build_in/ft_exit.c
 
 OBJS := $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 OBJS := $(SRCS:build_in/%.c=$(OBJ_DIR)/%.o)

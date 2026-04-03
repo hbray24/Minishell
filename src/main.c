@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/03 16:15:25 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/03 19:01:21 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,9 @@ int	parse(t_token *token, t_env *env)
 	int		status;
 
 	expander(token, env);
-	while (token->next)
-	{
-		printf("%s\n", token->token);
-		token = token->next;
-	}
-	printf("%s\n", token->token);
 	token_tmp = last_token(&token);
 	ast = parsing(token_tmp);
+	clear_token(&token);
 	status = execute_ast(ast, env);
 	clear_ast(&ast);
 	return (status);

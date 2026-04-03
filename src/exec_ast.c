@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 16:21:36 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:31:58 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_cmd(t_ast *ast, t_env *env)
 	else if (!ft_strcmp(*ast->token, "unset"))
 		ft_unset(ast, &env);
 	else if (!ft_strcmp(*ast->token, "exit"))
-		return (0);
+		ft_exit(ast, env);
 	return (status);
 }
 
