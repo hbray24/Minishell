@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 16:14:24 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 14:12:59 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char				**split(char *str);
 char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
 char				*get_key(char *str);
+void				expander(t_token *token, t_env *env);
 void				clear_token(t_token **token);
 void				free_array(char **str);
 void				uptade_env(t_env **env, char *key, char *new_value);

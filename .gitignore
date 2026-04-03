@@ -1,6 +1,6 @@
 # Fichiers objets
 obj/
-libft/*.o
+libft/*.[ao]
 
 # Exécutables
 minishell

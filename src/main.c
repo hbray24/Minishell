@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/03 09:57:28 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 16:15:25 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ int	parse(t_token *token, t_env *env)
 	t_token	*token_tmp;
 	int		status;
 
+	expander(token, env);
+	while (token->next)
+	{
+		printf("%s\n", token->token);
+		token = token->next;
+	}
+	printf("%s\n", token->token);
 	token_tmp = last_token(&token);
 	ast = parsing(token_tmp);
 	status = execute_ast(ast, env);

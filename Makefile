@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
+#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/02 16:12:29 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/03 13:02:26 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS = src/split.c \
 	   src/envp.c \
 	   src/ast.c \
 	   src/exec_ast.c \
-	   src/expander.c \
+	   src/expander/expander.c \
 	   src/main.c \
 	   src/new_node.c \
 	   src/build_in/ft_cd.c \
