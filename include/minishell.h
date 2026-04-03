@@ -6,13 +6,10 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/03 14:12:59 by asauvage         ###   ########.fr       */
-=======
-/*   Updated: 2026/04/03 15:12:30 by hbray            ###   ########.fr       */
->>>>>>> 62ebed4b38bfacdbf172cb202b82ed58e82105ca
+/*   Updated: 2026/04/03 16:26:12 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
