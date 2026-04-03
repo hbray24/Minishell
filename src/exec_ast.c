@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/02 16:10:27 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 13:03:15 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,21 @@ int	execute_cmd(t_ast *ast, t_env *env)
 
 int	execute_ast(t_ast *ast, t_env *env)
 {
-	int	status;
+	int		status;
+	//pid_t	pid;
 
 	status = 0;
 	if (!ast)
 		return (0);
-	// if (ast->type == PIPE)
-	// 	execute_pipe(ast);
-	else if (ast->type == EXEC)
-		status = execute_cmd(ast, env);
+	//if (ast->type == PIPE)
+	//	execute_pipe(ast);
+	if (ast->type == EXEC)
+	{
+		//pid = fork();
+		//if (pid == 0)
+			status = execute_cmd(ast, env);
+		//waitpid(pid, &status, )
+	}
 	return (status);
 }
 
