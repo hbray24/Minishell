@@ -6,11 +6,25 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:35:32 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 09:05:32 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 15:44:41 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	*swap_node(t_env *env, t_env *env_cmp)
+{
+	char	*tmp_key;
+	char	*tmp_value;
+
+	tmp_value = env_cmp->value;
+	tmp_key = env_cmp->key;
+	env_cmp->value = env->value;
+	env_cmp->key = env->key;
+	env->key = tmp_key;
+	env->value = tmp_value;
+	return (env);
+}
 
 int	is_valid(char *str)
 {
