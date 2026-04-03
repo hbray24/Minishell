@@ -6,7 +6,11 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/04/03 14:12:59 by asauvage         ###   ########.fr       */
+=======
+/*   Updated: 2026/04/03 15:12:30 by hbray            ###   ########.fr       */
+>>>>>>> 62ebed4b38bfacdbf172cb202b82ed58e82105ca
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +81,7 @@ t_token				*malloc_struct(void);
 t_token				*last_token(t_token **token);
 t_token				*first_token(t_token *token);
 t_env				*init_env(char **envp);
+t_env				*swap_node(t_env *env, t_env *env_cmp);
 char				**split(char *str);
 char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);

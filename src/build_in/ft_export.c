@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 09:55:24 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/03 15:43:05 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ t_env	*env_in_alphabatical_order(t_env *env)
 	t_env	*cpy_env;
 	t_env	*env_cmp;
 	t_env	*start;
-	char	*tmp_key;
-	char	*tmp_value;
 
 	cpy_env = copy_env(env);
 	start = cpy_env;
@@ -47,14 +45,7 @@ t_env	*env_in_alphabatical_order(t_env *env)
 		while (env_cmp)
 		{
 			if (ft_strcmp(cpy_env->key, env_cmp->key) > 0)
-			{
-				tmp_value = env_cmp->value;
-				tmp_key = env_cmp->key;
-				env_cmp->value = cpy_env->value;
-				env_cmp->key = cpy_env->key;
-				cpy_env->key = tmp_key;
-				cpy_env->value = tmp_value;
-			}
+				cpy_env = swap_node(cpy_env, env_cmp);
 			env_cmp = env_cmp->next;
 		}
 		cpy_env = cpy_env->next;
@@ -92,8 +83,11 @@ void	ft_export2(t_ast *ast, t_env **env, t_env *tmp, int i)
 	}
 	if (tmp)
 	{
-		free(tmp->value);
-		tmp->value = value;
+		if (value)
+		{
+			free(tmp->value);
+			tmp->value = value;
+		}
 		free(key);
 	}
 	else
