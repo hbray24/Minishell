@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 14:59:14 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/07 15:53:42 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_cd(t_ast *ast, t_env *env)
 	char	*old_path;
 	char	*env_pwd;
 
-	if (ast->token[2] != NULL)
+	if (ast->token[1] && ast->token[2] != NULL)
 	{
 		write(2, "asauvage: cd: too many arguments\n", 34);
 		return (0);
@@ -69,6 +69,17 @@ int	ft_cd(t_ast *ast, t_env *env)
 			old_path = ft_strdup(env_pwd);
 		else
 			return (0);
+	}
+	if (ast->token[1] == NULL)
+	{
+		uptade_env(&env, "PWD", search_value("HOME", env));
+		if(chdir(search_value("HOME", env)) == -1)
+		{
+			perror("hbray: cd");
+			free(old_path);
+			return (0);
+		}
+		return(1);
 	}
 	if (ft_strcmp(ast->token[1], "-") == 0)
 		return (ft_cd_previous(env, old_path));

@@ -1,0 +1,12 @@
+total 88
+-rw-r--r-- 1 hbray 2025_paris   111 Apr  7 14:16 banane
+drwxr-xr-x 2 hbray 2025_paris    25 Apr  7 08:58 include
+-rw-r--r-- 1 hbray 2025_paris     0 Apr  7 14:46 infile
+drwxr-xr-x 2 hbray 2025_paris  4096 Apr  7 10:27 libft
+-rw-r--r-- 1 hbray 2025_paris  2056 Apr  7 10:55 Makefile
+-rwxr-xr-x 1 hbray 2025_paris 60280 Apr  7 11:15 minishell
+-rw-r--r-- 1 hbray 2025_paris     0 Apr  7 14:46 outfile
+-rw-r--r-- 1 hbray 2025_paris     0 Apr  7 14:48 patapim
+-rw-r--r-- 1 hbray 2025_paris   127 Apr  3 09:02 readline.supp
+drwxr-xr-x 4 hbray 2025_paris  4096 Apr  7 14:37 src
+-rw-r--r-- 1 hbray 2025_paris   211 Apr  3 09:02 Vasi_lis_le_petit_.md_de_merde_petit_con_de_hbray.md

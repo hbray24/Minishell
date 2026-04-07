@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/01 10:55:36 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/07 15:50:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	clear_ast(t_ast **ast)
 	free_array((*ast)->files);
 	free_array((*ast)->limiter);
 	free((*ast)->redir);
-	free((*ast)->fd);
 	clear_ast(&(*ast)->l_child);
 	clear_ast(&(*ast)->r_child);
 	free(*ast);

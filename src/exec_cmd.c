@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/07 11:15:13 by hbray            ###   ########.fr       */
+/*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
+/*   Updated: 2026/04/07 14:45:08 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_ast *ast)
+int	exec_cmd(t_ast *ast, t_env *env, t_pipe *p)
 {
-	int	i;
-
-	if (!ft_strcmp(ast->token[1], "-n"))
+	if (p->nb_pipe)
 	{
-		i = 2;
-		while (ast->token[i])
-		{
-			printf("%s", ast->token[i]);
-			if (ast->token[i + 1] != NULL)
-				printf(" ");
-			i++;
-		}
-	}
-	else
-	{
-		i = 1;
-		while (ast->token[i])
-		{
-			printf("%s", ast->token[i]);
-			if (ast->token[i + 1] != NULL)
-				printf(" ");
-			i++;
-		}
-		printf("\n");
+		if (p->pipes[p->nb_pipe][0] != -1)
+			dup2(p->pipes[p->nb_pipe][0], 1);
+		if (p->pipes[p->nb_pipe][1] != -1)
+			dup2(p->pipes[p->nb_pipe][1], 0);
+		if (ast->fd)
 	}
 }
