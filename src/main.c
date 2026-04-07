@@ -3,26 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/03 19:01:21 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/07 15:42:59 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	parse(t_token *token, t_env *env)
+int	parse(t_token **token, t_env *env)
 {
 	t_ast	*ast;
+	t_pipe	pipe;
 	t_token	*token_tmp;
 	int		status;
 
-	expander(token, env);
-	token_tmp = last_token(&token);
+	pipe.nb_pipe = 0;
+	expander(*token, env);
+	token_tmp = last_token(token);
 	ast = parsing(token_tmp);
-	clear_token(&token);
-	status = execute_ast(ast, env);
+	clear_token(token);
+	// if (!malloc_pipe(ast, &pipe))
+		// return (0);
+	status = execute_ast(ast, env, &pipe, 0);
 	clear_ast(&ast);
 	return (status);
 }
@@ -50,7 +54,7 @@ int	check_line(char *line, t_token **token, t_env *env)
 		exit(1);
 	}
 	free(line);
-	if (!parse(*token, env))
+	if (!parse(token, env))
 		return (1);
 	clear_token(token);
 	return (0);
