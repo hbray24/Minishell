@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/07 15:42:59 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/07 18:11:25 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	parse(t_token **token, t_env *env)
 	token_tmp = last_token(token);
 	ast = parsing(token_tmp);
 	clear_token(token);
-	// if (!malloc_pipe(ast, &pipe))
-		// return (0);
+	if (!malloc_pipe(ast, &pipe))
+		return (0);
 	status = execute_ast(ast, env, &pipe, 0);
 	clear_ast(&ast);
 	return (status);
