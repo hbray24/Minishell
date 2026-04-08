@@ -1,1 +1,0 @@
-Bon flemme un peu juste regarde ce qu'affiche l'arbre quelques eptit problemes essayent de regarder pourquoi et aussi organise le code en faisant des dossiers bien ranges des bons noms de fichiers fonctions etc.

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 14:47:52 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 20:21:25 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <minishell.h>
 
-int	execute_cmd(t_ast *ast, t_env **env, t_pipe *pipes)
+int	execute_cmd(t_ast *ast, t_env **env, t_pipe *pipes, int start)
 {
 	int	status;
 
-	status = 1;
+	status = 0;
 	if (!ft_strcmp(*ast->token, "cd"))
 		status |= ft_cd(ast, *env);
 	else if (!ft_strcmp(*ast->token, "pwd"))
@@ -33,7 +33,7 @@ int	execute_cmd(t_ast *ast, t_env **env, t_pipe *pipes)
 	else if (!ft_strcmp(*ast->token, "exit"))
 		status |= ft_exit(ast, *env);
 	else
-		status = exec_cmd(ast, env, pipes);
+		status = exec_cmd(ast, env, pipes, start);
 	exit (status);
 }
 
@@ -45,9 +45,11 @@ int	malloc_pipe(t_ast *ast, t_pipe *pipe)
 		malloc_pipe(ast->l_child, pipe);
 		malloc_pipe(ast->r_child, pipe);
 		if (pipe->nb_pipe)
+		{
 			pipe->pipes = malloc(sizeof(int[2]) * (pipe->nb_pipe));
-		if (!pipe->pipes)
-			return (0);
+			if (!pipe->pipes)
+				return (0);
+		}
 		if (!pipe->nb_pipe)
 			pipe->nb_pipe = -1;
 		return (1);
@@ -84,7 +86,7 @@ int	check_fd(t_ast *ast)
 	return (1);
 }
 
-int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int start_pipe)
+int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 {
 	int		status;
 	pid_t	pid;
@@ -94,8 +96,8 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int start_pipe)
 		return (0);
 	if (ast->type == PIPE)
 	{
-		execute_ast(ast->l_child, env, p, start_pipe);
-		execute_ast(ast->r_child, env, p, start_pipe);
+		execute_ast(ast->l_child, env, p, nb_pipe);
+		execute_ast(ast->r_child, env, p, nb_pipe);
 	}
 	if (ast->type == EXEC)
 	{
@@ -103,17 +105,15 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int start_pipe)
 		{
 			if (pipe(p->pipes[p->nb_pipe - 1]) == -1)
 				return (1);
-			if (start_pipe == p->nb_pipe)
-				p->pipes[p->nb_pipe - 1][0] = -1;
-			if (p->nb_pipe == 0)
-				p->pipes[p->nb_pipe - 1][1] = -1;
 			p->nb_pipe--;
 		}
 		check_fd(ast);
 		pid = fork();
 		if (pid == 0)
-			execute_cmd(ast, env, p);
+			execute_cmd(ast, env, p, nb_pipe);
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
 	}
 	return (status);
 }

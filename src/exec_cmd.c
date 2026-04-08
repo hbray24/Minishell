@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 16:54:50 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 20:36:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ char	**linked_list_to_double_array(t_env **envp)
 	return (build_env);
 }
 
-int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
+int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start)
 {
 	char	*path;
 
-	if (p->nb_pipe != -1 && p->pipes[p->nb_pipe][0] != -1)
-		dup2(p->pipes[p->nb_pipe][0], 1);
-	if (p->nb_pipe != -1 && p->pipes[p->nb_pipe][1] != -1)
-		dup2(p->pipes[p->nb_pipe][1], 0);
+	if (p->nb_pipe > 0 && p->nb_pipe != start)
+		dup2(p->pipes[p->nb_pipe][0], 0);
+	if (p->nb_pipe != -1 && p->nb_pipe != start)
+		dup2(p->pipes[p->nb_pipe][1], 1);
 	if (ast->fd[1] != -1)
 		dup2(p->pipes[p->nb_pipe][1], 1);
 	if (ast->fd[0] != -1)

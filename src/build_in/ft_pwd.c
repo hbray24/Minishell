@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:39:21 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 13:09:32 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 17:42:10 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	ft_pwd(void)
 	if (!path)
 	{
 		perror("hbray: ");
-		return (0);
+		return (1);
 	}
 	printf("%s\n", path);
 	free(path);
-	return (1);
+	return (0);
 }

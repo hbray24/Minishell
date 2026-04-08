@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 13:13:18 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 17:41:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_cd2(t_ast *ast, t_env *env, char *old_path)
 	{
 		perror("hbray: cd");
 		free(old_path);
-		return (0);
+		return (1);
 	}
 	new_path = getcwd(NULL, 0);
 	if (!new_path)
@@ -35,7 +35,7 @@ int	ft_cd2(t_ast *ast, t_env *env, char *old_path)
 	uptade_env(&env, "PWD", new_path);
 	free(old_path);
 	free(new_path);
-	return (1);
+	return (0);
 }
 
 int	ft_cd_previous(t_env *env, char *old_path)
@@ -45,10 +45,10 @@ int	ft_cd_previous(t_env *env, char *old_path)
 	{
 		perror("hbray: cd");
 		free(old_path);
-		return (0);
+		return (1);
 	}
 	ft_pwd();
-	return (1);
+	return (0);
 }
 
 int	ft_cd_home(t_env *env, char *old_path)
@@ -58,9 +58,9 @@ int	ft_cd_home(t_env *env, char *old_path)
 	{
 		perror("hbray: cd");
 		free(old_path);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_cd(t_ast *ast, t_env *env)
@@ -71,7 +71,7 @@ int	ft_cd(t_ast *ast, t_env *env)
 	if (ast->token[1] && ast->token[2] != NULL)
 	{
 		write(2, "asauvage: cd: too many arguments\n", 34);
-		return (0);
+		return (1);
 	}
 	old_path = getcwd(NULL, 0);
 	if (!old_path)
@@ -80,12 +80,12 @@ int	ft_cd(t_ast *ast, t_env *env)
 		if (env_pwd)
 			old_path = ft_strdup(env_pwd);
 		else
-			return (0);
+			return (1);
 	}
 	if (ast->token[1] == NULL)
 	{
 		ft_cd_home(env, old_path);
-		return (1);
+		return (0);
 	}
 	if (ft_strcmp(ast->token[1], "-") == 0)
 		return (ft_cd_previous(env, old_path));

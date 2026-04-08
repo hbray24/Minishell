@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/08 14:52:24 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 20:19:26 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int					execute_ast(t_ast *ast, t_env **envp, t_pipe *pipe,
 int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
-int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p);
 int					malloc_pipe(t_ast *ast, t_pipe *pipe);
+int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start);
 
 #endif
