@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/02 16:16:32 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 14:31:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_env	*create_env_node(char *key, char *value)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
+	ft_memset(node, 0, sizeof(t_env));
 	node->key = key;
 	node->value = value;
-	node->next = NULL;
 	return (node);
 }
 

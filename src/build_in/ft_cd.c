@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/07 15:53:42 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 13:13:18 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@ int	ft_cd_previous(t_env *env, char *old_path)
 	return (1);
 }
 
+int	ft_cd_home(t_env *env, char *old_path)
+{
+	uptade_env(&env, "PWD", search_value("HOME", env));
+	if (chdir(search_value("HOME", env)) == -1)
+	{
+		perror("hbray: cd");
+		free(old_path);
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_cd(t_ast *ast, t_env *env)
 {
 	char	*old_path;
@@ -72,14 +84,8 @@ int	ft_cd(t_ast *ast, t_env *env)
 	}
 	if (ast->token[1] == NULL)
 	{
-		uptade_env(&env, "PWD", search_value("HOME", env));
-		if(chdir(search_value("HOME", env)) == -1)
-		{
-			perror("hbray: cd");
-			free(old_path);
-			return (0);
-		}
-		return(1);
+		ft_cd_home(env, old_path);
+		return (1);
 	}
 	if (ft_strcmp(ast->token[1], "-") == 0)
 		return (ft_cd_previous(env, old_path));

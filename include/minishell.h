@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/07 18:03:52 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/08 14:52:24 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_token
 
 typedef struct s_env
 {
+	char			**env;
 	char			*key;
 	char			*value;
 	struct s_env	*next;
@@ -76,8 +77,8 @@ typedef struct s_env
 
 typedef struct s_pipe
 {
+	int				(*pipes)[2];
 	int				nb_pipe;
-	int (*pipes)[2];
 	int				err;
 }					t_pipe;
 
@@ -86,10 +87,13 @@ t_token				*last_token(t_token **token);
 t_token				*first_token(t_token *token);
 t_env				*init_env(char **envp);
 t_env				*swap_node(t_env *env, t_env *env_cmp);
+t_ast				*parsing(t_token *token);
+t_ast				*new_ast_node(void);
 char				**split(char *str);
 char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
 char				*get_key(char *str);
+char				*find_cmd_path(char *cmd, char **envp);
 void				expander(t_token *token, t_env *env);
 void				clear_token(t_token **token);
 void				free_array(char **str);
@@ -107,13 +111,12 @@ int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_ast *ast, t_env *env);
 int					ft_pwd(void);
 int					create_token(t_token *token);
-int					execute_ast(t_ast *ast, t_env *envp, t_pipe *pipe,
+int					execute_ast(t_ast *ast, t_env **envp, t_pipe *pipe,
 						int start_pipes);
 int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
-int					exec_cmd(t_ast *ast, t_env *env, t_pipe *p);
-t_ast				*parsing(t_token *token);
-t_ast				*new_ast_node(void);
+int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p);
+int					malloc_pipe(t_ast *ast, t_pipe *pipe);
 
 #endif

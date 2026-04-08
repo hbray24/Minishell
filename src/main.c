@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/07 18:11:25 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/08 16:13:51 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	parse(t_token **token, t_env *env)
+int	parse(t_token **token, t_env **env)
 {
 	t_ast	*ast;
 	t_pipe	pipe;
 	t_token	*token_tmp;
 	int		status;
 
-	pipe.nb_pipe = 0;
-	expander(*token, env);
+	pipe.pipes = NULL;
+	pipe.nb_pipe = -1;
+	expander(*token, *env);
 	token_tmp = last_token(token);
 	ast = parsing(token_tmp);
+	if (ast->type == PIPE)
+		pipe.pipes = 0;
 	clear_token(token);
 	if (!malloc_pipe(ast, &pipe))
 		return (0);
@@ -31,7 +34,7 @@ int	parse(t_token **token, t_env *env)
 	return (status);
 }
 
-int	check_line(char *line, t_token **token, t_env *env)
+int	check_line(char *line, t_token **token, t_env **env)
 {
 	if (!line)
 	{
@@ -74,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline("minishell> ");
-		if (check_line(line, &token, env) == 1)
+		if (check_line(line, &token, &env) == 1)
 			break ;
 	}
 	rl_clear_history();

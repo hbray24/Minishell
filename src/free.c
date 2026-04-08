@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/07 15:50:21 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/08 14:33:03 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_array(char **str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str && str[i])
 		free(str[i++]);
 	free(str);
