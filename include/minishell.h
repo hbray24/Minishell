@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/09 13:45:46 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:29:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ typedef struct s_env
 
 typedef struct s_pipe
 {
+	pid_t			pid;
 	int				(*pipes)[2];
 	int				nb_pipe;
 	int				err;
+	int				lap;
 }					t_pipe;
 
 t_token				*malloc_struct(void);
@@ -118,6 +120,6 @@ int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
 int					malloc_pipe(t_ast *ast, t_pipe *pipe);
-int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start);
+int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p);
 
 #endif

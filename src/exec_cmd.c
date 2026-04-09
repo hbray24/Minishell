@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/09 15:26:28 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:58:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,20 @@ char	**linked_list_to_double_array(t_env **envp)
 	return (build_env);
 }
 
-int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start)
+int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
 {
 	char	*path;
 
-	if (p->nb_pipe > 0 && p->nb_pipe != start)
+	if (p->lap)
 		dup2(p->pipes[p->nb_pipe][0], 0);
-	if (p->nb_pipe != -1 && p->nb_pipe != start)
+	if (p->nb_pipe != -1)
 		dup2(p->pipes[p->nb_pipe][1], 1);
 	if (ast->fd[1] != -1)
 		dup2(ast->fd[1], 1);
 	if (ast->fd[0] != -1)
 		dup2(ast->fd[0], 0);
 	close_fd(ast, p);
+	printf("%d, %d\n", p->pipes[p->nb_pipe][0], p->pipes[p->nb_pipe][1]);
 	(*env)->env = linked_list_to_double_array(env);
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/09 14:53:50 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:33:38 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	parse(t_token **token, t_env **env)
 
 	pipe.pipes = NULL;
 	pipe.nb_pipe = 0;
+	pipe.lap = 0;
 	expander(*token, *env);
 	token_tmp = last_token(token);
 	ast = parsing(token_tmp);
@@ -30,6 +31,13 @@ int	parse(t_token **token, t_env **env)
 	if (!malloc_pipe(ast, &pipe))
 		return (0);
 	status = execute_ast(ast, env, &pipe, pipe.nb_pipe);
+	if (waitpid(pipe.pid, &status, 0) != -1)
+	{
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+	}
+	while (wait(NULL) > 0)
+		;
 	clear_ast(&ast);
 	return (status);
 }

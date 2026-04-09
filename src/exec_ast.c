@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/09 11:01:46 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:47:44 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,15 @@ int	malloc_pipe(t_ast *ast, t_pipe *pipe)
 		pipe->nb_pipe++;
 		malloc_pipe(ast->l_child, pipe);
 		malloc_pipe(ast->r_child, pipe);
-		if (pipe->nb_pipe)
-		{
-			pipe->pipes = malloc(sizeof(int[2]) * (pipe->nb_pipe));
-			if (!pipe->pipes)
-				return (0);
-		}
-		if (!pipe->nb_pipe)
-			pipe->nb_pipe = -1;
-		return (1);
 	}
+	if (pipe->nb_pipe)
+	{
+		pipe->pipes = malloc(sizeof(int[2]) * pipe->nb_pipe);
+		if (!pipe->pipes)
+			return (0);
+	}
+	if (!pipe->nb_pipe)
+		pipe->nb_pipe = -1;
 	return (1);
 }
 
@@ -89,7 +88,6 @@ int	check_fd(t_ast *ast)
 int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 {
 	int		status;
-	pid_t	pid;
 
 	status = 0;
 	if (!ast)
@@ -111,12 +109,12 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 		status = execute_cmd(ast, env);
 		if(status == -1)
 		{
-			pid = fork();
-			if (pid == 0)
-				exec_cmd(ast, env, p,nb_pipe);
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				return (WEXITSTATUS(status));
+			p->pid = fork();
+			if (p->pid == 0)
+				exec_cmd(ast, env, p);
+			p->lap++;
+			if (!p->nb_pipe)
+				p->nb_pipe = -1;
 		}
 	}
 	return (status);
