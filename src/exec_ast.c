@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 20:21:25 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/09 11:01:46 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <minishell.h>
 
-int	execute_cmd(t_ast *ast, t_env **env, t_pipe *pipes, int start)
+int	execute_cmd(t_ast *ast, t_env **env)
 {
 	int	status;
 
@@ -33,8 +33,8 @@ int	execute_cmd(t_ast *ast, t_env **env, t_pipe *pipes, int start)
 	else if (!ft_strcmp(*ast->token, "exit"))
 		status |= ft_exit(ast, *env);
 	else
-		status = exec_cmd(ast, env, pipes, start);
-	exit (status);
+		return(-1);
+	return (status);
 }
 
 int	malloc_pipe(t_ast *ast, t_pipe *pipe)
@@ -108,12 +108,16 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 			p->nb_pipe--;
 		}
 		check_fd(ast);
-		pid = fork();
-		if (pid == 0)
-			execute_cmd(ast, env, p, nb_pipe);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
+		status = execute_cmd(ast, env);
+		if(status == -1)
+		{
+			pid = fork();
+			if (pid == 0)
+				exec_cmd(ast, env, p,nb_pipe);
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				return (WEXITSTATUS(status));
+		}
 	}
 	return (status);
 }

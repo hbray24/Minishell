@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/08 20:45:50 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/09 14:53:50 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int	check_line(char *line, t_token **token, t_env **env)
 	}
 	free(line);
 	if (parse(token, env))
+	{
 		return (1);
+	}
 	clear_token(token);
 	return (0);
 }
@@ -85,9 +87,3 @@ int	main(int ac, char **av, char **envp)
 	clear_env(&env);
 	return (0);
 }
-
-
-/*Force toi rien a redire fin de journee avec mal de crane comprends pas inshallah
-tu commences la journee tres joyeusement car la ca va etre dure je te le dis ca va 
-barabara. En vrai regarde bien la partie de comment se creer les pipes les dup2
-redirection et tout sur pipe files tout ca....*/

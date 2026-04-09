@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/08 20:19:26 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/09 13:45:46 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ typedef enum s_type
 
 typedef struct s_ast
 {
-	char			**token;
 	int				fd[2];
+	int				status;
+	char			**token;
 	char			**files;
 	char			**limiter;
 	t_type			*redir;

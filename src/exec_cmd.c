@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 20:36:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/09 15:26:28 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**linked_list_to_double_array(t_env **envp)
 		start = start->next;
 		i++;
 	}
-	build_env = malloc(sizeof(char) * (i + 1));
+	build_env = ft_calloc(i + 1, sizeof(char *));
 	if (!build_env)
 		return (NULL);
 	start = *envp;
@@ -51,7 +51,7 @@ char	**linked_list_to_double_array(t_env **envp)
 			tmp = ft_strjoin(start->key, "=");
 			if (!tmp)
 			{
-				free(tmp);
+				free_array(build_env);
 				return (NULL);
 			}
 			build_env[i] = ft_strjoin(tmp, start->value);
@@ -77,9 +77,9 @@ int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start)
 	if (p->nb_pipe != -1 && p->nb_pipe != start)
 		dup2(p->pipes[p->nb_pipe][1], 1);
 	if (ast->fd[1] != -1)
-		dup2(p->pipes[p->nb_pipe][1], 1);
+		dup2(ast->fd[1], 1);
 	if (ast->fd[0] != -1)
-		dup2(p->pipes[p->nb_pipe][0], 0);
+		dup2(ast->fd[0], 0);
 	close_fd(ast, p);
 	(*env)->env = linked_list_to_double_array(env);
 	path = find_cmd_path(ast->token[0], (*env)->env);
@@ -89,5 +89,5 @@ int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int start)
 		exit(127);
 	}
 	execve(path, ast->token, (*env)->env);
-	exit (1);
+	exit (126);
 }
