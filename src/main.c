@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/09 19:33:38 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/10 14:33:48 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	parse(t_token **token, t_env **env)
 	}
 	while (wait(NULL) > 0)
 		;
+	printf("%d, %d\n", pipe.pipes[0][1], STDIN_FILENO);
 	clear_ast(&ast);
 	return (status);
 }

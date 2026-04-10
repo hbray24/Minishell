@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/09 19:29:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/10 12:35:25 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void				ft_env(t_env **env);
 void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
+void				close_fd(t_ast *ast, t_pipe *p);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token);
 int					skip_w_quote(char *str, int i);

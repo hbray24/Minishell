@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/09 19:58:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/10 12:40:58 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 void	close_fd(t_ast *ast, t_pipe *p)
 {
-	if (p->pipes && p->pipes[p->nb_pipe][0] >= 0)
-		close(p->pipes[p->nb_pipe][0]);
-	if (p->pipes && p->pipes[p->nb_pipe][1] >= 0)
-		close(p->pipes[p->nb_pipe][1]);
-	if (ast->fd[0])
+	int	pipe_numero;
+
+	if (p->nb_pipe == -1)
+		pipe_numero = 0;
+	if (p->pipes && p->pipes[pipe_numero][0] >= 0)
+		close(p->pipes[pipe_numero][0]);
+	if (p->pipes && p->pipes[pipe_numero][1] >= 0)
+		close(p->pipes[pipe_numero][1]);
+	if (ast->fd[0] >= 0)
 		close(ast->fd[0]);
-	if (ast->fd[1])
+	if (ast->fd[1] >= 0)
 		close(ast->fd[1]);
 }
 
@@ -73,7 +77,7 @@ int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
 	char	*path;
 
 	if (p->lap)
-		dup2(p->pipes[p->nb_pipe][0], 0);
+		dup2(p->pipes[p->nb_pipe + 1][0], 0);
 	if (p->nb_pipe != -1)
 		dup2(p->pipes[p->nb_pipe][1], 1);
 	if (ast->fd[1] != -1)
@@ -81,7 +85,6 @@ int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
 	if (ast->fd[0] != -1)
 		dup2(ast->fd[0], 0);
 	close_fd(ast, p);
-	printf("%d, %d\n", p->pipes[p->nb_pipe][0], p->pipes[p->nb_pipe][1]);
 	(*env)->env = linked_list_to_double_array(env);
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)

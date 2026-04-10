@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/09 19:47:44 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/10 14:30:10 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 	{
 		execute_ast(ast->l_child, env, p, nb_pipe);
 		execute_ast(ast->r_child, env, p, nb_pipe);
+		close_fd(ast, p);
 	}
 	if (ast->type == EXEC)
 	{
