@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/10 12:40:58 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/10 16:56:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	close_fd(t_ast *ast, t_pipe *p)
 {
 	int	pipe_numero;
 
+	printf("%d\n", p->nb_pipe);
 	if (p->nb_pipe == -1)
 		pipe_numero = 0;
+	else
+		pipe_numero = p->nb_pipe;
 	if (p->pipes && p->pipes[pipe_numero][0] >= 0)
 		close(p->pipes[pipe_numero][0]);
 	if (p->pipes && p->pipes[pipe_numero][1] >= 0)
@@ -80,6 +83,7 @@ int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
 		dup2(p->pipes[p->nb_pipe + 1][0], 0);
 	if (p->nb_pipe != -1)
 		dup2(p->pipes[p->nb_pipe][1], 1);
+	write(1, "Ya pas de pano hbray\n", 22);
 	if (ast->fd[1] != -1)
 		dup2(ast->fd[1], 1);
 	if (ast->fd[0] != -1)

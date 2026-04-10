@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   new_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/02 16:16:42 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/10 16:16:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* int	create_env(t_env *env)
-{
-	t_env	*new_env;
-
-	new_env = malloc(sizeof(t_env));
-	if (!new_env)
-	{
-		write(2, "asauvage: Malooc\n", 18);
-		return (1);
-	}
-	ft_memset(new_env, 0, sizeof(t_env));
-	env->next = new_env;
-	new_env->next = NULL;
-	new_env->pre = env;
-	new_env->key = NULL;
-	new_env->value = NULL;
-	return (0);
-} */
 
 int	create_token(t_token *token)
 {
@@ -59,5 +40,7 @@ t_ast	*new_ast_node(void)
 	if (!new)
 		return (NULL);
 	ft_memset(new, 0, sizeof(t_ast));
+	new->fd[0] = -1;
+	new->fd[1] = -1;
 	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/10 14:33:48 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/10 16:21:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	parse(t_token **token, t_env **env)
 	if (!malloc_pipe(ast, &pipe))
 		return (0);
 	status = execute_ast(ast, env, &pipe, pipe.nb_pipe);
+	write(1, "test\n", 5);
+	while (wait(NULL) > 0)
+		;
 	if (waitpid(pipe.pid, &status, 0) != -1)
 	{
 		if (WIFEXITED(status))
 			status = WEXITSTATUS(status);
 	}
-	while (wait(NULL) > 0)
-		;
-	printf("%d, %d\n", pipe.pipes[0][1], STDIN_FILENO);
 	clear_ast(&ast);
 	return (status);
 }
@@ -79,14 +79,20 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*token;
 	t_env	*env;
+	int		save_stdin;
+	int		save_stdout;
 
 	(void)av;
 	if (ac != 1)
 		return (1);
 	env = init_env(envp);
 	token = NULL;
+	save_stdin = dup(STDIN_FILENO);
+	save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
+		dup2(save_stdin, STDIN_FILENO);
+		dup2(save_stdout, STDOUT_FILENO);
 		line = readline("minishell> ");
 		if (check_line(line, &token, &env) == 1)
 			break ;
