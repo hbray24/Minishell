@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/10 16:21:14 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:24:20 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ int	parse(t_token **token, t_env **env)
 	t_token	*token_tmp;
 	int		status;
 
-	pipe.pipes = NULL;
-	pipe.nb_pipe = 0;
-	pipe.lap = 0;
+	ft_memset(&pipe, 0, sizeof(t_pipe));
 	expander(*token, *env);
 	token_tmp = last_token(token);
 	ast = parsing(token_tmp);
 	if (ast->type == PIPE)
 		pipe.pipes = 0;
 	clear_token(token);
-	if (!malloc_pipe(ast, &pipe))
-		return (0);
+	malloc_pipe(ast, &pipe);
+	if (pipe.nb_pipe != -1)
+	{
+		pipe.pipes = ft_calloc(pipe.nb_pipe, sizeof(int[2]));
+		if (!pipe.pipes)
+			return (0);
+	}
 	status = execute_ast(ast, env, &pipe, pipe.nb_pipe);
-	write(1, "test\n", 5);
-	while (wait(NULL) > 0)
-		;
 	if (waitpid(pipe.pid, &status, 0) != -1)
 	{
 		if (WIFEXITED(status))

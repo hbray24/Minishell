@@ -3,28 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/10 16:56:49 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:25:33 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_fd(t_ast *ast, t_pipe *p)
+void	close_fd(t_ast *ast, t_pipe *p, int nbr_pipe)
 {
-	int	pipe_numero;
+	int	i;
 
-	printf("%d\n", p->nb_pipe);
-	if (p->nb_pipe == -1)
-		pipe_numero = 0;
-	else
-		pipe_numero = p->nb_pipe;
-	if (p->pipes && p->pipes[pipe_numero][0] >= 0)
-		close(p->pipes[pipe_numero][0]);
-	if (p->pipes && p->pipes[pipe_numero][1] >= 0)
-		close(p->pipes[pipe_numero][1]);
+	if (p->pipes)
+	{
+		i = 0;
+		while (i < nbr_pipe)
+		{
+			if (p->pipes[i][0] >= 0)
+				close(p->pipes[i][0]);
+			if (p->pipes[i][1] >= 0)
+				close(p->pipes[i][1]);
+			i++;
+		}
+	}
 	if (ast->fd[0] >= 0)
 		close(ast->fd[0]);
 	if (ast->fd[1] >= 0)
@@ -75,20 +78,20 @@ char	**linked_list_to_double_array(t_env **envp)
 	return (build_env);
 }
 
-int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p)
+int	exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int nbr_pipe)
 {
 	char	*path;
 
+	// printf("pipe[0]: %d and pipe[1] : %d\n", p->pipes[p->good_pipe][0], p->pipes[p->good_pipe][1]);
 	if (p->lap)
-		dup2(p->pipes[p->nb_pipe + 1][0], 0);
+		dup2(p->pipes[p->good_pipe - 1][0], 0);
 	if (p->nb_pipe != -1)
-		dup2(p->pipes[p->nb_pipe][1], 1);
-	write(1, "Ya pas de pano hbray\n", 22);
+		dup2(p->pipes[p->good_pipe][1], 1);
 	if (ast->fd[1] != -1)
 		dup2(ast->fd[1], 1);
 	if (ast->fd[0] != -1)
 		dup2(ast->fd[0], 0);
-	close_fd(ast, p);
+	close_fd(ast, p, nbr_pipe);
 	(*env)->env = linked_list_to_double_array(env);
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)

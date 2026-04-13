@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/10 16:18:06 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/13 15:50:44 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	execute_cmd(t_ast *ast, t_env **env)
 	return (status);
 }
 
-int	malloc_pipe(t_ast *ast, t_pipe *pipe)
+void	malloc_pipe(t_ast *ast, t_pipe *pipe)
 {
 	if (ast->type == PIPE)
 	{
@@ -45,15 +45,8 @@ int	malloc_pipe(t_ast *ast, t_pipe *pipe)
 		malloc_pipe(ast->l_child, pipe);
 		malloc_pipe(ast->r_child, pipe);
 	}
-	if (pipe->nb_pipe)
-	{
-		pipe->pipes = malloc(sizeof(int[2]) * pipe->nb_pipe);
-		if (!pipe->pipes)
-			return (0);
-	}
 	if (!pipe->nb_pipe)
 		pipe->nb_pipe = -1;
-	return (1);
 }
 
 int	check_fd(t_ast *ast)
@@ -96,13 +89,12 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 	{
 		execute_ast(ast->l_child, env, p, nb_pipe);
 		execute_ast(ast->r_child, env, p, nb_pipe);
-		close_fd(ast, p);
 	}
 	if (ast->type == EXEC)
 	{
 		if (p->nb_pipe > 0)
 		{
-			if (pipe(p->pipes[p->nb_pipe - 1]) == -1)
+			if (pipe(p->pipes[p->good_pipe]) == -1)
 				return (1);
 			p->nb_pipe--;
 		}
@@ -112,10 +104,22 @@ int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
 		{
 			p->pid = fork();
 			if (p->pid == 0)
-				exec_cmd(ast, env, p);
+				exec_cmd(ast, env, p, nb_pipe);
+			else
+			{
+				if (nb_pipe != -1)
+				{
+					if (p->nb_pipe != -1)
+						close(p->pipes[p->good_pipe][1]);
+					if (p->lap)
+						close(p->pipes[p->good_pipe - 1][0]);
+				}
+				p->good_pipe++;
+			}
 			p->lap++;
 			if (!p->nb_pipe)
 				p->nb_pipe = -1;
+			return(0);
 		}
 	}
 	return (status);

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/10 12:35:25 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/13 14:19:39 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_pipe
 	pid_t			pid;
 	int				(*pipes)[2];
 	int				nb_pipe;
+	int				good_pipe;
 	int				err;
 	int				lap;
 }					t_pipe;
@@ -107,7 +108,8 @@ void				ft_env(t_env **env);
 void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
-void				close_fd(t_ast *ast, t_pipe *p);
+void				close_fd(t_ast *ast, t_pipe *p, int nbr_pipe);
+void				malloc_pipe(t_ast *ast, t_pipe *pipe);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token);
 int					skip_w_quote(char *str, int i);
@@ -120,7 +122,6 @@ int					execute_ast(t_ast *ast, t_env **envp, t_pipe *pipe,
 int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
-int					malloc_pipe(t_ast *ast, t_pipe *pipe);
-int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p);
+int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int nbr_pipe);
 
 #endif
