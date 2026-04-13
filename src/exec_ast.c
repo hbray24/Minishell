@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/13 15:50:44 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/13 20:06:57 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <minishell.h>
 
-int	execute_cmd(t_ast *ast, t_env **env)
+int	exec_build_in(t_ast *ast, t_env **env)
 {
 	int	status;
 
@@ -35,18 +35,6 @@ int	execute_cmd(t_ast *ast, t_env **env)
 	else
 		return(-1);
 	return (status);
-}
-
-void	malloc_pipe(t_ast *ast, t_pipe *pipe)
-{
-	if (ast->type == PIPE)
-	{
-		pipe->nb_pipe++;
-		malloc_pipe(ast->l_child, pipe);
-		malloc_pipe(ast->r_child, pipe);
-	}
-	if (!pipe->nb_pipe)
-		pipe->nb_pipe = -1;
 }
 
 int	check_fd(t_ast *ast)
@@ -78,49 +66,61 @@ int	check_fd(t_ast *ast)
 	return (1);
 }
 
-int	execute_ast(t_ast *ast, t_env **env, t_pipe *p, int nb_pipe)
+int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 {
 	int		status;
+	int		fd_pipe[2];
+	pid_t	pid_right;
+	pid_t	pid_left;
+	pid_t	pid;
 
-	status = 0;
 	if (!ast)
 		return (0);
-	if (ast->type == PIPE)
+	else if (ast->type == PIPE)
 	{
-		execute_ast(ast->l_child, env, p, nb_pipe);
-		execute_ast(ast->r_child, env, p, nb_pipe);
-	}
-	if (ast->type == EXEC)
-	{
-		if (p->nb_pipe > 0)
+		pipe(fd_pipe);
+		pid_left = fork();
+		if (pid_left == 0)
 		{
-			if (pipe(p->pipes[p->good_pipe]) == -1)
-				return (1);
-			p->nb_pipe--;
+			dup2(fd_pipe[1], 1);
+			close(fd_pipe[0]);
+			close(fd_pipe[1]);
+			exec_ast(ast->l_child, env, 1);
+			exit (1);
 		}
+		pid_right = fork();
+		if (pid_right == 0)
+		{
+			dup2(fd_pipe[0], 0);
+			close(fd_pipe[0]);
+			close(fd_pipe[1]);
+			exec_ast(ast->r_child, env, 1);
+			exit (1);
+		}
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		waitpid(pid_left, &status, 0);
+		waitpid(pid_right, &status, 0);
+		return (status);
+	}
+	if (ast->type == EXEC && !create_fork)
+	{
+		status = exec_build_in(ast, env);
+		if (status != -1)
+			return (status);
+		pid = fork();
+		if (pid == 0)
+			execve_cmd(ast, env);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+	}
+	if (ast->type == EXEC && create_fork)
+	{
 		check_fd(ast);
-		status = execute_cmd(ast, env);
-		if(status == -1)
-		{
-			p->pid = fork();
-			if (p->pid == 0)
-				exec_cmd(ast, env, p, nb_pipe);
-			else
-			{
-				if (nb_pipe != -1)
-				{
-					if (p->nb_pipe != -1)
-						close(p->pipes[p->good_pipe][1]);
-					if (p->lap)
-						close(p->pipes[p->good_pipe - 1][0]);
-				}
-				p->good_pipe++;
-			}
-			p->lap++;
-			if (!p->nb_pipe)
-				p->nb_pipe = -1;
-			return(0);
-		}
+		if (exec_build_in(ast, env) != -1)
+			exit (0);
+		execve_cmd(ast, env);
 	}
-	return (status);
+	return (1);
 }

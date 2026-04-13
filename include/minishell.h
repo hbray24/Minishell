@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/13 14:19:39 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/13 20:00:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,20 @@ void				ft_env(t_env **env);
 void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
-void				close_fd(t_ast *ast, t_pipe *p, int nbr_pipe);
-void				malloc_pipe(t_ast *ast, t_pipe *pipe);
+void				close_fd(t_ast *ast);
+void				malloc_pipe(t_ast *ast);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token);
 int					skip_w_quote(char *str, int i);
 int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_ast *ast, t_env *env);
 int					ft_pwd(void);
-int					create_token(t_token *token);
-int					execute_ast(t_ast *ast, t_env **envp, t_pipe *pipe,
-						int start_pipes);
+int					exec_ast(t_ast *ast, t_env **env, int create_fork);
 int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
-int					exec_cmd(t_ast *ast, t_env **env, t_pipe *p, int nbr_pipe);
+int					execve_cmd(t_ast *ast, t_env **env);
+int					create_token(t_token *token);
+
 
 #endif
