@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 18:21:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 11:31:18 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_printf_export(t_env *env)
 	clear_env(&tmp);
 }
 
-void	ft_export2(t_ast *ast, t_env **env, t_env *tmp, int i)
+void	modif_variable(t_ast *ast, t_env **env, t_env *tmp, int i)
 {
 	char	*key;
 	char	*value;
@@ -115,7 +115,7 @@ void	ft_export(t_ast *ast, t_env **env)
 			continue ;
 		}
 		tmp = *env;
-		ft_export2(ast, env, tmp, i);
+		modif_variable(ast, env, tmp, i);
 		i++;
 	}
 }

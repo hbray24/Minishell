@@ -3,20 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 17:41:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:25:20 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd2(t_ast *ast, t_env *env, char *old_path)
+int	join_to_home(t_ast *ast, t_env *env)
+{
+	char	*home;
+	char	*path;
+
+	home = search_value("HOME", env);
+	if (!home)
+	{
+		write(2, "Didn't find HOME in env\n", 25);
+		return (0);
+	}
+	path = ft_strjoin(home, &ast->token[1][1]);
+	if (!path)
+	{
+		write(2, "Error: Malloc failed\n", 22);
+		return (0);
+	}
+	free(ast->token[1]);
+	ast->token[1] = path;
+	return (1);
+}
+
+int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 {
 	char	*new_path;
 	char	*tmp_path;
 
+	if (ast->token[1][0] == '~')
+	{
+		if (!join_to_home(ast, env))
+			return (1);
+	}
 	if (chdir(ast->token[1]) == -1)
 	{
 		perror("hbray: cd");
@@ -89,5 +116,5 @@ int	ft_cd(t_ast *ast, t_env *env)
 	}
 	if (ft_strcmp(ast->token[1], "-") == 0)
 		return (ft_cd_previous(env, old_path));
-	return (ft_cd2(ast, env, old_path));
+	return (ft_cd_basic(ast, env, old_path));
 }

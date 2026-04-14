@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 14:31:21 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 15:55:43 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	add_env(t_env **env_list, t_env *new_node)
 	new_node->pre = tmp;
 }
 
-void	uptade_env(t_env **env, char *key, char *new_value)
+int	uptade_env(t_env **env, char *key, char *new_value)
 {
 	t_env	*new_env;
 
@@ -52,10 +52,16 @@ void	uptade_env(t_env **env, char *key, char *new_value)
 		{
 			free(new_env->value);
 			new_env->value = ft_strdup(new_value);
-			return ;
+			if (!new_env->value)
+			{
+				perror("Minishell");
+				return (0);
+			}
+			return (1);
 		}
 		new_env = new_env->next;
 	}
+	return (1);
 }
 
 t_env	*init_env(char **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 16:10:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 14:57:51 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	delete_quote(char **str)
 
 	res = malloc(sizeof(char) * (ft_strlen(*str) - 1));
 	if (!res)
+	{
+		perror("Minishell");
 		return (-1);
+	}
 	i = 0;
 	quote = 0;
 	j = 0;
@@ -88,6 +91,11 @@ char	*realloc_token(char *str, int start, int len_var, char *value)
 
 	len = ft_strlen(str) + (ft_strlen(value) - len_var);
 	new_str = malloc(sizeof(char) * (len + (len == 1)));
+	if (!new_str)
+	{
+		perror("Minishell");
+		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	k = 0;
@@ -118,7 +126,18 @@ char	*search_variable(char *str, t_env *env)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i++] == '$')
+		if (str[i] == '$' && str[i + 1] == '?')
+		{
+			tmp = ft_itoa(env->status);
+			if (!tmp)
+				return (NULL);
+			str = realloc_token(str, i + 1, 2, tmp);
+			free(tmp);
+			if (!str)
+				return (NULL);
+			i += 2;
+		}
+		else if (str[i++] == '$')
 		{
 			j = i;
 			if (!ft_isalpha(str[i]) && str[i] != '_')
@@ -131,12 +150,15 @@ char	*search_variable(char *str, t_env *env)
 			tmp = search_value(sub_str, env);
 			free(sub_str);
 			str = realloc_token(str, j, i - j, tmp);
+			free(tmp);
+			if (!str)
+				return (NULL);
 		}
 	}
 	return (str);
 }
 
-void	expander(t_token *token, t_env *env)
+int	expander(t_token *token, t_env *env)
 {
 	int	status;
 	int	i;
@@ -146,8 +168,11 @@ void	expander(t_token *token, t_env *env)
 	while (token)
 	{
 		status = single_or_double_q(&token->token);
+		if (status == -1)
+			return (0);
 		if (status)
 			token->token = search_variable(token->token, env);
 		token = token->next;
 	}
+	return (1);
 }

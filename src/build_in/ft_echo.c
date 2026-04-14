@@ -6,13 +6,13 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 11:36:52 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 11:48:36 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_flags(char *str)
+int	check_option(char *str)
 {
 	int	i;
 
@@ -28,14 +28,14 @@ int	check_flags(char *str)
 	return (1);
 }
 
-void	ft_echo_with_flags(t_ast *ast)
+void	ft_echo_with_option(t_ast *ast)
 {
 	int	i;
 
 	i = 2;
 		while (ast->token[i])
 		{
-			if (check_flags(ast->token[i]) == 1)
+			if (check_option(ast->token[i]) == 1)
 				break;
 			i++;
 		}
@@ -48,7 +48,7 @@ void	ft_echo_with_flags(t_ast *ast)
 		}
 }
 
-void	ft_echo_without_flags(t_ast *ast)
+void	ft_echo_without_option(t_ast *ast)
 {
 	int	i;
 
@@ -65,8 +65,8 @@ void	ft_echo_without_flags(t_ast *ast)
 
 void	ft_echo(t_ast *ast)
 {
-	if (check_flags(ast->token[1]) == 0)
-		ft_echo_with_flags(ast);
+	if (check_option(ast->token[1]) == 0)
+		ft_echo_with_option(ast);
 	else
-		ft_echo_without_flags(ast);
+		ft_echo_without_option(ast);
 }

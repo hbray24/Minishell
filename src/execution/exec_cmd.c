@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/13 19:20:39 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:48:06 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ char	**linked_list_to_double_array(t_env **envp)
 	}
 	build_env = ft_calloc(i + 1, sizeof(char *));
 	if (!build_env)
+	{
+		perror("Minishell");
 		return (NULL);
+	}
 	start = *envp;
 	i = 0;
 	while (start)
@@ -47,6 +50,7 @@ char	**linked_list_to_double_array(t_env **envp)
 			tmp = ft_strjoin(start->key, "=");
 			if (!tmp)
 			{
+				perror("Minishell");
 				free_array(build_env);
 				return (NULL);
 			}
@@ -54,6 +58,7 @@ char	**linked_list_to_double_array(t_env **envp)
 			free(tmp);
 			if (!build_env[i++])
 			{
+				perror("Minishell");
 				free_array(build_env);
 				return (NULL);
 			}
@@ -64,15 +69,53 @@ char	**linked_list_to_double_array(t_env **envp)
 	return (build_env);
 }
 
+int	exec_build_in(t_ast *ast, t_env **env)
+{
+	int	status;
+
+	status = 0;
+	if (!ft_strcmp(*ast->token, "cd"))
+		status |= ft_cd(ast, *env);
+	else if (!ft_strcmp(*ast->token, "pwd"))
+		status |= ft_pwd();
+	else if (!ft_strcmp(*ast->token, "env"))
+		ft_env(env);
+	else if (!ft_strcmp(*ast->token, "export"))
+		ft_export(ast, env);
+	else if (!ft_strcmp(*ast->token, "unset"))
+		ft_unset(ast, env);
+	else if (!ft_strcmp(*ast->token, "echo"))
+		ft_echo(ast);
+	else if (!ft_strcmp(*ast->token, "exit"))
+		status |= ft_exit(ast, *env);
+	else
+		return(-1);
+	return (status);
+}
+
 int	execve_cmd(t_ast *ast, t_env **env)
 {
 	char	*path;
 
 	if (ast->fd[1] != -1)
-		dup2(ast->fd[1], 1);
+	{
+		if (dup2(ast->fd[1], 1) == -1)
+		{
+			perror("Minishell");
+			exit (1);
+		}
+	}
 	if (ast->fd[0] != -1)
-		dup2(ast->fd[0], 0);
+	{
+		if (dup2(ast->fd[0], 0) == -1)
+		{
+			perror("Minishell");
+			exit (1);
+		}
+	}
 	(*env)->env = linked_list_to_double_array(env);
+	if (!(*env)->env)
+		exit (1);
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)
 	{

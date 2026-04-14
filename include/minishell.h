@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/13 20:00:49 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:56:05 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef enum s_type
 	SINGLE_Q,
 	DOUBLE_Q,
 	EXEC,
+	RIGHT,
+	LEFT,
 }					t_type;
 
 typedef struct s_ast
@@ -72,19 +74,10 @@ typedef struct s_env
 	char			**env;
 	char			*key;
 	char			*value;
+	int				status;
 	struct s_env	*next;
 	struct s_env	*pre;
 }					t_env;
-
-typedef struct s_pipe
-{
-	pid_t			pid;
-	int				(*pipes)[2];
-	int				nb_pipe;
-	int				good_pipe;
-	int				err;
-	int				lap;
-}					t_pipe;
 
 t_token				*malloc_struct(void);
 t_token				*last_token(t_token **token);
@@ -98,10 +91,8 @@ char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
 char				*get_key(char *str);
 char				*find_cmd_path(char *cmd, char **envp);
-void				expander(t_token *token, t_env *env);
 void				clear_token(t_token **token);
 void				free_array(char **str);
-void				uptade_env(t_env **env, char *key, char *new_value);
 void				clear_env(t_env **env);
 void				clear_ast(t_ast **ast);
 void				ft_env(t_env **env);
@@ -109,7 +100,8 @@ void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
-void				malloc_pipe(t_ast *ast);
+int					expander(t_token *token, t_env *env);
+int					uptade_env(t_env **env, char *key, char *new_value);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token);
 int					skip_w_quote(char *str, int i);
@@ -121,7 +113,7 @@ int					add_node_env(t_env **env, char *key, char *value);
 int					is_valid(char *str);
 int					ft_exit(t_ast *ast, t_env *env);
 int					execve_cmd(t_ast *ast, t_env **env);
+int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
-
 
 #endif

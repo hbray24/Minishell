@@ -3,30 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/13 20:06:52 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:27:46 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	parse(t_token **token, t_env **env)
+void	parse(t_token **token, t_env **env)
 {
 	t_ast	*ast;
-	t_token	*token_tmp;
 	int		status;
 
-	expander(*token, *env);
-	token_tmp = last_token(token);
-	ast = parsing(token_tmp);
-	clear_token(token);
+	if (!expander(*token, *env))
+	{
+		ast->status = 1;
+		return ;
+	}
+	ast = parsing(last_token(token));
+	if (!ast)
+	{
+		ast->status = 1;
+		return ;
+	}
 	status = exec_ast(ast, env, 0);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	clear_ast(&ast);
-	return (status);
+	(*env)->status = status;
 }
 
 int	check_line(char *line, t_token **token, t_env **env)
@@ -40,22 +46,16 @@ int	check_line(char *line, t_token **token, t_env **env)
 	if (ft_strlen(line) == 0)
 	{
 		free(line);
-		clear_token(token);
-		return (0);
+		return (1);
 	}
 	add_history(line);
 	if (lexer(line, *token))
 	{
 		free(line);
-		clear_token(token);
-		rl_clear_history();
-		exit(1);
-	}
-	free(line);
-	if (parse(token, env))
-	{
 		return (1);
 	}
+	free(line);
+	parse(token, env);
 	clear_token(token);
 	return (0);
 }
@@ -65,20 +65,14 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*token;
 	t_env	*env;
-	// int		save_stdin;
-	// int		save_stdout;
 
 	(void)av;
 	if (ac != 1)
 		return (1);
 	env = init_env(envp);
 	token = NULL;
-	// save_stdin = dup(STDIN_FILENO);
-	// save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
-		// dup2(save_stdin, STDIN_FILENO);
-		// dup2(save_stdout, STDOUT_FILENO);
 		line = readline("minishell> ");
 		if (check_line(line, &token, &env) == 1)
 			break ;

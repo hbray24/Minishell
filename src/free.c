@@ -6,12 +6,18 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/08 14:33:03 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 11:17:24 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	free_all(t_token ** token, t_env **env, t_ast ** ast)
+{
+	clear_token(token);
+	clear_ast(ast);
+	clear_env(env);
+}
 void	free_array(char **str)
 {
 	int	i;

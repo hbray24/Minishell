@@ -3,60 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils_linked_lst.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/02 18:17:48 by asauvage         ###   ########.fr       */
+/*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
+/*   Updated: 2026/04/14 14:58:58 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*first_token(t_token *token)
+t_ast	*new_ast_node(void)
 {
-	if (!token)
-		return (NULL);
-	while (token->pre)
-		token = token->pre;
-	return (token);
-}
+	t_ast	*new;
 
-t_token	*last_token(t_token **token)
-{
-	t_token	*tmp;
-
-	tmp = *token;
-	if (!token)
-		return (NULL);
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-t_env	*last_env(t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	if (!env)
-		return (NULL);
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-int	add_node(t_token *token, char *str, int type)
-{
-	if (token->token)
+	new = malloc(sizeof(t_ast));
+	if (!new)
 	{
-		if (!create_token(token))
-			return (1);
+		perror("Minishell");
+		return (NULL);
 	}
-	token = last_token(&token);
-	token->token = ft_strdup(str);
-	token->type = type;
-	token->next = NULL;
-	return (0);
+	ft_memset(new, 0, sizeof(t_ast));
+	new->fd[0] = -1;
+	new->fd[1] = -1;
+	return (new);
 }
 
 int	add_node_env(t_env **env, char *key, char *value)
@@ -66,7 +35,10 @@ int	add_node_env(t_env **env, char *key, char *value)
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
+	{
+		perror("Minishell");
 		return (1);
+	}
 	new_node->key = key;
 	new_node->value = value;
 	new_node->next = NULL;
@@ -82,4 +54,16 @@ int	add_node_env(t_env **env, char *key, char *value)
 	tmp->next = new_node;
 	new_node->pre = tmp;
 	return (0);
+}
+
+t_env	*last_env(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	if (!env)
+		return (NULL);
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }

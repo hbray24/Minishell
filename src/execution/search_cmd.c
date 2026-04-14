@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/08 14:14:58 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 15:53:01 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ char	*strcat_path_cmd(char *dst, char *src)
 	len = ft_strlen(dst) + ft_strlen(src) + 2;
 	res = malloc(sizeof(char) * (len));
 	if (!res)
+	{
+		perror("Minishell");
 		return (0);
+	}
 	i = 0;
 	while (src[i])
 	{
@@ -52,6 +55,11 @@ char	**find_env(char **envp)
 			break ;
 		}
 	}
+	if (!path)
+	{
+		perror("Minishell");
+		return (NULL);
+	}
 	return (path);
 }
 
@@ -62,16 +70,25 @@ char	*find_cmd_path(char *cmd, char **envp)
 	char	**path;
 
 	if (!access(cmd, X_OK))
-		return (ft_strdup(cmd));
+	{
+		tmp = ft_strdup(cmd);
+		if (!tmp)
+		{
+			perror("Minishell");
+			exit (1);
+		}
+	}
 	i = -1;
 	path = find_env(envp);
 	if (!path)
-		return (NULL);
+		exit (1);
 	tmp = cmd;
 	i = -1;
 	while (path[++i])
 	{
 		tmp = strcat_path_cmd(cmd, path[i]);
+		if (!tmp)
+			exit (1);
 		if (!access(tmp, X_OK))
 		{
 			free_array(path);

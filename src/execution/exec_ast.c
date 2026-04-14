@@ -3,39 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/13 20:06:57 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:43:48 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <minishell.h>
-
-int	exec_build_in(t_ast *ast, t_env **env)
-{
-	int	status;
-
-	status = 0;
-	if (!ft_strcmp(*ast->token, "cd"))
-		status |= ft_cd(ast, *env);
-	else if (!ft_strcmp(*ast->token, "pwd"))
-		status |= ft_pwd();
-	else if (!ft_strcmp(*ast->token, "env"))
-		ft_env(env);
-	else if (!ft_strcmp(*ast->token, "export"))
-		ft_export(ast, env);
-	else if (!ft_strcmp(*ast->token, "unset"))
-		ft_unset(ast, env);
-	else if (!ft_strcmp(*ast->token, "echo"))
-		ft_echo(ast);
-	else if (!ft_strcmp(*ast->token, "exit"))
-		status |= ft_exit(ast, *env);
-	else
-		return(-1);
-	return (status);
-}
 
 int	check_fd(t_ast *ast)
 {
@@ -66,6 +42,49 @@ int	check_fd(t_ast *ast)
 	return (1);
 }
 
+void	close_pipe(int fd_pipe[2])
+{
+	if (close(fd_pipe[0]) == -1)
+	{
+		perror("Minishell");
+		if (close(fd_pipe[1]) == -1)
+			perror("Minishell");
+		exit (1);
+	}
+	if (close(fd_pipe[1]) == -1)
+	{
+		perror("Minishell");
+		exit (1);
+	}
+}
+
+int	dup2_child(t_ast *ast, t_env ** env, int fd_pipe[2], int direction)
+{
+	if (direction == LEFT)
+	{
+		if(dup2(fd_pipe[1], 1) == -1)
+		{
+			perror("dup2");
+			exit (1);
+		}
+		close_pipe(fd_pipe);
+		exec_ast(ast->l_child, env, 1);
+		exit (1);
+	}
+	else
+	{
+		if(dup2(fd_pipe[0], 0) == -1)
+		{
+			perror("dup2");
+			exit (1);
+		}
+		close_pipe(fd_pipe);
+		exec_ast(ast->r_child, env, 1);
+		exit (1);
+	}
+	exit (1);
+}
+
 int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 {
 	int		status;
@@ -78,27 +97,18 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		return (0);
 	else if (ast->type == PIPE)
 	{
-		pipe(fd_pipe);
+		if (pipe(fd_pipe) == -1)
+		{
+			perror("Minishell");
+			return (1);
+		}
 		pid_left = fork();
 		if (pid_left == 0)
-		{
-			dup2(fd_pipe[1], 1);
-			close(fd_pipe[0]);
-			close(fd_pipe[1]);
-			exec_ast(ast->l_child, env, 1);
-			exit (1);
-		}
+			dup2_child(ast, env, fd_pipe, LEFT);
 		pid_right = fork();
 		if (pid_right == 0)
-		{
-			dup2(fd_pipe[0], 0);
-			close(fd_pipe[0]);
-			close(fd_pipe[1]);
-			exec_ast(ast->r_child, env, 1);
-			exit (1);
-		}
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
+			dup2_child(ast, env, fd_pipe, RIGHT);
+		close_pipe(fd_pipe);
 		waitpid(pid_left, &status, 0);
 		waitpid(pid_right, &status, 0);
 		return (status);
@@ -114,6 +124,7 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
+		return (1);
 	}
 	if (ast->type == EXEC && create_fork)
 	{
