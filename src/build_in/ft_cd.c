@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 14:25:20 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 16:12:59 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,24 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 
 int	ft_cd_previous(t_env *env, char *old_path)
 {
-	uptade_env(&env, "PWD", search_value("OLDPWD", env));
+	if (!uptade_env(&env, "PWD", search_value("OLDPWD", env)))
+		return (1);
 	if (chdir(search_value("OLDPWD", env)) == -1)
 	{
 		perror("hbray: cd");
 		free(old_path);
 		return (1);
 	}
-	ft_pwd();
-	return (0);
+	return (ft_pwd());
 }
 
 int	ft_cd_home(t_env *env, char *old_path)
 {
-	uptade_env(&env, "PWD", search_value("HOME", env));
+	if (!uptade_env(&env, "PWD", search_value("HOME", env)))
+		return (1);
 	if (chdir(search_value("HOME", env)) == -1)
 	{
-		perror("hbray: cd");
+		perror("Minishell");
 		free(old_path);
 		return (1);
 	}
@@ -105,15 +106,19 @@ int	ft_cd(t_ast *ast, t_env *env)
 	{
 		env_pwd = search_value("PWD", env);
 		if (env_pwd)
+		{
 			old_path = ft_strdup(env_pwd);
+			if (!old_path)
+			{
+				perror("Minishell");
+				return (1);
+			}
+		}
 		else
 			return (1);
 	}
 	if (ast->token[1] == NULL)
-	{
-		ft_cd_home(env, old_path);
-		return (0);
-	}
+		return (ft_cd_home(env, old_path));
 	if (ft_strcmp(ast->token[1], "-") == 0)
 		return (ft_cd_previous(env, old_path));
 	return (ft_cd_basic(ast, env, old_path));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/14 15:27:46 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 16:17:26 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parse(t_token **token, t_env **env)
 
 	if (!expander(*token, *env))
 	{
-		ast->status = 1;
+		status = 1;
 		return ;
 	}
 	ast = parsing(last_token(token));

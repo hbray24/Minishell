@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/09 11:51:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/14 16:15:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_exit(t_ast *ast, t_env *env)
 	{
 		if (ast->token[2])
 		{
-			write(2, "Hbray: exit: too many arguments\n", 33);
+			write(2, "Minishell: exit: too many arguments\n", 37);
 			return (0);
 		}
 		status = atollong(ast->token[1]) % 256;
