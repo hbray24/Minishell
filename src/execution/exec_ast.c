@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 10:08:06 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 19:54:03 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,11 @@ int	check_fd(t_ast *ast)
 			// ast->fd[0] = 
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 		{
-			perror("hbray:");
+			perror("Minishell");
 			return (0);
 		}
 		i++;
 	}
-	if (!ast->fd[0])
-		ast->fd[0] = -1;
-	if (!ast->fd[1])
-		ast->fd[1] = -1;
 	return (1);
 }
 
@@ -85,6 +81,31 @@ int	dup2_child(t_ast *ast, t_env ** env, int fd_pipe[2], int direction)
 	exit (1);
 }
 
+int	dup_fd(t_ast *ast)
+{
+	if (!check_fd(ast))
+		return (0);
+	if (ast->fd[1] > -1)
+	{
+		if (dup2(ast->fd[1], 1) == -1)
+		{
+			perror("Minishell");
+			return (0);
+		}
+		close(ast->fd[1]);
+	}
+	if (ast->fd[0] > -1)
+	{
+		if (dup2(ast->fd[0], 0) == -1)
+		{
+			perror("Minishell");
+			return (0);
+		}
+		close(ast->fd[0]);
+	}
+	return (1);
+}
+
 int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 {
 	int		status;
@@ -92,6 +113,7 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 	pid_t	pid_right;
 	pid_t	pid_left;
 	pid_t	pid;
+	int		origin_stdout_in[2];
 
 	if (!ast)
 		return (0);
@@ -115,12 +137,31 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 	}
 	if (ast->type == EXEC && !create_fork)
 	{
+		origin_stdout_in[0] = dup(0);
+		origin_stdout_in[1] = dup(1);
+		if (!dup_fd(ast))
+			return (1);
 		status = exec_build_in(ast, env);
+		close_fd(ast);
 		if (status != -1)
+		{
+			dup2(origin_stdout_in[0], 0);
+			dup2(origin_stdout_in[1], 1);
+			close(origin_stdout_in[0]);
+			close(origin_stdout_in[1]);
 			return (status);
+		}
 		pid = fork();
 		if (pid == 0)
+		{
+			if (!dup_fd(ast))
+				exit (1);
 			execve_cmd(ast, env);
+		}
+		dup2(origin_stdout_in[0], 0);
+		dup2(origin_stdout_in[1], 1);
+		close(origin_stdout_in[0]);
+		close(origin_stdout_in[1]);
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
@@ -128,7 +169,8 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 	}
 	if (ast->type == EXEC && create_fork)
 	{
-		check_fd(ast);
+		if (!dup_fd(ast))
+			return (1);
 		if (exec_build_in(ast, env) != -1)
 			exit (0);
 		execve_cmd(ast, env);

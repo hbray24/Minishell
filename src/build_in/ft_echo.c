@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 11:48:36 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 19:04:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	ft_echo_with_option(t_ast *ast)
 		}
 		while (ast->token[i])
 		{
-			printf("%s", ast->token[i]);
+			ft_putstr_fd(ast->token[i], 1);
 			if (ast->token[i + 1] != NULL)
-				printf(" ");
+				ft_putstr_fd(" ", 1);
 			i++;
 		}
 }
@@ -55,12 +55,12 @@ void	ft_echo_without_option(t_ast *ast)
 	i = 1;
 	while (ast->token[i])
 	{
-		printf("%s", ast->token[i]);
+		ft_putstr_fd(ast->token[i], 1);
 		if (ast->token[i + 1] != NULL)
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 }
 
 void	ft_echo(t_ast *ast)

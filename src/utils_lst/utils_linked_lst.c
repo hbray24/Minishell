@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_linked_lst.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 14:58:58 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 18:22:27 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_ast	*new_ast_node(void)
 		return (NULL);
 	}
 	ft_memset(new, 0, sizeof(t_ast));
-	new->fd[0] = -1;
-	new->fd[1] = -1;
+	new->fd[0] = -2;
+	new->fd[1] = -2;
 	return (new);
 }
 

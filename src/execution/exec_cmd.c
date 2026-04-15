@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 10:12:00 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 19:50:58 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,6 @@ int	execve_cmd(t_ast *ast, t_env **env)
 {
 	char	*path;
 
-	if (ast->fd[1] != -1)
-	{
-		if (dup2(ast->fd[1], 1) == -1)
-		{
-			perror("Minishell");
-			exit (1);
-		}
-	}
-	if (ast->fd[0] != -1)
-	{
-		if (dup2(ast->fd[0], 0) == -1)
-		{
-			perror("Minishell");
-			exit (1);
-		}
-	}
 	(*env)->env = linked_list_to_double_array(env);
 	if (!(*env)->env)
 		exit (1);
