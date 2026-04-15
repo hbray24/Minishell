@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 15:48:06 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 10:12:00 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exec_build_in(t_ast *ast, t_env **env)
 	else if (!ft_strcmp(*ast->token, "pwd"))
 		status |= ft_pwd();
 	else if (!ft_strcmp(*ast->token, "env"))
-		ft_env(env);
+		ft_env(ast, env);
 	else if (!ft_strcmp(*ast->token, "export"))
 		ft_export(ast, env);
 	else if (!ft_strcmp(*ast->token, "unset"))

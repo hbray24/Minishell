@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_linked_lst.c                                 :+:      :+:    :+:   */
+/*   lst_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/14 09:28:00 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/15 10:29:41 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/// @brief create struct t_token
-/// @param  
-/// @return first node struct
 
 t_token	*malloc_struct(void)
 {
