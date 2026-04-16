@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/16 16:11:43 by asauvage         ###   ########.fr       */
-=======
-/*   Updated: 2026/04/16 15:51:08 by hbray            ###   ########.fr       */
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
+/*   Updated: 2026/04/16 16:56:16 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,16 +166,13 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid = fork();
 		if (pid == 0)
 		{
-<<<<<<< HEAD
 			// if (!dup_fd(ast))
 			// 	exit (1);
-=======
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
 			gestion_term(1, 0);
 			if (!dup_fd(ast))
 				exit (1);
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
 			execve_cmd(ast, env);
 		}
 		close_fd(ast);
