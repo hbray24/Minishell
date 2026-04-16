@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 19:50:58 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:17:02 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exec_build_in(t_ast *ast, t_env **env)
 	else if (!ft_strcmp(*ast->token, "pwd"))
 		status |= ft_pwd();
 	else if (!ft_strcmp(*ast->token, "env"))
-		ft_env(ast, env);
+		status |= ft_env(ast, env);
 	else if (!ft_strcmp(*ast->token, "export"))
 		ft_export(ast, env);
 	else if (!ft_strcmp(*ast->token, "unset"))
@@ -106,6 +106,7 @@ int	execve_cmd(t_ast *ast, t_env **env)
 		write(2, "hbray: Cmd not found\n", 21);
 		exit(127);
 	}
+	gestion_term(0, 0);
 	execve(path, ast->token, (*env)->env);
 	exit (126);
 }

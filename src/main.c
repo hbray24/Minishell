@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/15 16:53:45 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 16:05:05 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,12 @@ int	g_signal_status;
 
 void	manages_signal(int sig)
 {
+	gestion_term(0, sig);
 	if (sig == SIGINT)
 	{
 		printf("\n");
 		g_signal_status = 130;
 		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	if (sig == SIGQUIT)
- 	{
-		printf("\n");
-		rl_on_new_line();
-		g_signal_status = 131;
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
@@ -82,18 +75,41 @@ int	check_line(char *line, t_token **token, t_env **env)
 	return (0);
 }
 
-void	masque_caractere(void)
+void	gestion_term(int reset, int sig)
 {
 	struct termios	term;
+	struct termios	back_up;
+	static int	back;
 
-	if (tcgetattr(STDIN_FILENO,&term) == -1)
+	if (sig)
 	{
-		perror("tcgettattr");
-		return;
+		if(back == 0)
+		{
+			if (tcgetattr(STDIN_FILENO,&back_up) == -1)
+			{
+				perror("tcgettattr");
+				return;
+			}
+			if (sig == SIGQUIT) 
+				back = 1;
+		}
+		if (reset == 1)
+		{
+			if (tcsetattr(STDIN_FILENO,TCSANOW, &back_up) == -1)
+			{
+				perror("tcsetattr");
+				return;
+			}
+
+		}
+		else
+		{
+			term = back_up;
+			term.c_cc[VQUIT] = _POSIX_VDISABLE;
+			if(tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
+				perror("tcsetattr");
+		}
 	}
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	if(tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
-		perror("tcsetattr");
 }
 
 int	main(int ac, char **av, char **envp)
@@ -117,14 +133,12 @@ int	main(int ac, char **av, char **envp)
 	token = NULL;
 	while (1)
 	{
-		// if (!g_signal_status)
-		// {
-		// 	env->status = g_signal_status;
-		// 	g_signal_status = 0;
-		// }
 		line = readline("minishell> ");
-		masque_caractere();
-
+		if (g_signal_status)
+		{
+			env->status = g_signal_status;
+			g_signal_status = 0;
+		}
 		if (check_line(line, &token, &env) == 1)
 			break ;
 	}

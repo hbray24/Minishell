@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 10:09:38 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 14:20:28 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,7 @@ char	*search_variable(char *str, t_env *env)
 int	expander(t_token *token, t_env *env)
 {
 	int	status;
-	int	i;
 
-	i = 0;
 	status = 1;
 	while (token)
 	{
