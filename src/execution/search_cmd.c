@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 15:53:01 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 16:38:07 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*find_cmd_path(char *cmd, char **envp)
 			perror("Minishell");
 			exit (1);
 		}
+		return (tmp);
 	}
 	i = -1;
 	path = find_env(envp);

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/15 10:14:38 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 16:15:51 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/ioctl.h>
@@ -101,7 +101,8 @@ void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
-void				init_signal(void);
+void				gestion_term(int reset, int sig);
+void				manages_signal(int sig);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);

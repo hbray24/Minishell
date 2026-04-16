@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 19:54:03 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:51:08 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,20 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		}
 		pid_left = fork();
 		if (pid_left == 0)
+		{
+			gestion_term(1, 0);
+			signal(SIGQUIT,SIG_DFL);
+			signal(SIGINT,SIG_DFL);
 			dup2_child(ast, env, fd_pipe, LEFT);
+		}
 		pid_right = fork();
 		if (pid_right == 0)
+		{
+			gestion_term(1,0);
+			signal(SIGQUIT,SIG_DFL);
+			signal(SIGINT,SIG_DFL);
 			dup2_child(ast, env, fd_pipe, RIGHT);
+		}
 		close_pipe(fd_pipe);
 		waitpid(pid_left, &status, 0);
 		waitpid(pid_right, &status, 0);
@@ -154,6 +164,9 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGQUIT,SIG_DFL);
+			signal(SIGINT,SIG_DFL);
+			gestion_term(1, 0);
 			if (!dup_fd(ast))
 				exit (1);
 			execve_cmd(ast, env);
