@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 19:54:03 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:11:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,27 @@
 int	check_fd(t_ast *ast)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
-	while (ast->files && ast->files[i])
+	while ((ast->limiter && ast->limiter[j]) || (ast->files && ast->files[i]))
 	{
 		if (ast->redir[i] == REDIR_OUT)
 			ast->fd[1] = open(ast->files[i], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (ast->redir[i] == REDIR_ADD)
+		if (ast->redir[i] == REDIR_ADD)
 			ast->fd[1] = open(ast->files[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else if (ast->redir[i] == REDIR_IN)
+		if (ast->redir[i] == REDIR_IN)
 			ast->fd[0] = open(ast->files[i], O_RDONLY);
-		// else if (ast->redir[i] == HERE_DOC) c'est pour le here_doc pas sur de savoir si je fais avec un file ou un pipe
-			// ast->fd[0] = 
+		if (ast->redir[i] == HERE_DOC)
+			ast->fd[0] = here_doc(ast->limiter);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 		{
 			perror("Minishell");
 			return (0);
 		}
 		i++;
+		j++;
 	}
 	return (1);
 }
@@ -142,7 +145,6 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		if (!dup_fd(ast))
 			return (1);
 		status = exec_build_in(ast, env);
-		close_fd(ast);
 		if (status != -1)
 		{
 			dup2(origin_stdout_in[0], 0);
@@ -154,10 +156,11 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (!dup_fd(ast))
-				exit (1);
+			// if (!dup_fd(ast))
+			// 	exit (1);
 			execve_cmd(ast, env);
 		}
+		close_fd(ast);
 		dup2(origin_stdout_in[0], 0);
 		dup2(origin_stdout_in[1], 1);
 		close(origin_stdout_in[0]);

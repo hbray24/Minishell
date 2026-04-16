@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
+#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/15 09:54:41 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/16 14:08:54 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
+CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -g3 -I include/
 
@@ -33,6 +33,7 @@ SRCS = src/build_in/ft_cd.c \
 	   src/build_in/ft_unset.c \
 	   src/execution/exec_ast.c \
 	   src/execution/exec_cmd.c \
+	   src/execution/here_doc.c \
 	   src/execution/search_cmd.c \
 	   src/expander/expander.c \
 	   src/parsing/ast.c \

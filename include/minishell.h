@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/15 10:14:38 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 14:06:36 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/ioctl.h>
@@ -102,6 +102,7 @@ void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
 void				init_signal(void);
+long long			atollong(char *str);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);
@@ -118,5 +119,6 @@ int					ft_exit(t_ast *ast, t_env *env);
 int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
+int					here_doc(char **limiter);
 
 #endif
