@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 08:54:02 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/16 09:05:07 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_option(char *str)
 		while (str[i] == 'n')
 			i++;
 		if (str[i] == '\0')
-			return(0);
+			return (0);
 	}
 	return (1);
 }
@@ -35,19 +35,19 @@ void	ft_echo_with_option(t_ast *ast)
 	int	i;
 
 	i = 2;
-		while (ast->token[i])
-		{
-			if (check_option(ast->token[i]) == 1)
-				break;
-			i++;
-		}
-		while (ast->token[i])
-		{
-			ft_putstr_fd(ast->token[i], 1);
-			if (ast->token[i + 1] != NULL)
-				ft_putstr_fd(" ", 1);
-			i++;
-		}
+	while (ast->token[i])
+	{
+		if (check_option(ast->token[i]) == 1)
+			break ;
+		i++;
+	}
+	while (ast->token[i])
+	{
+		ft_putstr_fd(ast->token[i], 1);
+		if (ast->token[i + 1] != NULL)
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
 }
 
 void	ft_echo_without_option(t_ast *ast)
