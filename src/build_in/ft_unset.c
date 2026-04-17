@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 15:02:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 15:52:57 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/17 16:09:39 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	delete_node(t_env **env, t_env *tmp)
 {
-	t_env *tmp2;
+	t_env	*tmp2;
 
 	free(tmp->key);
 	free(tmp->value);

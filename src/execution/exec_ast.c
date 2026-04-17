@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 16:56:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:57:14 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid_left = fork();
 		if (pid_left == 0)
 		{
-			gestion_term(1, 0);
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
 			dup2_child(ast, env, fd_pipe, LEFT);
@@ -138,7 +137,6 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid_right = fork();
 		if (pid_right == 0)
 		{
-			gestion_term(1,0);
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
 			dup2_child(ast, env, fd_pipe, RIGHT);
@@ -170,7 +168,6 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 			// 	exit (1);
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
-			gestion_term(1, 0);
 			if (!dup_fd(ast))
 				exit (1);
 			execve_cmd(ast, env);
@@ -181,6 +178,14 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		close(origin_stdout_in[0]);
 		close(origin_stdout_in[1]);
 		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				printf("\n");
+			else if (WTERMSIG(status) == SIGQUIT)
+				printf("Quit (core dumped)\n");
+			return(128 + WTERMSIG (status));
+		}
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
 		return (1);

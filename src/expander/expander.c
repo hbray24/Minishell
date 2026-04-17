@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 16:56:31 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:43:55 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*search_value(char *key, t_env *env)
-{
-	while (env)
-	{
-		if (!ft_strcmp(env->key, key))
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-char	*search_key(char *key, t_env *env)
-{
-	while (env)
-	{
-		if (!ft_strcmp(env->key, key))
-			return(env->key);
-		env = env->next;
-	}
-	return(NULL);
-}
 
 int	delete_quote(char **str)
 {

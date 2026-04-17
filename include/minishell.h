@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/16 14:06:36 by asauvage         ###   ########.fr       */
-=======
-/*   Updated: 2026/04/16 16:15:51 by hbray            ###   ########.fr       */
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
+/*   Updated: 2026/04/17 16:39:35 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +81,8 @@ typedef struct s_env
 	struct s_env	*pre;
 }					t_env;
 
+extern int	g_signal_status;
+
 t_token				*malloc_struct(void);
 t_token				*last_token(t_token **token);
 t_token				*first_token(t_token *token);
@@ -97,6 +95,11 @@ char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
 char				*get_key(char *str);
 char				*find_cmd_path(char *cmd, char **envp);
+char				*search_old_path(t_env *env);
+char				*search_new_path(t_ast *ast, char *old_path);
+char				*search_value(char *key, t_env *env);
+char				*search_key(char *key, t_env *env);
+char				*reuturn_value(char *str, t_env *env, char *tmp, int	*i);
 void				clear_token(t_token **token);
 void				free_array(char **str);
 void				clear_env(t_env **env);
@@ -105,13 +108,13 @@ void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
-<<<<<<< HEAD
-void				init_signal(void);
-long long			atollong(char *str);
-=======
-void				gestion_term(int reset, int sig);
+void				gestion_term(int action);
 void				manages_signal(int sig);
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
+void				manages_signal(int sig);
+void				init_signal(void);
+void				ignore_signal(void);
+void				restore_signal(void);
+long long			atollong(char *str);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);

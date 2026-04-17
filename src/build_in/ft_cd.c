@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 16:12:59 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:27:17 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,7 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 		free(old_path);
 		return (1);
 	}
-	new_path = getcwd(NULL, 0);
-	if (!new_path)
-	{
-		perror("cd :");
-		tmp_path = ft_strjoin(old_path, "/");
-		new_path = ft_strjoin(tmp_path, ast->token[1]);
-		free(tmp_path);
-	}
+	new_path = search_new_path(ast, old_path);
 	uptade_env(&env, "OLDPWD", old_path);
 	uptade_env(&env, "PWD", new_path);
 	free(old_path);
@@ -94,29 +87,15 @@ int	ft_cd_home(t_env *env, char *old_path)
 int	ft_cd(t_ast *ast, t_env *env)
 {
 	char	*old_path;
-	char	*env_pwd;
 
 	if (ast->token[1] && ast->token[2] != NULL)
 	{
 		write(2, "asauvage: cd: too many arguments\n", 34);
 		return (1);
 	}
-	old_path = getcwd(NULL, 0);
+	old_path = search_old_path(env);
 	if (!old_path)
-	{
-		env_pwd = search_value("PWD", env);
-		if (env_pwd)
-		{
-			old_path = ft_strdup(env_pwd);
-			if (!old_path)
-			{
-				perror("Minishell");
-				return (1);
-			}
-		}
-		else
-			return (1);
-	}
+		return (1);
 	if (ast->token[1] == NULL)
 		return (ft_cd_home(env, old_path));
 	if (ft_strcmp(ast->token[1], "-") == 0)

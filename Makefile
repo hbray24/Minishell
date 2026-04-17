@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
+#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/16 14:08:54 by asauvage         ###   ########.fr        #
+#    Updated: 2026/04/17 15:59:23 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ SRCS = src/build_in/ft_cd.c \
 	   src/parsing/lexer.c \
 	   src/parsing/split_utils.c \
 	   src/parsing/split.c \
+	   src/signal/signal.c \
+	   src/signal/signal_ctrl_backslash.c \
 	   src/utils_lst/envp.c \
 	   src/utils_lst/lst_token.c \
 	   src/utils_lst/utils_linked_lst.c \

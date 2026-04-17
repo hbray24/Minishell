@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 16:55:32 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:57:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	execve_cmd(t_ast *ast, t_env **env)
 		write(2, "hbray: Cmd not found\n", 21);
 		exit(127);
 	}
-	gestion_term(0, 0);
 	execve(path, ast->token, (*env)->env);
 	exit (126);
 }
