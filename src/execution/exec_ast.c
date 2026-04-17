@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 16:56:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 13:11:05 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,6 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
 			gestion_term(1, 0);
-			if (!dup_fd(ast))
-				exit (1);
 			execve_cmd(ast, env);
 		}
 		close_fd(ast);

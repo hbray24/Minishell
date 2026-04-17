@@ -6,11 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/16 14:06:36 by asauvage         ###   ########.fr       */
-=======
-/*   Updated: 2026/04/16 16:15:51 by hbray            ###   ########.fr       */
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
+/*   Updated: 2026/04/17 10:40:32 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +101,10 @@ void				ft_unset(t_ast *ast, t_env **env);
 void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
-<<<<<<< HEAD
 void				init_signal(void);
 long long			atollong(char *str);
-=======
 void				gestion_term(int reset, int sig);
 void				manages_signal(int sig);
->>>>>>> e61613e1ee71340f08a2491f1639418efd0b1fd6
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);
