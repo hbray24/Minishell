@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/17 16:39:35 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 09:09:54 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,10 @@ void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
 void				gestion_term(int action);
-void				manages_signal(int sig);
-void				manages_signal(int sig);
-void				init_signal(void);
 void				ignore_signal(void);
 void				restore_signal(void);
+void				init_signal(void);
+void				manages_signal(int sig);
 long long			atollong(char *str);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);

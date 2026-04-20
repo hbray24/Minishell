@@ -6,28 +6,27 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/16 15:53:07 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/17 14:26:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_file()
+int	open_file(char **tmp)
 {
 	int		nb;
 	int		fd;
-	char	*tmp;
 	char	*tmp_itoa;
 
 	fd = -1;
 	nb = 0;
 	while (fd == -1 && nb < INT_MAX)
 	{
+		free(*tmp);
 		tmp_itoa = ft_itoa(nb);
-		tmp = ft_strjoin("/tmp/tmp_file_here_doc", tmp_itoa);
+		*tmp = ft_strjoin("/tmp/tmp_file_here_doc", tmp_itoa);
 		free(tmp_itoa);
-		fd = open(tmp, O_CREAT | O_EXCL | O_WRONLY, 0222);
-		free(tmp);
+		fd = open(*tmp, O_CREAT | O_EXCL | O_RDWR, 0777);
 		nb++;
 	}
 	if (fd == -1)
@@ -41,32 +40,42 @@ int	open_file()
 int	here_doc(char **limiter)
 {
 	int		i;
-	int		open;
+	int		open_fd;
 	char	*line;
+	char	*tmp;
 
+	tmp = NULL;
 	i = 0;
-	open = open_file();
-	if (open == -1)
-		return (open);
+	open_fd = open_file(&tmp);
+	if (open_fd == -1)
+		return (open_fd);
 	while (limiter && limiter[i])
 	{
-		line = readline(">");
+		write(1, "> ", 2);
+		line = get_next_line(0);
 		if (!line)
 		{
 			perror("Minishell");
-			return (open);
+			return (open_fd);
 		}
+		line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strcmp(line, limiter[i]))
 		{
 			free(line);
 			if (!limiter[++i])
-				return (open);
+			{
+				close (open_fd);
+				open_fd = open(tmp, O_RDWR, 0777);
+				break ;
+			}
 			else
 				continue;
 		}
-		add_history(line);
-		write(open, line, ft_strlen(line));
+		line[ft_strlen(line) - 1] = '\n';
+		write(open_fd, line, ft_strlen(line));
 		free(line);
 	}
-	return (open);
+	unlink(tmp);
+	free(tmp);
+	return (open_fd);
 }

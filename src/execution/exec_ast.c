@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 11:57:14 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 09:13:19 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	check_fd(t_ast *ast)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	j = 0;
 	i = 0;
@@ -164,12 +164,10 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		pid = fork();
 		if (pid == 0)
 		{
-			// if (!dup_fd(ast))
-			// 	exit (1);
+			if (!dup_fd(ast))
+			 	exit (1);
 			signal(SIGQUIT,SIG_DFL);
 			signal(SIGINT,SIG_DFL);
-			if (!dup_fd(ast))
-				exit (1);
 			execve_cmd(ast, env);
 		}
 		close_fd(ast);
