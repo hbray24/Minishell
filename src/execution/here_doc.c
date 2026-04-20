@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/17 14:26:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/20 11:51:55 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,44 +37,51 @@ int	open_file(char **tmp)
 	return (fd);
 }
 
-int	here_doc(char **limiter)
+int	read_heredoc(char **limiter, int fd)
 {
-	int		i;
-	int		open_fd;
 	char	*line;
-	char	*tmp;
+	int		len;
+	int		i;
 
-	tmp = NULL;
 	i = 0;
-	open_fd = open_file(&tmp);
-	if (open_fd == -1)
-		return (open_fd);
 	while (limiter && limiter[i])
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (!line)
-		{
-			perror("Minishell");
-			return (open_fd);
-		}
-		line[ft_strlen(line) - 1] = '\0';
+			return (-2);
+		len = ft_strlen(line) - 1;
+		line[len] = '\0';
 		if (!ft_strcmp(line, limiter[i]))
 		{
 			free(line);
 			if (!limiter[++i])
-			{
-				close (open_fd);
-				open_fd = open(tmp, O_RDWR, 0777);
 				break ;
-			}
-			else
-				continue;
+			continue ;
 		}
-		line[ft_strlen(line) - 1] = '\n';
-		write(open_fd, line, ft_strlen(line));
+		line[len] = '\n';
+		write(fd, line, len + 1);
 		free(line);
 	}
+	return (fd);
+}
+
+int	here_doc(char **limiter)
+{
+	int		open_fd;
+	char	*tmp;
+
+	tmp = NULL;
+	open_fd = open_file(&tmp);
+	if (open_fd == -1)
+		return (open_fd);
+	if (read_heredoc(limiter, open_fd) == -2)
+	{
+		perror("Minishell");
+		return (open_fd);
+	}
+	close (open_fd);
+	open_fd = open(tmp, O_RDWR, 0777);
 	unlink(tmp);
 	free(tmp);
 	return (open_fd);

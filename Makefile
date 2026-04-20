@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/17 15:59:23 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/20 16:10:50 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ LIBFT_DIR = ./libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
 LIBFT_INC = $(LIBFT_DIR)
 
-SRCS = src/build_in/ft_cd.c \
+SRCS = src/build_in/ft_cd_utils.c \
+	   src/build_in/ft_cd.c \
 	   src/build_in/ft_echo.c \
 	   src/build_in/ft_env.c \
 	   src/build_in/ft_exit.c \
@@ -31,17 +32,21 @@ SRCS = src/build_in/ft_cd.c \
 	   src/build_in/ft_export.c \
 	   src/build_in/ft_pwd.c \
 	   src/build_in/ft_unset.c \
+	   src/execution/exec_ast_utils.c \
 	   src/execution/exec_ast.c \
+	   src/execution/exec_ast2.c \
 	   src/execution/exec_cmd.c \
 	   src/execution/here_doc.c \
 	   src/execution/search_cmd.c \
+	   src/expander/expander_utils.c \
 	   src/expander/expander.c \
+	   src/parsing/ast_utils.c \
 	   src/parsing/ast.c \
 	   src/parsing/lexer.c \
 	   src/parsing/split_utils.c \
 	   src/parsing/split.c \
-	   src/signal/signal.c \
 	   src/signal/signal_ctrl_backslash.c \
+	   src/signal/signal.c \
 	   src/utils_lst/envp.c \
 	   src/utils_lst/lst_token.c \
 	   src/utils_lst/utils_linked_lst.c \

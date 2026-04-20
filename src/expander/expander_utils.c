@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:43:54 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 15:01:38 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,34 @@ char	*search_key(char *key, t_env *env)
 	while (env)
 	{
 		if (!ft_strcmp(env->key, key))
-			return(env->key);
+			return (env->key);
 		env = env->next;
 	}
-	return(NULL);
+	return (NULL);
+}
+
+int	single_or_double_q(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str && *str && (*str)[i])
+	{
+		if ((*str)[i] == '\"')
+			return (delete_quote(str));
+		else if ((*str)[i] == '\'')
+			return (delete_quote(str));
+		i++;
+	}
+	return (1);
+}
+
+char	*alloc_new_str(int len)
+{
+	char	*res;
+
+	res = malloc(sizeof(char) * (len + 1));
+	if (!res)
+		perror("Minishell");
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:27:17 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 09:16:31 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	join_to_home(t_ast *ast, t_env *env)
 int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 {
 	char	*new_path;
-	char	*tmp_path;
 
 	if (ast->token[1][0] == '~')
 	{

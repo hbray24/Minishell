@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:43:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 15:47:34 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@ int	delete_quote(char **str)
 	int		j;
 	char	quote;
 
-	res = malloc(sizeof(char) * (ft_strlen(*str) - 1));
-	if (!res)
-	{
-		perror("Minishell");
-		return (-1);
-	}
 	i = 0;
 	quote = 0;
 	j = 0;
+	res = alloc_new_str(ft_strlen(*str) - 1);
+	if (!res)
+		return (-1);
 	while ((*str)[i])
 	{
 		if (!quote && ((*str)[i] == '\'' || (*str)[i] == '\"'))
-			quote =(*str)[i++];
+			quote = (*str)[i++];
 		else if ((*str)[i] == quote)
 			i++;
 		else
@@ -43,46 +40,23 @@ int	delete_quote(char **str)
 	return ((quote == '\"'));
 }
 
-int	single_or_double_q(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str && *str && (*str)[i])
-	{
-		if ((*str)[i] == '\"')
-			return (delete_quote(str));
-		else if ((*str)[i] == '\'')
-			return (delete_quote(str));
-		i++;
-	}
-	return (1);
-}
-
 char	*realloc_token(char *str, int start, int len_var, char *value)
 {
-	int		len;
 	int		i;
-	int		j;
 	int		k;
 	char	*new_str;
 
-	len = ft_strlen(str) + (ft_strlen(value) - len_var);
-	new_str = malloc(sizeof(char) * (len + (len == 1)));
+	new_str = alloc_new_str(ft_strlen(str) + (ft_strlen(value) - len_var));
 	if (!new_str)
-	{
-		perror("Minishell");
 		return (NULL);
-	}
 	i = 0;
-	j = 0;
 	k = 0;
 	while (str[k])
 	{
 		if (k == start - 1)
 		{
-			while (value && value[j])
-				new_str[i++] = value[j++];
+			while (value && *value)
+				new_str[i++] = *value++;
 			if (!value && !ft_isalpha(str[k + 1]) && str[k + 1] != '_')
 				new_str[i++] = '$';
 			k += len_var + 1;
@@ -94,44 +68,57 @@ char	*realloc_token(char *str, int start, int len_var, char *value)
 	return (new_str);
 }
 
+char	*expand_env_var(char *str, t_env *env, int *i)
+{
+	char	*sub_str;
+	char	*tmp;
+	int		j;
+	int		val_len;
+
+	val_len = 0;
+	(*i)++;
+	j = *i;
+	if (!ft_isalpha(str[*i]) && str[*i] != '_')
+		return (str);
+	while (ft_isalnum(str[*i]) || str[*i] == '_')
+		(*i)++;
+	sub_str = ft_substr(str, j, *i - j);
+	if (!sub_str)
+		return (NULL);
+	tmp = search_value(sub_str, env);
+	free(sub_str);
+	if (tmp)
+		val_len = ft_strlen(tmp);
+	str = realloc_token(str, j, *i - j, tmp);
+	*i = (j - 1) + val_len;
+	return (str);
+}
+
 char	*search_variable(char *str, t_env *env)
 {
 	char	*tmp;
-	char	*sub_str;
 	int		i;
-	int		j;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
 			tmp = ft_itoa(env->status);
 			if (!tmp)
 				return (NULL);
-			str = realloc_token(str, i + 1, 2, tmp);
+			str = realloc_token(str, i + 1, 1, tmp);
 			free(tmp);
 			if (!str)
 				return (NULL);
 			i += 2;
 		}
-		else if (str[i++] == '$')
-		{
-			j = i;
-			if (!ft_isalpha(str[i]) && str[i] != '_')
-				continue ;
-			while (ft_isalnum(str[i]) || str[i] == '_')
-				i++;
-			sub_str = ft_substr(str, j, i - 1);
-			if (!sub_str)
-				return (NULL);
-			tmp = search_value(sub_str, env);
-			free(sub_str);
-			str = realloc_token(str, j, i - j, tmp);
-			free(tmp);
-			if (!str)
-				return (NULL);
-		}
+		else if (str[i] == '$')
+			str = expand_env_var(str, env, &i);
+		else
+			i++;
+		if (!str)
+			return (NULL);
 	}
 	return (str);
 }
