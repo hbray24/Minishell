@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/20 09:09:54 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 16:45:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,18 @@ typedef struct s_env
 	struct s_env	*pre;
 }					t_env;
 
-extern int	g_signal_status;
+extern int			g_signal_status;
 
 t_token				*malloc_struct(void);
 t_token				*last_token(t_token **token);
 t_token				*first_token(t_token *token);
+t_token				*search_pipe(t_token *tokens);
 t_env				*init_env(char **envp);
 t_env				*swap_node(t_env *env, t_env *env_cmp);
 t_ast				*parsing(t_token *token);
 t_ast				*new_ast_node(void);
+pid_t				fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2],
+						int direction);
 char				**split(char *str);
 char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
@@ -99,7 +102,7 @@ char				*search_old_path(t_env *env);
 char				*search_new_path(t_ast *ast, char *old_path);
 char				*search_value(char *key, t_env *env);
 char				*search_key(char *key, t_env *env);
-char				*reuturn_value(char *str, t_env *env, char *tmp, int	*i);
+char				*alloc_new_str(int len);
 void				clear_token(t_token **token);
 void				free_array(char **str);
 void				clear_env(t_env **env);
@@ -113,6 +116,8 @@ void				ignore_signal(void);
 void				restore_signal(void);
 void				init_signal(void);
 void				manages_signal(int sig);
+void				restore_fd(int origin_stdout_in[2]);
+void				close_pipe(int fd_pipe[2]);
 long long			atollong(char *str);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
@@ -131,5 +136,14 @@ int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
 int					here_doc(char **limiter);
+int					dup_fd(t_ast *ast);
+int					exec_no_fork(t_ast *ast, t_env **env);
+int					get_exit_status(int status);
+int					dup2_child(t_ast *ast, t_env **env, int fd_pipe[2],
+						int direction);
+int					check_fd(t_ast *ast);
+int					single_or_double_q(char **str);
+int					delete_quote(char **str);
+int					count_redir(t_token *token);
 
 #endif

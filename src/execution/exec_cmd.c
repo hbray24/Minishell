@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 09:13:41 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 11:48:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,35 @@ void	close_fd(t_ast *ast)
 		close(ast->fd[1]);
 }
 
+char	**fill_env_array(char **build_env, t_env *start)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	while (start)
+	{
+		if (start->value)
+		{
+			tmp = ft_strjoin(start->key, "=");
+			if (tmp)
+				build_env[i] = ft_strjoin(tmp, start->value);
+			free(tmp);
+			if (!tmp || !build_env[i++])
+			{
+				perror("Minishell");
+				free_array(build_env);
+				return (NULL);
+			}
+		}
+		start = start->next;
+	}
+	return (build_env);
+}
+
 char	**linked_list_to_double_array(t_env **envp)
 {
 	char	**build_env;
-	char	*tmp;
 	int		i;
 	t_env	*start;
 
@@ -43,30 +68,8 @@ char	**linked_list_to_double_array(t_env **envp)
 	}
 	start = *envp;
 	i = 0;
-	while (start)
-	{
-		if (start->value)
-		{
-			tmp = ft_strjoin(start->key, "=");
-			if (!tmp)
-			{
-				perror("Minishell");
-				free_array(build_env);
-				return (NULL);
-			}
-			build_env[i] = ft_strjoin(tmp, start->value);
-			free(tmp);
-			if (!build_env[i++])
-			{
-				perror("Minishell");
-				free_array(build_env);
-				return (NULL);
-			}
-		}
-		start = start->next;
-	}
 	build_env[i] = NULL;
-	return (build_env);
+	return (fill_env_array(build_env, *envp));
 }
 
 int	exec_build_in(t_ast *ast, t_env **env)
@@ -89,7 +92,7 @@ int	exec_build_in(t_ast *ast, t_env **env)
 	else if (!ft_strcmp(*ast->token, "exit"))
 		status |= ft_exit(ast, *env);
 	else
-		return(-1);
+		return (-1);
 	return (status);
 }
 

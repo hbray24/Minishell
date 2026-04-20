@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 09:08:54 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 11:12:07 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,26 @@ char	**find_env(char **envp)
 	return (path);
 }
 
-char	*find_cmd_path(char *cmd, char **envp)
+char	*search_in_path(char *cmd, char **path)
 {
 	int		i;
+	char	*tmp;
+
+	i = -1;
+	while (path[++i])
+	{
+		tmp = strcat_path_cmd(cmd, path[i]);
+		if (!tmp)
+			exit (1);
+		if (!access(tmp, X_OK))
+			return (tmp);
+		free(tmp);
+	}
+	return (NULL);
+}
+
+char	*find_cmd_path(char *cmd, char **envp)
+{
 	char	*tmp;
 	char	**path;
 
@@ -79,24 +96,10 @@ char	*find_cmd_path(char *cmd, char **envp)
 		}
 		return (tmp);
 	}
-	i = -1;
 	path = find_env(envp);
 	if (!path)
 		exit (1);
-	tmp = cmd;
-	i = -1;
-	while (path[++i])
-	{
-		tmp = strcat_path_cmd(cmd, path[i]);
-		if (!tmp)
-			exit (1);
-		if (!access(tmp, X_OK))
-		{
-			free_array(path);
-			return (tmp);
-		}
-		free(tmp);
-	}
+	tmp = search_in_path(cmd, path);
 	free_array(path);
-	return (NULL);
+	return (tmp);
 }

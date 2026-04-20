@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 10:34:40 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/20 16:54:04 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,27 @@ int	uptade_env(t_env **env, char *key, char *new_value)
 	return (1);
 }
 
+void	update_shlvl(t_env **env)
+{
+	t_env	*tmp;
+	int		shlvl;
+	char	*new_shlvl;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, "SHLVL") == 0)
+		{
+			shlvl = ft_atoi(tmp->value) + 1;
+			new_shlvl = ft_itoa(shlvl);
+			uptade_env(env, "SHLVL", new_shlvl);
+			free(new_shlvl);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+}
+
 t_env	*init_env(char **envp)
 {
 	t_env	*env_list;
@@ -87,5 +108,6 @@ t_env	*init_env(char **envp)
 		add_env(&env_list, create_env_node(key, value));
 		i++;
 	}
+	update_shlvl(&env_list);
 	return (env_list);
 }
