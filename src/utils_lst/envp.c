@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:39:02 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 16:36:28 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	uptade_env(t_env **env, char *key, char *new_value)
 		}
 		new_env = new_env->next;
 	}
+	add_env(env, create_env_node(ft_strdup(key), ft_strdup(new_value)));
 	return (1);
 }
 
@@ -83,6 +84,25 @@ void	update_shlvl(t_env **env)
 		}
 		tmp = tmp->next;
 	}
+}
+
+void	without_env(t_env **env_list)
+{
+	char	*pwd;
+
+	if (!search_value ("PWD", *env_list))
+	{
+		pwd = getcwd(NULL, 0);
+		add_env(env_list, create_env_node(ft_strdup("PWD"), pwd));
+	}
+	if (!search_value("SHLVL", *env_list))
+		add_env(env_list, create_env_node(ft_strdup("SHLVL"), ft_strdup("1")));
+	else
+		update_shlvl(env_list);
+	if (!search_value("OLDPWD", *env_list))
+		add_env(env_list, create_env_node(ft_strdup("OLDPWD"), NULL));
+	if (!search_value("_", *env_list))
+		add_env(env_list, create_env_node(ft_strdup("_"), ft_strdup("/usr/bin/env")));
 }
 
 t_env	*init_env(char **envp)
@@ -108,6 +128,6 @@ t_env	*init_env(char **envp)
 		add_env(&env_list, create_env_node(key, value));
 		i++;
 	}
-	update_shlvl(&env_list);
+	without_env(&env_list);
 	return (env_list);
 }

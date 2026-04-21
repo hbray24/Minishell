@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:35:57 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 14:24:55 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	ft_echo_with_option(t_ast *ast)
 	}
 	while (ast->token[i])
 	{
-		ft_putstr_fd(ast->token[i], 1);
+		write(1, ast->token[i], ft_strlen(ast->token[i]));
 		if (ast->token[i + 1] != NULL)
-			ft_putstr_fd(" ", 1);
+			write(1, " ", 1);
 		i++;
 	}
 }
@@ -57,12 +57,12 @@ void	ft_echo_without_option(t_ast *ast)
 	i = 1;
 	while (ast->token[i])
 	{
-		ft_putstr_fd(ast->token[i], 1);
+		write(1, ast->token[i], ft_strlen(ast->token[i]));
 		if (ast->token[i + 1] != NULL)
-			ft_putstr_fd(" ", 1);
+			write(1, " ", 1);
 		i++;
 	}
-	ft_putstr_fd("\n", 1);
+	write (1, "\n", 1);
 }
 
 void	ft_echo(t_ast *ast)
