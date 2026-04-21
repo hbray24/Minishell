@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:13:28 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/16 09:05:07 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:35:57 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	check_option(char *str)
 {

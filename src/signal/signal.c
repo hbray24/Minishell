@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 13:12:06 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:07:42 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:58 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	g_signal_status = 0;
 

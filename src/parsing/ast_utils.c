@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:49:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 15:50:17 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:34 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 t_token	*search_pipe(t_token *tokens)
 {

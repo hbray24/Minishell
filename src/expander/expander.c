@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 15:47:34 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	delete_quote(char **str)
 {
@@ -130,11 +130,18 @@ int	expander(t_token *token, t_env *env)
 	status = 1;
 	while (token)
 	{
+		if (ft_strchr(token->token, '\"') || ft_strchr(token->token, '\''))
+			token->was_quote = 1;
 		status = single_or_double_q(&token->token);
 		if (status == -1)
 			return (0);
 		if (status)
 			token->token = search_variable(token->token, env);
+		if (token->token[0] == '\0' && token->was_quote == 0)
+		{
+			free(token->token);
+			token->token = NULL;
+		}
 		token = token->next;
 	}
 	return (1);

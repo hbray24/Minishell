@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_linked_lst.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 18:22:27 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:39:13 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 t_ast	*new_ast_node(void)
 {

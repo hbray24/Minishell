@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/14 11:31:18 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 14:08:06 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 t_env	*copy_env(t_env *env)
 {
@@ -95,27 +95,31 @@ void	modif_variable(t_ast *ast, t_env **env, t_env *tmp, int i)
 		add_node_env(env, key, value);
 }
 
-void	ft_export(t_ast *ast, t_env **env)
+int	ft_export(t_ast *ast, t_env **env)
 {
 	t_env	*tmp;
 	int		i;
+	int		status;
 
-	i = 1;
+	i = 0;
+	status = 0;
 	if (!ast->token[1])
 	{
 		ft_printf_export(*env);
-		return ;
+		return (0);
 	}
-	while (ast->token[i])
+	while (ast->token[++i])
 	{
 		if (!is_valid(ast->token[i]))
 		{
-			write(2, "export: not a valid indentifier\n", 33);
-			i++;
+			write(2, "Minishell: export: '", 20);
+			write(2, ast->token[i], ft_strlen(ast->token[i]));
+			write(2, "': not a valid indentifier\n", 27);
+			status = 1;
 			continue ;
 		}
 		tmp = *env;
 		modif_variable(ast, env, tmp, i);
-		i++;
 	}
+	return (status);
 }

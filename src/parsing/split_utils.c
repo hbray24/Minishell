@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 12:07:29 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/26 09:09:22 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:46 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	ft_issep(char *str, int *i, int index_go)
 {
