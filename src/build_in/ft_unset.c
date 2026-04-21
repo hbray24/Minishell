@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 15:02:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:09:39 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:36:26 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	delete_node(t_env **env, t_env *tmp)
 {

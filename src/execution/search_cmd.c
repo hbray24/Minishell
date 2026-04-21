@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 11:12:07 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:18 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*strcat_path_cmd(char *dst, char *src)
 {
@@ -86,6 +86,8 @@ char	*find_cmd_path(char *cmd, char **envp)
 	char	*tmp;
 	char	**path;
 
+	if (cmd[0] == '\0')
+		return (NULL);
 	if (!access(cmd, X_OK))
 	{
 		tmp = ft_strdup(cmd);

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/20 16:45:29 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 10:59:00 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_token
 {
 	char			*token;
 	int				limite;
+	int				was_quote;
 	t_type			type;
 	struct s_token	*next;
 	struct s_token	*pre;
@@ -108,7 +109,6 @@ void				free_array(char **str);
 void				clear_env(t_env **env);
 void				clear_ast(t_ast **ast);
 void				ft_unset(t_ast *ast, t_env **env);
-void				ft_export(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
 void				gestion_term(int action);
@@ -119,6 +119,7 @@ void				manages_signal(int sig);
 void				restore_fd(int origin_stdout_in[2]);
 void				close_pipe(int fd_pipe[2]);
 long long			atollong(char *str);
+int				ft_export(t_ast *ast, t_env **env);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);

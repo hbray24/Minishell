@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:10:12 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 16:26:38 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:35:23 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*search_old_path(t_env *env)
 {

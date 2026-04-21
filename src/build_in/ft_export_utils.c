@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:35:32 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/03 15:44:41 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:36:11 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 t_env	*swap_node(t_env *env, t_env *env_cmp)
 {

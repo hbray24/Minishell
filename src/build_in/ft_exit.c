@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/15 19:42:02 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:36:06 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	error(char *str)
 {
@@ -73,7 +73,7 @@ int	ft_exit(t_ast *ast, t_env *env)
 		if (ast->token[2])
 		{
 			write(2, "Minishell: exit: too many arguments\n", 37);
-			return (0);
+			return (1);
 		}
 		status = atollong(ast->token[1]) % 256;
 	}

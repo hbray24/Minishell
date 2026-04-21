@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/20 16:11:12 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:39 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	copy_array(char **res, char **cmd)
 {
@@ -63,6 +63,8 @@ char	**add_array(char **cmd, char *new_str)
 
 int	add_node_element(t_ast *ast, t_token *token, int *i)
 {
+	if (token->token == NULL)
+		return (1);
 	if (token->type == WORD)
 	{
 		ast->token = add_array(ast->token, token->token);

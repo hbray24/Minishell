@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 16:51:59 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 14:08:19 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 
 pid_t	fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 {
@@ -55,7 +55,7 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 	if (pid == 0)
 	{
 		if (!dup_fd(ast))
-			exit (1);
+			exit(1);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		execve_cmd(ast, env);
@@ -68,13 +68,18 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 
 int	exec_no_fork(t_ast *ast, t_env **env)
 {
-	int		status;
-	int		origin_stdout_in[2];
+	int	status;
+	int	origin_stdout_in[2];
 
 	origin_stdout_in[0] = dup(0);
 	origin_stdout_in[1] = dup(1);
 	if (!dup_fd(ast))
 		return (1);
+	if (!ast->token || !ast->token[0])
+	{
+		restore_fd(origin_stdout_in);
+		return (0);
+	}
 	status = exec_build_in(ast, env);
 	if (status != -1)
 	{
@@ -97,7 +102,7 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		if (!dup_fd(ast))
 			return (1);
 		if (exec_build_in(ast, env) != -1)
-			exit (0);
+			exit(0);
 		execve_cmd(ast, env);
 	}
 	return (1);

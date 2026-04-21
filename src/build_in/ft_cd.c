@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 09:16:31 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:35:37 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	join_to_home(t_ast *ast, t_env *env)
 {
@@ -38,6 +38,11 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 {
 	char	*new_path;
 
+	if (ast->token[1][0] == '\0')
+	{
+		free(old_path);
+		return (0);
+	}
 	if (ast->token[1][0] == '~')
 	{
 		if (!join_to_home(ast, env))
@@ -45,7 +50,7 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 	}
 	if (chdir(ast->token[1]) == -1)
 	{
-		perror("hbray: cd");
+		perror("Minishell: cd");
 		free(old_path);
 		return (1);
 	}
@@ -63,7 +68,7 @@ int	ft_cd_previous(t_env *env, char *old_path)
 		return (1);
 	if (chdir(search_value("OLDPWD", env)) == -1)
 	{
-		perror("hbray: cd");
+		perror("Minishell: cd");
 		free(old_path);
 		return (1);
 	}
@@ -89,7 +94,7 @@ int	ft_cd(t_ast *ast, t_env *env)
 
 	if (ast->token[1] && ast->token[2] != NULL)
 	{
-		write(2, "asauvage: cd: too many arguments\n", 34);
+		write(2, "Minishell: cd: too many arguments\n", 34);
 		return (1);
 	}
 	old_path = search_old_path(env);

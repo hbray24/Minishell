@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/20 11:48:21 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:37:13 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	close_fd(t_ast *ast)
 {
@@ -84,7 +84,7 @@ int	exec_build_in(t_ast *ast, t_env **env)
 	else if (!ft_strcmp(*ast->token, "env"))
 		status |= ft_env(ast, env);
 	else if (!ft_strcmp(*ast->token, "export"))
-		ft_export(ast, env);
+		status |= ft_export(ast, env);
 	else if (!ft_strcmp(*ast->token, "unset"))
 		ft_unset(ast, env);
 	else if (!ft_strcmp(*ast->token, "echo"))

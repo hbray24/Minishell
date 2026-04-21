@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 13:00:48 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/31 14:53:49 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:50 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	next_token(char *str, int i)
 {

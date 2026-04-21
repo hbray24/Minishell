@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ctr-\.c                                     :+:      :+:    :+:   */
+/*   signal_ctrl_backslash.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:52:48 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/17 15:56:20 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:54 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	apply_term(int action, struct termios *back_up)
 {

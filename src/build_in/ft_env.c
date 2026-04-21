@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:40:01 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/15 10:35:10 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:36:01 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	ft_env(t_ast *ast, t_env **env)
 {

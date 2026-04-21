@@ -6,11 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/20 11:51:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 11:38:14 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	open_file(char **tmp)
 {
