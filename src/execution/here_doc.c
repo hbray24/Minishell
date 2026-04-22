@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 10:42:09 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/22 14:27:15 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	read_heredoc(char *limiter, int fd)
 		if (!line)
 			return (fd);
 		len = ft_strlen(line) - 1;
-		line[len] = '\0';
+		if (len > -1)
+			line[len] = '\0';
 		if (!ft_strcmp(line, limiter))
 		{
 			free(line);
