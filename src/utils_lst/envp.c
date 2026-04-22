@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 16:36:28 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/22 16:45:53 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,6 @@ t_env	*create_env_node(char *key, char *value)
 	node->key = key;
 	node->value = value;
 	return (node);
-}
-
-void	add_env(t_env **env_list, t_env *new_node)
-{
-	t_env	*tmp;
-
-	if (!*env_list)
-	{
-		*env_list = new_node;
-		return ;
-	}
-	tmp = *env_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_node;
-	new_node->pre = tmp;
 }
 
 int	uptade_env(t_env **env, char *key, char *new_value)
@@ -90,7 +74,7 @@ void	without_env(t_env **env_list)
 {
 	char	*pwd;
 
-	if (!search_value ("PWD", *env_list))
+	if (!search_value("PWD", *env_list))
 	{
 		pwd = getcwd(NULL, 0);
 		add_env(env_list, create_env_node(ft_strdup("PWD"), pwd));
@@ -102,7 +86,8 @@ void	without_env(t_env **env_list)
 	if (!search_value("OLDPWD", *env_list))
 		add_env(env_list, create_env_node(ft_strdup("OLDPWD"), NULL));
 	if (!search_value("_", *env_list))
-		add_env(env_list, create_env_node(ft_strdup("_"), ft_strdup("/usr/bin/env")));
+		add_env(env_list, create_env_node(ft_strdup("_"),
+				ft_strdup("/usr/bin/env")));
 }
 
 t_env	*init_env(char **envp)
