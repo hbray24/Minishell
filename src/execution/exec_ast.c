@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 14:08:19 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 18:57:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		return (0);
 	else if (ast->type == PIPE)
 		return (exec_pipe(ast, env));
-	if (ast->type == EXEC && !create_fork)
+	else if (ast->type == EXEC && !create_fork)
 		return (exec_no_fork(ast, env));
-	if (ast->type == EXEC && create_fork)
+	else if (ast->type == EXEC && create_fork)
 	{
 		if (!dup_fd(ast))
 			return (1);

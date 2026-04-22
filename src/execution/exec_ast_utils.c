@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:36:30 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/21 19:08:26 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,30 @@ int	check_fd(t_ast *ast)
 {
 	int	i;
 	int	j;
+	int	y;
 
-	j = -1;
-	i = -1;
-	while ((ast->limiter && ast->limiter[++j]) || (ast->files
-			&& ast->files[++i]))
+	y = 0;
+	j = 0;
+	i = 0;
+	while ((ast->limiter && ast->limiter[j]) || (ast->files
+			&& ast->files[i]))
 	{
-		if (ast->redir[i] == REDIR_OUT)
-			ast->fd[1] = open(ast->files[i], O_CREAT | O_WRONLY | O_TRUNC,
+		if (ast->redir[y] == REDIR_OUT)
+			ast->fd[1] = open(ast->files[i++], O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
-		if (ast->redir[i] == REDIR_ADD)
-			ast->fd[1] = open(ast->files[i], O_CREAT | O_WRONLY | O_APPEND,
+		else if (ast->redir[y] == REDIR_ADD)
+			ast->fd[1] = open(ast->files[i++], O_CREAT | O_WRONLY | O_APPEND,
 					0644);
-		if (ast->redir[i] == REDIR_IN)
-			ast->fd[0] = open(ast->files[i], O_RDONLY);
-		if (ast->redir[i] == HERE_DOC)
-			ast->fd[0] = here_doc(ast->limiter);
+		else if (ast->redir[y] == REDIR_IN)
+			ast->fd[0] = open(ast->files[i++], O_RDONLY);
+		else if (ast->redir[y] == HERE_DOC)
+			ast->fd[0] = here_doc(ast->limiter[j++]);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 		{
 			perror("Minishell");
 			return (0);
 		}
+		y++;
 	}
 	return (1);
 }
