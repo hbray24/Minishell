@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 19:07:35 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:42:09 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	read_heredoc(char *limiter, int fd)
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (!line)
-			return (-2);
+			return (fd);
 		len = ft_strlen(line) - 1;
 		line[len] = '\0';
 		if (!ft_strcmp(line, limiter))
@@ -73,7 +73,6 @@ int	here_doc(char *limiter)
 		return (open_fd);
 	if (read_heredoc(limiter, open_fd) == -2)
 	{
-		write(1, "OK\n", 3);
 		perror("Minishell");
 		return (open_fd);
 	}

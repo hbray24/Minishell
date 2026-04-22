@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 18:57:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:52:06 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!dup_fd(ast))
-			exit(1);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		execve_cmd(ast, env);
