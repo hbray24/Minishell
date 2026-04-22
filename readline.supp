@@ -1,7 +1,24 @@
 {
-	internal_leak_readline
-	Memcheck:Leak
-	match-leak-kinds: reachable
-	...
-	obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+    ignore_libreadline
+    Memcheck:Leak
+    ...
+    obj:/libreadline.so.
+}
+{
+    readline_leak
+    Memcheck:Leak
+    ...
+    fun:readline
+}
+{
+    readline_add_history
+    Memcheck:Leak
+    ...
+    fun:add_history
+}
+{
+    usrbin
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
 }

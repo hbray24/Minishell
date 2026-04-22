@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
+#    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/21 18:01:31 by asauvage         ###   ########.fr        #
+#    Updated: 2026/04/22 13:43:40 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g3 -I include/
 
@@ -54,7 +54,6 @@ SRCS = src/build_in/ft_cd_utils.c \
 	   src/main.c \
 
 OBJS := $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
-OBJS := $(SRCS:build_in/%.c=$(OBJ_DIR)/%.o)
 
 all : $(NAME)
 
