@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:37:13 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/22 14:46:40 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ int	execve_cmd(t_ast *ast, t_env **env)
 	if (path == NULL)
 	{
 		write(2, "hbray: Cmd not found\n", 21);
+		if ((*env)->env)
+			free_array((*env)->env);
+		clear_ast(&ast);
+		clear_env(env);
 		exit(127);
 	}
 	execve(path, ast->token, (*env)->env);

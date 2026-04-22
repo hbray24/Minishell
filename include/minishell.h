@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 17:58:32 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/22 14:57:00 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int					ft_exit(t_ast *ast, t_env *env);
 int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
-int					here_doc(char *limiter);
+int					here_doc(t_ast *ast, char *limiter);
 int					dup_fd(t_ast *ast);
 int					exec_no_fork(t_ast *ast, t_env **env);
 int					get_exit_status(int status);

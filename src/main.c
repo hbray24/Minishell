@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 11:39:31 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/22 14:45:54 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	parse(t_token **token, t_env **env)
 		ast->status = 1;
 		return ;
 	}
+	clear_token(token);
 	ignore_signal();
 	status = exec_ast(ast, env, 0);
 	if (WIFEXITED(status))

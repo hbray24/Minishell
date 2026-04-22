@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 14:27:15 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/22 16:20:15 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	read_heredoc(char *limiter, int fd)
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (!line)
+		{
+			write (1, "\n", 1);
 			return (fd);
+		}
 		len = ft_strlen(line) - 1;
 		if (len > -1)
 			line[len] = '\0';
@@ -63,12 +66,14 @@ int	read_heredoc(char *limiter, int fd)
 	return (fd);
 }
 
-int	here_doc(char *limiter)
+int	here_doc(t_ast *ast, char *limiter)
 {
 	int		open_fd;
 	char	*tmp;
 
 	tmp = NULL;
+	if (ast->fd[0] > -1)
+		close(ast->fd[0]);
 	open_fd = open_file(&tmp);
 	if (open_fd == -1)
 		return (open_fd);
