@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:05:29 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:00:42 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ void	parse(t_token **token, t_env **env)
 	}
 	clear_token(token);
 	ignore_signal();
+	(*env)->first_node_ast = &ast;
 	status = exec_ast(ast, env, 0);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	clear_ast(&ast);
+	clear_ast((*env)->first_node_ast);
 	(*env)->status = status;
 	restore_signal();
 }

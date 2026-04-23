@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:07:57 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:53:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_env
 	int				status;
 	struct s_env	*next;
 	struct s_env	*pre;
+	struct s_ast	**first_node_ast;
 }					t_env;
 
 extern int			g_signal_status;

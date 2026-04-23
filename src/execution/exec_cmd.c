@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 14:21:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 18:10:07 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,23 @@ int	execve_cmd(t_ast *ast, t_env **env)
 
 	(*env)->env = linked_list_to_double_array(env);
 	if (!(*env)->env)
+	{
+		clear_ast((*env)->first_node_ast);
+		clear_env(env);
 		exit (1);
+	}
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)
 	{
-		write(2, "hbray: Cmd not found\n", 21);
-		if ((*env)->env)
-			free_array((*env)->env);
-		clear_ast(&ast);
+		write(2, "Minishell: Cmd not found\n", 21);
+		free_array((*env)->env);
+		clear_ast((*env)->first_node_ast);
 		clear_env(env);
 		exit(127);
 	}
 	execve(path, ast->token, (*env)->env);
+	free_array((*env)->env);
+	clear_ast((*env)->first_node_ast);
+	clear_env(env);
 	exit (126);
 }

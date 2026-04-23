@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:15:44 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 17:31:12 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ char	*find_cmd_path(char *cmd, char **envp)
 		if (!tmp)
 		{
 			perror("Minishell :find_cmd_path");
-			exit (1);
+			return (NULL);
 		}
 		return (tmp);
 	}
 	path = find_env(envp);
 	if (!path)
-		exit (1);
+		return (NULL);
 	tmp = search_in_path(cmd, path);
 	free_array(path);
 	return (tmp);

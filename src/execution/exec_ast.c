@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:12:25 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 17:54:55 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,11 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		if (!dup_fd(ast))
 			return (1);
 		if (exec_build_in(ast, env) != -1)
+		{
+			clear_ast((*env)->first_node_ast);
+			clear_env(env);
 			exit(0);
+		}
 		execve_cmd(ast, env);
 	}
 	return (1);
