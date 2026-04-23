@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 11:36:06 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 10:38:17 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ long long	atollong(char *str)
 
 int	ft_exit(t_ast *ast, t_env *env)
 {
-	long long	status;
+	int	status;
 
 	status = 0;
 	write(1, "exit\n", 5);
-	if (ast->token[1])
+	if (ast && ast->token[1])
 	{
 		if (ast->token[2])
 		{
@@ -77,7 +77,8 @@ int	ft_exit(t_ast *ast, t_env *env)
 		}
 		status = atollong(ast->token[1]) % 256;
 	}
+	status = env->status;
 	clear_env(&env);
 	clear_ast(&ast);
-	exit (status);
+	exit (status); 
 }
