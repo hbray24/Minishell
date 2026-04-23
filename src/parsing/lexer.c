@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:00:09 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:06:27 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	fill_token(char *str, t_token *token)
 	return (status);
 }
 
-int	lexer(char *str, t_token *token)
+int	lexer(char *str, t_token *token, t_env **env)
 {
 	int		i;
 	int		status;
@@ -91,7 +91,7 @@ int	lexer(char *str, t_token *token)
 		if (status)
 		{
 			free_array(tokens);
-			return (status);
+			return ((*env)->status = status);
 		}
 		i++;
 	}
