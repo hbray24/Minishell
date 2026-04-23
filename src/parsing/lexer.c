@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:22:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:49:27 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_syntax(t_token *token)
 	token = last_token(&token);
 	if (!token)
 		return (0);
-	if (token->pre && (token->pre->type == token->type))
+	if (token->pre && (token->pre->type == token->type) && token->type != WORD)
 	{
 		write(2, "syntax error near unexpected token '", 36);
 		ft_putstr_fd(token->token, 2);
