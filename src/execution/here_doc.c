@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:15:03 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:46:20 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,12 @@ int	here_doc(t_ast *ast, char *limiter)
 {
 	int		open_fd;
 	char	*tmp;
-	int		save_stdin;
-
 	tmp = NULL;
-	save_stdin = 0;
 	if (ast->fd[0] > -1)
 		close(ast->fd[0]);
 	open_fd = open_file(&tmp);
 	if (open_fd == -1)
 		return (open_fd);
-	save_stdin = dup(STDIN_FILENO);
 	g_signal_status = 0;
 	init_signal_heredoc();
 	if (read_heredoc(limiter, open_fd) == -2)
@@ -88,8 +84,6 @@ int	here_doc(t_ast *ast, char *limiter)
 		perror("Minishell :hehre_doc");
 		return (open_fd);
 	}
-	dup2(save_stdin, STDIN_FILENO);
-	close(save_stdin);
 	restore_signal();
 	if (g_signal_status == 130)
 	{
