@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 10:38:02 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:24:42 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	minishell_loop(t_env **env)
 			g_signal_status = 0;
 		}
 		if (check_line(line, &token, env) == 1)
-			break ;
+			continue ;
 	}
 	clear_token(&token);
 }
