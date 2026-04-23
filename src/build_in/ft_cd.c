@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:11:08 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 16:05:05 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	ft_cd_previous(t_env *env, char *old_path)
 		free(old_path);
 		return (1);
 	}
+	free(old_path);
 	return (ft_pwd());
 }
 
@@ -85,6 +86,7 @@ int	ft_cd_home(t_env *env, char *old_path)
 		free(old_path);
 		return (1);
 	}
+	free(old_path);
 	return (0);
 }
 
