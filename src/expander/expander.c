@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:29 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:37:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	expander(t_token *token, t_env *env)
 	int	status;
 
 	status = 1;
-	while (token)
+	while (token && token->token)
 	{
 		if (ft_strchr(token->token, '\"') || ft_strchr(token->token, '\''))
 			token->was_quote = 1;

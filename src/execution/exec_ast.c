@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/22 10:52:06 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:12:25 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	exec_pipe(t_ast *ast, t_env **env)
 
 	if (pipe(fd_pipe) == -1)
 	{
-		perror("Minishell");
+		perror("Minishell :exec_pipe");
 		return (1);
 	}
 	pid_left = fork_pipe_child(ast, env, fd_pipe, LEFT);

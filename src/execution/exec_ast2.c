@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:37:07 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:13:53 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	dup_fd(t_ast *ast)
 	{
 		if (dup2(ast->fd[1], 1) == -1)
 		{
-			perror("Minishell");
+			perror("Minishell :dup_fd");
 			return (0);
 		}
 		close(ast->fd[1]);
@@ -29,7 +29,7 @@ int	dup_fd(t_ast *ast)
 	{
 		if (dup2(ast->fd[0], 0) == -1)
 		{
-			perror("Minishell");
+			perror("Minishell :dup_fd");
 			return (0);
 		}
 		close(ast->fd[0]);
@@ -58,7 +58,7 @@ int	dup2_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 	{
 		if (dup2(fd_pipe[1], 1) == -1)
 		{
-			perror("dup2");
+			perror("Minishell :dup2");
 			exit(1);
 		}
 		close_pipe(fd_pipe);
@@ -69,7 +69,7 @@ int	dup2_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 	{
 		if (dup2(fd_pipe[0], 0) == -1)
 		{
-			perror("dup2");
+			perror("Minishell :dup2");
 			exit(1);
 		}
 		close_pipe(fd_pipe);

@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/22 13:43:40 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/23 09:54:13 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS = src/build_in/ft_cd_utils.c \
 	   src/parsing/split_utils.c \
 	   src/parsing/split.c \
 	   src/signal/signal_ctrl_backslash.c \
+	   src/signal/signal_heredoc.c \
 	   src/signal/signal.c \
 	   src/utils_lst/envp.c \
 	   src/utils_lst/lst_token.c \

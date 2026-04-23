@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/22 14:46:40 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:14:24 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**fill_env_array(char **build_env, t_env *start)
 			free(tmp);
 			if (!tmp || !build_env[i++])
 			{
-				perror("Minishell");
+				perror("Minishell :fill_env_array");
 				free_array(build_env);
 				return (NULL);
 			}
@@ -63,7 +63,7 @@ char	**linked_list_to_double_array(t_env **envp)
 	build_env = ft_calloc(i + 1, sizeof(char *));
 	if (!build_env)
 	{
-		perror("Minishell");
+		perror("Minishell :linked_list_to_double_array");
 		return (NULL);
 	}
 	start = *envp;

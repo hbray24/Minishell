@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:35:37 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:11:08 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 	}
 	if (chdir(ast->token[1]) == -1)
 	{
-		perror("Minishell: cd");
+		perror("Minishell :ft_cd_basic");
 		free(old_path);
 		return (1);
 	}
@@ -68,7 +68,7 @@ int	ft_cd_previous(t_env *env, char *old_path)
 		return (1);
 	if (chdir(search_value("OLDPWD", env)) == -1)
 	{
-		perror("Minishell: cd");
+		perror("Minishell :ft_cd_previous");
 		free(old_path);
 		return (1);
 	}
@@ -81,7 +81,7 @@ int	ft_cd_home(t_env *env, char *old_path)
 		return (1);
 	if (chdir(search_value("HOME", env)) == -1)
 	{
-		perror("Minishell");
+		perror("Minishell :ft_cd_home");
 		free(old_path);
 		return (1);
 	}

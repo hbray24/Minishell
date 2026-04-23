@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 16:20:15 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:15:03 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 int	open_file(char **tmp)
 {
@@ -31,7 +32,7 @@ int	open_file(char **tmp)
 	}
 	if (fd == -1)
 	{
-		perror("Minishell");
+		perror("Minishell :open_file");
 		return (fd);
 	}
 	return (fd);
@@ -70,17 +71,32 @@ int	here_doc(t_ast *ast, char *limiter)
 {
 	int		open_fd;
 	char	*tmp;
+	int		save_stdin;
 
 	tmp = NULL;
+	save_stdin = 0;
 	if (ast->fd[0] > -1)
 		close(ast->fd[0]);
 	open_fd = open_file(&tmp);
 	if (open_fd == -1)
 		return (open_fd);
+	save_stdin = dup(STDIN_FILENO);
+	g_signal_status = 0;
+	init_signal_heredoc();
 	if (read_heredoc(limiter, open_fd) == -2)
 	{
-		perror("Minishell");
+		perror("Minishell :hehre_doc");
 		return (open_fd);
+	}
+	dup2(save_stdin, STDIN_FILENO);
+	close(save_stdin);
+	restore_signal();
+	if (g_signal_status == 130)
+	{
+		close(open_fd);
+		unlink(tmp);
+		free(tmp);
+		return (-1);
 	}
 	close (open_fd);
 	open_fd = open(tmp, O_RDWR, 0777);

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:18 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:15:44 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*strcat_path_cmd(char *dst, char *src)
 	res = malloc(sizeof(char) * (len));
 	if (!res)
 	{
-		perror("Minishell");
+		perror("Minishell :strcat_path_cmd");
 		return (0);
 	}
 	i = 0;
@@ -57,7 +57,7 @@ char	**find_env(char **envp)
 	}
 	if (!path)
 	{
-		perror("Minishell");
+		perror("Minishell :find_env");
 		return (NULL);
 	}
 	return (path);
@@ -93,7 +93,7 @@ char	*find_cmd_path(char *cmd, char **envp)
 		tmp = ft_strdup(cmd);
 		if (!tmp)
 		{
-			perror("Minishell");
+			perror("Minishell :find_cmd_path");
 			exit (1);
 		}
 		return (tmp);

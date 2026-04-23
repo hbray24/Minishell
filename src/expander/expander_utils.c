@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:25 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:15:55 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ char	*alloc_new_str(int len)
 
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
-		perror("Minishell");
+		perror("Minishell :alloc_new_str");
 	return (res);
 }

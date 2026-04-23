@@ -6,13 +6,13 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 13:12:06 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:58 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 09:30:57 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_signal_status = 0;
+int	g_signal_status;
 
 void	manages_signal(int sig)
 {

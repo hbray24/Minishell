@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:39:21 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:36:22 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:11:33 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_pwd(void)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		perror("hbray: ");
+		perror("Minishell :pwd");
 		return (1);
 	}
 	printf("%s\n", path);

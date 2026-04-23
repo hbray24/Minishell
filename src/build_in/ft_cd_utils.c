@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:10:12 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:35:23 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:10:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*search_old_path(t_env *env)
 			path = ft_strdup(env_pwd);
 			if (!path)
 			{
-				perror("Minishell");
+				perror("Minishell :search_old_path");
 				return (NULL);
 			}
 		}
@@ -44,7 +44,7 @@ char	*search_new_path(t_ast *ast, char *old_path)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		perror("cd :");
+		perror("Minishell :search_new_path");
 		tmp_path = ft_strjoin(old_path, "/");
 		path = ft_strjoin(tmp_path, ast->token[1]);
 		free(tmp_path);

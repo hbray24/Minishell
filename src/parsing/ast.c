@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 16:20:08 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:16:49 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	copy_array(char **res, char **cmd)
 		{
 			free_array(res);
 			free_array(cmd);
-			perror("Minishell");
+			perror("Minishell :copy_array");
 			return (-1);
 		}
 		i++;
@@ -44,7 +44,7 @@ char	**add_array(char **cmd, char *new_str)
 	res = malloc(sizeof(char *) * (i + 2));
 	if (!res)
 	{
-		perror("Minishell");
+		perror("Minishell :add_array");
 		return (NULL);
 	}
 	i = copy_array(res, cmd);
@@ -54,7 +54,7 @@ char	**add_array(char **cmd, char *new_str)
 	if (!res[i])
 	{
 		free_array(res);
-		perror("Minishell");
+		perror("Minishell :add_array");
 		return (NULL);
 	}
 	res[++i] = NULL;
@@ -102,7 +102,7 @@ t_ast	*fill_exec_node(t_ast *ast, t_token *token)
 	ast->redir = malloc(sizeof(t_type) * count_redir(token));
 	if (!ast->redir)
 	{
-		perror("Minishell");
+		perror("Minishell :fill_exec_node");
 		return (NULL);
 	}
 	while (token && token->type != PIPE)

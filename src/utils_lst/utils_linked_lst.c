@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/22 16:45:36 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:17:57 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ast	*new_ast_node(void)
 	new = malloc(sizeof(t_ast));
 	if (!new)
 	{
-		perror("Minishell");
+		perror("Minishell :new_ast_node");
 		return (NULL);
 	}
 	ft_memset(new, 0, sizeof(t_ast));
@@ -36,7 +36,7 @@ int	add_node_env(t_env **env, char *key, char *value)
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 	{
-		perror("Minishell");
+		perror("Minishell :add_node_env");
 		return (1);
 	}
 	new_node->key = key;

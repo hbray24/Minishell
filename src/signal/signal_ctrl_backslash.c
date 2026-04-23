@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:52:48 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:54 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:17:16 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	apply_term(int action, struct termios *back_up)
 		term.c_cc[VQUIT] = _POSIX_VDISABLE;
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
 		{
-			perror("tcsetattr");
+			perror("Minishell :tcsetattr");
 			return ;
 		}
 	}
 	else if (action == 1)
 		if (tcsetattr(STDIN_FILENO, TCSANOW, back_up) == -1)
-			perror ("tcsetattr");
+			perror ("Minishell :tcsetattr");
 }
 
 void	gestion_term(int action)
@@ -40,7 +40,7 @@ void	gestion_term(int action)
 	{
 		if (tcgetattr(STDIN_FILENO, &back_up) == -1)
 		{
-			perror("tcgettattr");
+			perror("Minishell :tcgettattr");
 			return ;
 		}
 		save = 1;

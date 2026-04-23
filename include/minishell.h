@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 16:46:17 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 10:31:20 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
+# include <errno.h>
 
 typedef enum s_type
 {
@@ -118,6 +119,9 @@ void				init_signal(void);
 void				manages_signal(int sig);
 void				restore_fd(int origin_stdout_in[2]);
 void				close_pipe(int fd_pipe[2]);
+void				add_env(t_env **env_list, t_env *new_node);
+void				init_signal_heredoc(void);
+void				signal_heredoc(int sig);
 long long			atollong(char *str);
 int					ft_export(t_ast *ast, t_env **env);
 int					ft_env(t_ast *ast, t_env **env);
