@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:28:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 14:00:03 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 15:51:28 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ void	init_signal_heredoc(void)
 void	signal_heredoc(int sig)
 {
 	if (sig == SIGINT)
+	{
+		printf("\n");
 		g_signal_status = 130;
+	}
 }

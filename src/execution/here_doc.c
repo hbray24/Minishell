@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 13:59:59 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 14:43:45 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,22 @@ int	open_file(char **tmp)
 int	read_heredoc(char *limiter, int fd)
 {
 	char	*line;
-	int		len;
 
 	while (1)
 	{
-		write(1, "> ", 2);
-		line = get_next_line(0);
+		line = readline("> ");
 		if (!line)
 		{
 			write (1, "\n", 1);
 			return (fd);
 		}
-		len = ft_strlen(line) - 1;
-		if (len > -1)
-			line[len] = '\0';
 		if (!ft_strcmp(line, limiter))
 		{
 			free(line);
 			return (fd);
 		}
-		line[len] = '\n';
-		write(fd, line, len + 1);
+		write(fd, line, ft_strlen(line));
+		write (fd, "\n", 1);
 		free(line);
 	}
 	return (fd);
