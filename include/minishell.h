@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/23 10:31:20 by hbray            ###   ########.fr       */
-=======
-/*   Updated: 2026/04/23 10:42:45 by asauvage         ###   ########.fr       */
->>>>>>> 8510692a39c12f60aa6d52601e5bdec8e9efc6ff
+/*   Updated: 2026/04/23 11:42:17 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +120,8 @@ void				manages_signal(int sig);
 void				restore_fd(int origin_stdout_in[2]);
 void				close_pipe(int fd_pipe[2]);
 void				add_env(t_env **env_list, t_env *new_node);
-<<<<<<< HEAD
 void				init_signal_heredoc(void);
 void				signal_heredoc(int sig);
-=======
->>>>>>> 8510692a39c12f60aa6d52601e5bdec8e9efc6ff
 long long			atollong(char *str);
 int					ft_export(t_ast *ast, t_env **env);
 int					ft_env(t_ast *ast, t_env **env);
