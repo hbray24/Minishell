@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/22 14:57:03 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/22 16:43:38 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	check_fd(t_ast *ast)
 	y = 0;
 	j = 0;
 	i = 0;
-	while ((ast->limiter && ast->limiter[j]) || (ast->files
-			&& ast->files[i]))
+	while ((ast->limiter && ast->limiter[j]) || (ast->files && ast->files[i]))
 	{
 		if (ast->redir[y] == REDIR_OUT)
 			ast->fd[1] = open(ast->files[i++], O_CREAT | O_WRONLY | O_TRUNC,
@@ -51,10 +50,7 @@ int	check_fd(t_ast *ast)
 		else if (ast->redir[y] == HERE_DOC)
 			ast->fd[0] = here_doc(ast, ast->limiter[j++]);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
-		{
-			perror("Minishell");
-			return (0);
-		}
+			return (perror("Minishell"), 0);
 		y++;
 	}
 	return (1);
