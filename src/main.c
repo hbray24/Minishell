@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/22 14:45:54 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:24:42 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ void	parse(t_token **token, t_env **env)
 int	check_line(char *line, t_token **token, t_env **env)
 {
 	if (!line)
-	{
-		printf("exit\n");
-		return (1);
-	}
+		ft_exit(NULL, *env);
 	*token = malloc_struct();
 	if (ft_strlen(line) == 0)
 	{
@@ -80,7 +77,7 @@ void	minishell_loop(t_env **env)
 			g_signal_status = 0;
 		}
 		if (check_line(line, &token, env) == 1)
-			break ;
+			continue ;
 	}
 	clear_token(&token);
 }

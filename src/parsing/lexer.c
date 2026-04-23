@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:42 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 11:22:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	check_syntax(t_token *token)
+{
+	token = last_token(&token);
+	if (!token)
+		return (0);
+	if (token->pre && (token->pre->type == token->type))
+	{
+		write(2, "syntax error near unexpected token '", 36);
+		ft_putstr_fd(token->token, 2);
+		write(2, "'\n", 2);
+		return (2);
+	}
+	return (0);
+}
 
 int	fill_token(char *str, t_token *token)
 {
@@ -36,6 +51,7 @@ int	fill_token(char *str, t_token *token)
 		status = add_node(token, str, LIMITER);
 	else
 		status = add_node(token, str, WORD);
+	status = check_syntax(token);
 	return (status);
 }
 
