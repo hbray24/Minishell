@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 10:38:17 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 13:51:45 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_exit(t_ast *ast, t_env *env)
 			write(2, "Minishell: exit: too many arguments\n", 37);
 			return (1);
 		}
-		status = atollong(ast->token[1]) % 256;
+		env->status = atollong(ast->token[1]) % 256;
 	}
 	status = env->status;
 	clear_env(&env);
