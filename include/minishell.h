@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:51:46 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:06:55 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);
 int					add_node(t_token *token, char *str, int type);
-int					lexer(char *str, t_token *token);
+int					lexer(char *str, t_token *token, t_env **env);
 int					skip_w_quote(char *str, int i);
 int					ft_issep(char *str, int *i, int index_go);
 int					ft_cd(t_ast *ast, t_env *env);

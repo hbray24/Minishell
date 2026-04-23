@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:24:42 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:05:29 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_line(char *line, t_token **token, t_env **env)
 		return (0);
 	}
 	add_history(line);
-	if (lexer(line, *token))
+	if (lexer(line, *token, env))
 	{
 		free(line);
 		return (1);
