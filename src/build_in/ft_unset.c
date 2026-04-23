@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 15:02:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 11:36:26 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 16:40:31 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	delete_node(t_env **env, t_env *tmp)
 void	ft_unset(t_ast *ast, t_env **env)
 {
 	t_env	*tmp;
+	t_env	*tmp_node_next;
 	int		i;
 
 	i = 0;
@@ -41,9 +42,10 @@ void	ft_unset(t_ast *ast, t_env **env)
 		tmp = *env;
 		while (tmp)
 		{
+			tmp_node_next = tmp->next;
 			if (!ft_strcmp(tmp->key, ast->token[i]))
 				delete_node(env, tmp);
-			tmp = tmp->next;
+			tmp = tmp_node_next;
 		}
 	}
 }
