@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:43:45 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 16:43:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int	here_doc(t_ast *ast, char *limiter)
 {
 	int		open_fd;
 	char	*tmp;
+	pid_t	pid;
+	int		status;
+
 	tmp = NULL;
 	if (ast->fd[0] > -1)
 		close(ast->fd[0]);
@@ -74,17 +77,27 @@ int	here_doc(t_ast *ast, char *limiter)
 		return (open_fd);
 	g_signal_status = 0;
 	gestion_term(0);
-	init_signal_heredoc();
-	if (read_heredoc(limiter, open_fd) == -2)
+	ignore_signal();
+	pid = fork();
+	if (pid == -1)
 	{
-		perror("Minishell :hehre_doc");
-		gestion_term(1);
-		return (open_fd);
+		perror("Minishell :here_doc");
+		return (-1);
 	}
+	if (pid == 0)
+	{
+		init_signal_heredoc();
+		read_heredoc(limiter, open_fd);
+		close(open_fd);
+		free(tmp);
+		exit(0);
+	}
+	waitpid(pid, &status, 0);
 	gestion_term(1);
 	restore_signal();
-	if (g_signal_status == 130)
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 	{
+		g_signal_status = 130;
 		close(open_fd);
 		unlink(tmp);
 		free(tmp);
