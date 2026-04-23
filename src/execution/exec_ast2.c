@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:13:53 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 16:28:24 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	get_exit_status(int status)
 		if (WTERMSIG(status) == SIGINT)
 			write(1, "\n", 1);
 		else if (WTERMSIG(status) == SIGQUIT)
-			printf("Quit (core dumped)\n");
+			write(2, "Quit (core dumped)\n", 20);
 		return (128 + WTERMSIG(status));
 	}
 	if (WIFEXITED(status))
