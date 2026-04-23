@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:06:27 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 14:38:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_syntax(t_token *token)
 		return (0);
 	if (!token->pre && token->type == PIPE)
 		return (err_syntax(token->token));
-	if (token->pre && (token->pre->type > 2 && token->pre->type < 9)
+	if (token->pre && (token->pre->type > 3 && token->pre->type < 9)
 		&& (token->type > 2 && token->type < 9))
 		return (err_syntax(token->pre->token));
 	return (0);
