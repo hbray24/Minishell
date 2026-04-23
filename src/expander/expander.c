@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 14:16:17 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:53:51 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*realloc_token(char *str, int start, int len_var, char *value)
 		if (str[k])
 			new_str[i++] = str[k++];
 	}
+	free(str);
 	new_str[i] = '\0';
 	return (new_str);
 }
