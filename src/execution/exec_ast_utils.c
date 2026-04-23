@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:23:05 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 13:38:15 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ int	check_fd(t_ast *ast)
 		else if (ast->redir[y] == HERE_DOC)
 			ast->fd[0] = here_doc(ast, ast->limiter[j++]);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
-			return (perror("Minishell :check_fd"), 0);
+		{
+				if(g_signal_status != 130)
+					perror("Minishell :check_fd");
+				return (0);
+		}
 		y++;
 	}
 	return (1);
