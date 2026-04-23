@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:46:20 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/23 13:59:59 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,15 @@ int	here_doc(t_ast *ast, char *limiter)
 	if (open_fd == -1)
 		return (open_fd);
 	g_signal_status = 0;
+	gestion_term(0);
 	init_signal_heredoc();
 	if (read_heredoc(limiter, open_fd) == -2)
 	{
 		perror("Minishell :hehre_doc");
+		gestion_term(1);
 		return (open_fd);
 	}
+	gestion_term(1);
 	restore_signal();
 	if (g_signal_status == 130)
 	{
