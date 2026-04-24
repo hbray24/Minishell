@@ -6,12 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 16:43:21 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/24 10:15:37 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 int	open_file(char **tmp)
 {
@@ -47,7 +46,7 @@ int	read_heredoc(char *limiter, int fd)
 		line = readline("> ");
 		if (!line)
 		{
-			write (1, "\n", 1);
+			write(1, "\n", 1);
 			return (fd);
 		}
 		if (!ft_strcmp(line, limiter))
@@ -56,10 +55,38 @@ int	read_heredoc(char *limiter, int fd)
 			return (fd);
 		}
 		write(fd, line, ft_strlen(line));
-		write (fd, "\n", 1);
+		write(fd, "\n", 1);
 		free(line);
 	}
 	return (fd);
+}
+
+void	child_heredoc(char *limiter, int open_fd, char *tmp)
+{
+	init_signal_heredoc();
+	read_heredoc(limiter, open_fd);
+	close(open_fd);
+	free(tmp);
+	exit(0);
+}
+
+int	end_heredoc(int open_fd, char *tmp, int status)
+{
+	gestion_term(1);
+	restore_signal();
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		g_signal_status = 130;
+		close(open_fd);
+		unlink(tmp);
+		free(tmp);
+		return (-1);
+	}
+	close(open_fd);
+	open_fd = open(tmp, O_RDWR, 0777);
+	unlink(tmp);
+	free(tmp);
+	return (open_fd);
 }
 
 int	here_doc(t_ast *ast, char *limiter)
@@ -85,27 +112,7 @@ int	here_doc(t_ast *ast, char *limiter)
 		return (-1);
 	}
 	if (pid == 0)
-	{
-		init_signal_heredoc();
-		read_heredoc(limiter, open_fd);
-		close(open_fd);
-		free(tmp);
-		exit(0);
-	}
+		child_heredoc(limiter, open_fd, tmp);
 	waitpid(pid, &status, 0);
-	gestion_term(1);
-	restore_signal();
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	{
-		g_signal_status = 130;
-		close(open_fd);
-		unlink(tmp);
-		free(tmp);
-		return (-1);
-	}
-	close (open_fd);
-	open_fd = open(tmp, O_RDWR, 0777);
-	unlink(tmp);
-	free(tmp);
-	return (open_fd);
+	return (end_heredoc(open_fd, tmp, status));
 }

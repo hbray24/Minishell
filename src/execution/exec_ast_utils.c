@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 13:38:15 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/24 09:52:26 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ void	close_pipe(int fd_pipe[2])
 		perror("Minishell :close_pipe");
 		exit(1);
 	}
+}
+
+int	return_error_fd(void)
+{
+	if (g_signal_status != 130)
+		perror("Minishell :check_fd");
+	return (0);
 }
 
 int	check_fd(t_ast *ast)
@@ -50,11 +57,7 @@ int	check_fd(t_ast *ast)
 		else if (ast->redir[y] == HERE_DOC)
 			ast->fd[0] = here_doc(ast, ast->limiter[j++]);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
-		{
-				if(g_signal_status != 130)
-					perror("Minishell :check_fd");
-				return (0);
-		}
+			return (return_error_fd());
 		y++;
 	}
 	return (1);

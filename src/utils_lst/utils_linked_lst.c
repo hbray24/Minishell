@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 14:56:30 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:17:57 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/24 14:19:20 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,23 @@ int	add_node_env(t_env **env, char *key, char *value)
 	return (0);
 }
 
-void	add_env(t_env **env_list, t_env *new_node)
+int	add_env(t_env **env_list, t_env *new_node)
 {
 	t_env	*tmp;
 
+	if (!new_node)
+		return (1);
 	if (!*env_list)
 	{
 		*env_list = new_node;
-		return ;
+		return (0);
 	}
 	tmp = *env_list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
 	new_node->pre = tmp;
+	return (0);
 }
 
 t_env	*last_env(t_env **env)
@@ -77,7 +80,7 @@ t_env	*last_env(t_env **env)
 	t_env	*tmp;
 
 	tmp = *env;
-	if (!env)
+	if (!env || !*env)
 		return (NULL);
 	while (tmp->next)
 		tmp = tmp->next;

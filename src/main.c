@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 18:00:42 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/24 11:52:45 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	parse(t_token **token, t_env **env)
 	ast = parsing(last_token(token));
 	if (!ast)
 	{
-		ast->status = 1;
+		(*env)->status = 1;
 		return ;
 	}
 	clear_token(token);
@@ -39,26 +39,30 @@ void	parse(t_token **token, t_env **env)
 	restore_signal();
 }
 
-int	check_line(char *line, t_token **token, t_env **env)
+void	check_line(char *line, t_token **token, t_env **env)
 {
 	if (!line)
 		ft_exit(NULL, *env);
 	*token = malloc_struct();
+	if (!token || !*token)
+		return(free(line));
 	if (ft_strlen(line) == 0)
 	{
 		free(line);
-		return (0);
+		clear_token(token);
+		return ;
 	}
 	add_history(line);
 	if (lexer(line, *token, env))
 	{
 		free(line);
-		return (1);
+		clear_token(token);
+		return ;
 	}
 	free(line);
 	parse(token, env);
 	clear_token(token);
-	return (0);
+	return ;
 }
 
 void	minishell_loop(t_env **env)
@@ -69,16 +73,17 @@ void	minishell_loop(t_env **env)
 	token = NULL;
 	while (1)
 	{
-		gestion_term(0);
+		if(!gestion_term(0))
+			return ;
 		line = readline("minishell> ");
-		gestion_term(1);
+		if (!gestion_term(1))
+			return ;
 		if (g_signal_status)
 		{
 			(*env)->status = g_signal_status;
 			g_signal_status = 0;
 		}
-		if (check_line(line, &token, env) == 1)
-			continue ;
+		check_line(line, &token, env);
 	}
 	clear_token(&token);
 }
@@ -93,6 +98,8 @@ int	main(int ac, char **av, char **envp)
 	gestion_term(1);
 	init_signal();
 	env = init_env(envp);
+	if (!env)
+		return (1);
 	minishell_loop(&env);
 	rl_clear_history();
 	clear_env(&env);

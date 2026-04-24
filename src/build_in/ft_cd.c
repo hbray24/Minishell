@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 16:05:05 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/24 09:08:37 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	join_to_home(t_ast *ast, t_env *env)
 		return (0);
 	}
 	path = ft_strjoin(home, &ast->token[1][1]);
+	free(home);
 	if (!path)
 	{
 		write(2, "Error: Malloc failed\n", 22);
@@ -31,6 +32,7 @@ int	join_to_home(t_ast *ast, t_env *env)
 	}
 	free(ast->token[1]);
 	ast->token[1] = path;
+	free(path);
 	return (1);
 }
 

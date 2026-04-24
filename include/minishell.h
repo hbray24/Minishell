@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 17:53:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/24 11:45:29 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_token				*first_token(t_token *token);
 t_token				*search_pipe(t_token *tokens);
 t_env				*init_env(char **envp);
 t_env				*swap_node(t_env *env, t_env *env_cmp);
+t_env				*create_env_node(char *key, char *value);
 t_ast				*parsing(t_token *token);
 t_ast				*new_ast_node(void);
 pid_t				fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2],
@@ -113,17 +114,17 @@ void				clear_ast(t_ast **ast);
 void				ft_unset(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
 void				close_fd(t_ast *ast);
-void				gestion_term(int action);
 void				ignore_signal(void);
 void				restore_signal(void);
 void				init_signal(void);
 void				manages_signal(int sig);
 void				restore_fd(int origin_stdout_in[2]);
 void				close_pipe(int fd_pipe[2]);
-void				add_env(t_env **env_list, t_env *new_node);
 void				init_signal_heredoc(void);
 void				signal_heredoc(int sig);
 long long			atollong(char *str);
+int					gestion_term(int action);
+int					add_env(t_env **env_list, t_env *new_node);
 int					ft_export(t_ast *ast, t_env **env);
 int					ft_env(t_ast *ast, t_env **env);
 int					expander(t_token *token, t_env *env);

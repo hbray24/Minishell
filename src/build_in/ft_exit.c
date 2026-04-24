@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 13:51:45 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/24 11:19:10 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int	ft_exit(t_ast *ast, t_env *env)
 	status = env->status;
 	clear_env(&env);
 	clear_ast(&ast);
-	exit (status); 
+	rl_clear_history();
+	exit(status);
 }

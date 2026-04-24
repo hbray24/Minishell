@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:17:34 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/24 11:34:15 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ t_env	*create_env_node(char *key, char *value)
 
 	node = malloc(sizeof(t_env));
 	if (!node)
+	{
+		write(2, "Minishell: Malloc failed\n", 26);
+		free(key);
+		free(value);
 		return (NULL);
+	}
 	ft_memset(node, 0, sizeof(t_env));
 	node->key = key;
 	node->value = value;
@@ -62,6 +67,11 @@ void	update_shlvl(t_env **env)
 		{
 			shlvl = ft_atoi(tmp->value) + 1;
 			new_shlvl = ft_itoa(shlvl);
+			if (!new_shlvl)
+			{
+				write(2, "Minishell: Malloc failed\n", 26);
+				return ;
+			}
 			uptade_env(env, "SHLVL", new_shlvl);
 			free(new_shlvl);
 			return ;
@@ -110,7 +120,8 @@ t_env	*init_env(char **envp)
 			value = ft_strdup(envp[i] + j + 1);
 		else
 			value = NULL;
-		add_env(&env_list, create_env_node(key, value));
+		if(add_env(&env_list, create_env_node(key, value)))
+			return(clear_env(&env_list), NULL);
 		i++;
 	}
 	without_env(&env_list);

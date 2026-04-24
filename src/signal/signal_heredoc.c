@@ -6,12 +6,11 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:28:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 16:25:30 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/24 09:28:21 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 void	init_signal_heredoc(void)
 {
@@ -34,6 +33,6 @@ void	signal_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		exit (130);
+		exit(130);
 	}
 }
