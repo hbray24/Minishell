@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 10:37:17 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/26 15:27:03 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ pid_t	fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		dup2_child(ast, env, fd_pipe, direction);
+		clear_ast((*env)->first_node_ast);
+		clear_env(env);
+		exit (1);
 	}
 	return (pid);
 }
