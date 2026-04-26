@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 09:52:26 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/26 17:00:41 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	return_error_fd(void)
 	return (0);
 }
 
-int	check_fd(t_ast *ast)
+int	check_fd(t_ast *ast, t_env *env)
 {
 	int	i;
 	int	j;
@@ -55,7 +55,7 @@ int	check_fd(t_ast *ast)
 		else if (ast->redir[y] == REDIR_IN)
 			ast->fd[0] = open(ast->files[i++], O_RDONLY);
 		else if (ast->redir[y] == HERE_DOC)
-			ast->fd[0] = here_doc(ast, ast->limiter[j++]);
+			ast->fd[0] = here_doc(ast, &ast->limiter[j++], env);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 			return (return_error_fd());
 		y++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/24 10:15:37 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/26 17:01:01 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_file(char **tmp)
 	return (fd);
 }
 
-int	read_heredoc(char *limiter, int fd)
+int	read_heredoc(char *limiter, int fd, t_env *env, int quote)
 {
 	char	*line;
 
@@ -54,6 +54,11 @@ int	read_heredoc(char *limiter, int fd)
 			free(line);
 			return (fd);
 		}
+		if (!quote && !expander_simple_array(&line, env))
+		{
+			free(line);
+			return (fd);
+		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -61,12 +66,36 @@ int	read_heredoc(char *limiter, int fd)
 	return (fd);
 }
 
-void	child_heredoc(char *limiter, int open_fd, char *tmp)
+int	check_quote_limiter(char **str)
 {
+	int		i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == '\'' || (*str)[i] == '\"')
+		{
+			if (delete_quote(str) == -1)
+				return (2);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	child_heredoc(char **limiter, int open_fd, char *tmp, t_env *env)
+{
+	int	quote;
+
 	init_signal_heredoc();
-	read_heredoc(limiter, open_fd);
+	quote = check_quote_limiter(limiter);
+	if (quote != 2)
+		read_heredoc(*limiter, open_fd, env, quote);
 	close(open_fd);
 	free(tmp);
+	clear_ast(env->first_node_ast);
+	clear_env(&env);
 	exit(0);
 }
 
@@ -89,7 +118,7 @@ int	end_heredoc(int open_fd, char *tmp, int status)
 	return (open_fd);
 }
 
-int	here_doc(t_ast *ast, char *limiter)
+int	here_doc(t_ast *ast, char **limiter, t_env *env)
 {
 	int		open_fd;
 	char	*tmp;
@@ -112,7 +141,7 @@ int	here_doc(t_ast *ast, char *limiter)
 		return (-1);
 	}
 	if (pid == 0)
-		child_heredoc(limiter, open_fd, tmp);
+		child_heredoc(limiter, open_fd, tmp, env);
 	waitpid(pid, &status, 0);
 	return (end_heredoc(open_fd, tmp, status));
 }

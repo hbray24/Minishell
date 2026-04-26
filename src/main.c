@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/24 11:52:45 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/26 16:15:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ void	parse(t_token **token, t_env **env)
 	t_ast	*ast;
 	int		status;
 
-	if (!expander(*token, *env))
-	{
-		status = 1;
-		return ;
-	}
 	ast = parsing(last_token(token));
 	if (!ast)
 	{
@@ -75,7 +70,7 @@ void	minishell_loop(t_env **env)
 	{
 		if(!gestion_term(0))
 			return ;
-		line = readline("minishell> ");
+		line = readline("minishell$ ");
 		if (!gestion_term(1))
 			return ;
 		if (g_signal_status)

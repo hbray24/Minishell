@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/26 15:27:03 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:14:44 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ int	exec_no_fork(t_ast *ast, t_env **env)
 
 	origin_stdout_in[0] = dup(0);
 	origin_stdout_in[1] = dup(1);
-	if (!dup_fd(ast))
+	if (!dup_fd(ast, *env))
+		return (1);
+	if (!expander(ast->token, *env))
 		return (1);
 	if (!ast->token || !ast->token[0])
 	{
@@ -96,12 +98,13 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		return (0);
 	else if (ast->type == PIPE)
 		return (exec_pipe(ast, env));
-	else if (ast->type == EXEC && !create_fork)
+	if (ast->type == EXEC && !create_fork)
 		return (exec_no_fork(ast, env));
 	else if (ast->type == EXEC && create_fork)
 	{
-		if (!dup_fd(ast))
+		if (!dup_fd(ast, *env))
 			return (1);
+		expander(ast->token, *env);
 		if (exec_build_in(ast, env) != -1)
 		{
 			clear_ast((*env)->first_node_ast);

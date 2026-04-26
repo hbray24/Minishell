@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/24 11:45:29 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/26 17:01:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ int					gestion_term(int action);
 int					add_env(t_env **env_list, t_env *new_node);
 int					ft_export(t_ast *ast, t_env **env);
 int					ft_env(t_ast *ast, t_env **env);
-int					expander(t_token *token, t_env *env);
+int					expander(char **cmd, t_env *env);
+int					expander_simple_array(char **str, t_env *env);
 int					uptade_env(t_env **env, char *key, char *new_value);
 int					add_node(t_token *token, char *str, int type);
 int					lexer(char *str, t_token *token, t_env **env);
@@ -142,13 +143,13 @@ int					ft_exit(t_ast *ast, t_env *env);
 int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
-int					here_doc(t_ast *ast, char *limiter);
-int					dup_fd(t_ast *ast);
+int					here_doc(t_ast *ast, char **limiter, t_env *env);
+int					dup_fd(t_ast *ast, t_env *env);
 int					exec_no_fork(t_ast *ast, t_env **env);
 int					get_exit_status(int status);
 int					dup2_child(t_ast *ast, t_env **env, int fd_pipe[2],
 						int direction);
-int					check_fd(t_ast *ast);
+int					check_fd(t_ast *ast, t_env *env);
 int					single_or_double_q(char **str);
 int					delete_quote(char **str);
 int					count_redir(t_token *token);

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 15:53:51 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:53:39 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,26 +124,57 @@ char	*search_variable(char *str, t_env *env)
 	return (str);
 }
 
-int	expander(t_token *token, t_env *env)
+int	expander(char **cmd, t_env *env)
 {
 	int	status;
+	int	i;
+	int	was_quote;
 
 	status = 1;
-	while (token && token->token)
+	i = 0;
+	was_quote = 1;
+	while (cmd && cmd[i])
 	{
-		if (ft_strchr(token->token, '\"') || ft_strchr(token->token, '\''))
-			token->was_quote = 1;
-		status = single_or_double_q(&token->token);
+		if (ft_strchr(cmd[i], '\"') || ft_strchr(cmd[i], '\''))
+			was_quote = 1;
+		status = single_or_double_q(cmd);
 		if (status == -1)
 			return (0);
 		if (status)
-			token->token = search_variable(token->token, env);
-		if (token->token[0] == '\0' && token->was_quote == 0)
+			cmd[i] = search_variable(cmd[i], env);
+		if (cmd[i][0] == '\0' && was_quote == 0)
 		{
-			free(token->token);
-			token->token = NULL;
+			free(cmd[i]);
+			cmd[i] = NULL;
 		}
-		token = token->next;
+		i++;
 	}
+	return (1);
+}
+
+int	expander_simple_array(char **str, t_env *env)
+{
+	int	status;
+	int	i;
+	int	was_quote;
+
+	status = 1;
+	i = 0;
+	was_quote = 1;
+	if (!*str)
+		return (1);
+	if (ft_strchr(*str, '\"') || ft_strchr(*str, '\''))
+		was_quote = 1;
+	status = single_or_double_q(str);
+	if (status == -1)
+		return (0);
+	if (status)
+		*str = search_variable(*str, env);
+	if ((*str)[0] == '\0' && was_quote == 0)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	i++;
 	return (1);
 }

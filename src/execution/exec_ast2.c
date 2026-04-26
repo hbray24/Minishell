@@ -6,15 +6,15 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/26 15:22:04 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:08:13 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	dup_fd(t_ast *ast)
+int	dup_fd(t_ast *ast, t_env *env)
 {
-	if (!check_fd(ast))
+	if (!check_fd(ast, env))
 		return (0);
 	if (ast->fd[1] > -1)
 	{
