@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/26 17:00:41 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:33:36 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	check_fd(t_ast *ast, t_env *env)
 	i = 0;
 	while ((ast->limiter && ast->limiter[j]) || (ast->files && ast->files[i]))
 	{
+		expander_simple_array(&ast->files[i], env);
 		if (ast->redir[y] == REDIR_OUT)
 			ast->fd[1] = open(ast->files[i++], O_CREAT | O_WRONLY | O_TRUNC,
 					0644);

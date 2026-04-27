@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 10:34:47 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 11:19:06 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ int	expander(char **cmd, t_env *env)
 
 	status = 1;
 	i = 0;
-	was_quote = 1;
 	while (cmd && cmd[i])
 	{
+		was_quote = 0;
 		if (ft_strchr(cmd[i], '\"') || ft_strchr(cmd[i], '\''))
 			was_quote = 1;
-		status = single_or_double_q(cmd);
+		status = single_or_double_q(&cmd[i]);
 		if (status == -1)
 			return (0);
 		if (status)
