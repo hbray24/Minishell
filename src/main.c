@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/26 16:15:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:22:13 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_line(char *line, t_token **token, t_env **env)
 		ft_exit(NULL, *env);
 	*token = malloc_struct();
 	if (!token || !*token)
-		return(free(line));
+		return (free(line));
 	if (ft_strlen(line) == 0)
 	{
 		free(line);
@@ -68,7 +68,7 @@ void	minishell_loop(t_env **env)
 	token = NULL;
 	while (1)
 	{
-		if(!gestion_term(0))
+		if (!gestion_term(0))
 			return ;
 		line = readline("minishell$ ");
 		if (!gestion_term(1))

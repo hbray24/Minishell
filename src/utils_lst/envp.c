@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 10:11:40 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:23:45 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ t_env	*init_env(char **envp)
 			value = ft_strdup(envp[i] + j + 1);
 		else
 			value = NULL;
-		if(add_env(&env_list, create_env_node(key, value)))
-			return(clear_env(&env_list), NULL);
+		if (add_env(&env_list, create_env_node(key, value)))
+			return (clear_env(&env_list), NULL);
 		i++;
 	}
 	without_env(&env_list);

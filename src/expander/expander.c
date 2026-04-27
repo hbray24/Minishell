@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/26 16:53:39 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:34:47 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,35 +92,6 @@ char	*expand_env_var(char *str, t_env *env, int *i)
 		val_len = ft_strlen(tmp);
 	str = realloc_token(str, j, *i - j, tmp);
 	*i = (j - 1) + val_len;
-	return (str);
-}
-
-char	*search_variable(char *str, t_env *env)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			tmp = ft_itoa(env->status);
-			if (!tmp)
-				return (NULL);
-			str = realloc_token(str, i + 1, 1, tmp);
-			free(tmp);
-			if (!str)
-				return (NULL);
-			i += 2;
-		}
-		else if (str[i] == '$')
-			str = expand_env_var(str, env, &i);
-		else
-			i++;
-		if (!str)
-			return (NULL);
-	}
 	return (str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/23 11:15:55 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:35:00 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,33 @@ char	*alloc_new_str(int len)
 	if (!res)
 		perror("Minishell :alloc_new_str");
 	return (res);
+}
+
+char	*search_variable(char *str, t_env *env)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '$' && str[i + 1] == '?')
+		{
+			tmp = ft_itoa(env->status);
+			if (!tmp)
+				return (NULL);
+			str = realloc_token(str, i + 1, 1, tmp);
+			free(tmp);
+			if (!str)
+				return (NULL);
+			i += 2;
+		}
+		else if (str[i] == '$')
+			str = expand_env_var(str, env, &i);
+		else
+			i++;
+		if (!str)
+			return (NULL);
+	}
+	return (str);
 }

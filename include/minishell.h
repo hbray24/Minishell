@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/26 17:01:49 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:38:06 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 
 # include "../libft/libft.h"
 # include <dirent.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/ioctl.h>
@@ -31,7 +32,6 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
-# include <errno.h>
 
 typedef enum s_type
 {
@@ -105,8 +105,12 @@ char				*find_cmd_path(char *cmd, char **envp);
 char				*search_old_path(t_env *env);
 char				*search_new_path(t_ast *ast, char *old_path);
 char				*search_value(char *key, t_env *env);
+char				*search_variable(char *str, t_env *env);
 char				*search_key(char *key, t_env *env);
 char				*alloc_new_str(int len);
+char				*realloc_token(char *str, int start, int len_var,
+						char *value);
+char				*expand_env_var(char *str, t_env *env, int *i);
 void				clear_token(t_token **token);
 void				free_array(char **str);
 void				clear_env(t_env **env);
@@ -153,5 +157,7 @@ int					check_fd(t_ast *ast, t_env *env);
 int					single_or_double_q(char **str);
 int					delete_quote(char **str);
 int					count_redir(t_token *token);
+int					open_file(char **tmp);
+int					check_quote_limiter(char **str);
 
 #endif

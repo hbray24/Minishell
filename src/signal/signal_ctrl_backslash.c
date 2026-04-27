@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:52:48 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 11:49:06 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:23:13 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	apply_term(int action, struct termios *back_up)
 	}
 	else if (action == 1)
 		if (tcsetattr(STDIN_FILENO, TCSANOW, back_up) == -1)
-			return (perror ("Minishell :tcsetattr"),1);
+			return (perror("Minishell :tcsetattr"), 1);
 	return (0);
 }
 

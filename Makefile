@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/23 09:54:13 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/27 10:29:33 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = src/build_in/ft_cd_utils.c \
 	   src/execution/exec_ast.c \
 	   src/execution/exec_ast2.c \
 	   src/execution/exec_cmd.c \
+	   src/execution/here_doc_utils.c \
 	   src/execution/here_doc.c \
 	   src/execution/search_cmd.c \
 	   src/expander/expander_utils.c \
