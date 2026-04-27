@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/24 11:19:10 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:33:21 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	ft_exit(t_ast *ast, t_env *env)
 		env->status = atollong(ast->token[1]) % 256;
 	}
 	status = env->status;
+	clear_ast(env->first_node_ast);
 	clear_env(&env);
-	clear_ast(&ast);
 	rl_clear_history();
 	exit(status);
 }

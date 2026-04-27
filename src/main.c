@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 10:22:13 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 11:03:13 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	check_line(char *line, t_token **token, t_env **env)
 	free(line);
 	parse(token, env);
 	clear_token(token);
+	(*env)->first_node_ast = NULL;
 	return ;
 }
 
