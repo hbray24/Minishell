@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/26 16:15:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:58:40 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	check_line(char *line, t_token **token, t_env **env)
 	free(line);
 	parse(token, env);
 	clear_token(token);
+	(*env)->first_node_ast = NULL;
 	return ;
 }
 

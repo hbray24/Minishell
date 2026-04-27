@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 11:39:18 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:56:00 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ void	clear_ast(t_ast **ast)
 	free_array((*ast)->files);
 	free_array((*ast)->limiter);
 	free((*ast)->redir);
-	clear_ast(&(*ast)->l_child);
-	clear_ast(&(*ast)->r_child);
+	if ((*ast)->l_child)
+		clear_ast(&(*ast)->l_child);
+	if ((*ast)->r_child)
+		clear_ast(&(*ast)->r_child);
 	free(*ast);
 	*ast = NULL;
 }
