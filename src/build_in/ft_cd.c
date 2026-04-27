@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:29:31 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 09:08:37 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:11:51 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 	if (ast->token[1][0] == '~')
 	{
 		if (!join_to_home(ast, env))
-			return (1);
+			return (free(old_path), 1);
 	}
 	if (chdir(ast->token[1]) == -1)
 	{
@@ -67,7 +67,10 @@ int	ft_cd_basic(t_ast *ast, t_env *env, char *old_path)
 int	ft_cd_previous(t_env *env, char *old_path)
 {
 	if (!uptade_env(&env, "PWD", search_value("OLDPWD", env)))
+	{
+		free(old_path);
 		return (1);
+	}
 	if (chdir(search_value("OLDPWD", env)) == -1)
 	{
 		perror("Minishell :ft_cd_previous");
@@ -81,7 +84,10 @@ int	ft_cd_previous(t_env *env, char *old_path)
 int	ft_cd_home(t_env *env, char *old_path)
 {
 	if (!uptade_env(&env, "PWD", search_value("HOME", env)))
+	{
+		free(old_path);
 		return (1);
+	}
 	if (chdir(search_value("HOME", env)) == -1)
 	{
 		perror("Minishell :ft_cd_home");

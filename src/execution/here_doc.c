@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/26 17:01:01 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:02:33 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	read_heredoc(char *limiter, int fd, t_env *env, int quote)
 		line = readline("> ");
 		if (!line)
 		{
-			write(1, "\n", 1);
+			//write(1, "\n", 1);
 			return (fd);
 		}
 		if (!ft_strcmp(line, limiter))
@@ -96,6 +96,9 @@ void	child_heredoc(char **limiter, int open_fd, char *tmp, t_env *env)
 	free(tmp);
 	clear_ast(env->first_node_ast);
 	clear_env(&env);
+	rl_clear_history();
+	if (g_signal_status == 130)
+		exit(130);
 	exit(0);
 }
 

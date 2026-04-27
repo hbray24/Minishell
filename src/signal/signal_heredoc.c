@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:28:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 09:28:21 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 09:53:14 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	signal_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		exit(130);
+		g_signal_status = 130;
+		close (STDIN_FILENO);
 	}
 }

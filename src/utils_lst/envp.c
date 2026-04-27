@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 11:34:15 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 10:11:40 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	uptade_env(t_env **env, char *key, char *new_value)
 			new_env->value = ft_strdup(new_value);
 			if (!new_env->value)
 			{
-				perror("Minishell :uptade_env");
+				write(2, "Minishell :uptade_env : failed\n", 32);
 				return (0);
 			}
 			return (1);
