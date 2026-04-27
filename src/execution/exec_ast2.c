@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/26 16:08:13 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 14:52:47 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	dup_fd(t_ast *ast, t_env *env)
+int	dup_fd(t_ast *ast)
 {
-	if (!check_fd(ast, env))
-		return (0);
 	if (ast->fd[1] > -1)
 	{
 		if (dup2(ast->fd[1], 1) == -1)

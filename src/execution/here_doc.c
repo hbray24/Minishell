@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 10:56:07 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 13:37:38 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ int	read_heredoc(char *limiter, int fd, t_env *env, int quote)
 		line = readline("> ");
 		if (!line)
 		{
-			write(2, "Minishell : warning :  ", 24);
-			write(2, "here-document delimited by end-of-file ('", 42);
-			write(2, limiter, ft_strlen(limiter));
-			write(2, "')\n", 4);
+			if (g_signal_status != 130)
+			{
+				write(2, "Minishell : warning :  ", 24);
+				write(2, "here-document delimited by end-of-file ('", 42);
+				write(2, limiter, ft_strlen(limiter));
+				write(2, "')\n", 4);
+			}
 			return (fd);
 		}
 		if (!ft_strcmp(line, limiter))

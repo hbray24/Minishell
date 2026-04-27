@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 11:10:47 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 14:55:45 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		close(origin_stdout_in[0]);
+		close(origin_stdout_in[1]);
 		execve_cmd(ast, env);
 	}
 	close_fd(ast);
@@ -72,23 +74,19 @@ int	exec_no_fork(t_ast *ast, t_env **env)
 	int	status;
 	int	origin_stdout_in[2];
 
+	if(!check_fd(ast, *env))
+		return (1);
 	origin_stdout_in[0] = dup(0);
 	origin_stdout_in[1] = dup(1);
-	if (!dup_fd(ast, *env))
-		return (1);
+	if (!dup_fd(ast))
+		return(1);
 	if (!expander(ast->token, *env))
-		return (1);
+		return (restore_fd(origin_stdout_in), 1);
 	if (!ast->token || !ast->token[0])
-	{
-		restore_fd(origin_stdout_in);
-		return (0);
-	}
+		return (restore_fd(origin_stdout_in) ,0);
 	status = exec_build_in(ast, env);
 	if (status != -1)
-	{
-		restore_fd(origin_stdout_in);
-		return (status);
-	}
+		return (restore_fd(origin_stdout_in) ,status);
 	return (exec_extern(ast, env, origin_stdout_in));
 }
 
@@ -102,7 +100,9 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		return (exec_no_fork(ast, env));
 	else if (ast->type == EXEC && create_fork)
 	{
-		if (!dup_fd(ast, *env))
+		if(!check_fd(ast, *env))
+			return (1);
+		if (!dup_fd(ast))
 			return (1);
 		expander(ast->token, *env);
 		if (exec_build_in(ast, env) != -1)

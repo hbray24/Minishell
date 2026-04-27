@@ -6,7 +6,7 @@
 /*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:28:16 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/21 14:08:06 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/27 15:00:05 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ t_env	*env_in_alphabatical_order(t_env *env)
 void	ft_printf_export(t_env *env)
 {
 	t_env	*tmp;
+	t_env	*head;
 
 	tmp = env_in_alphabatical_order(env);
+	head = tmp;
 	while (tmp)
 	{
 		if (tmp->key && tmp->value)
@@ -66,7 +68,7 @@ void	ft_printf_export(t_env *env)
 			printf("export %s\n", tmp->key);
 		tmp = tmp->next;
 	}
-	clear_env(&tmp);
+	clear_env(&head);
 }
 
 void	modif_variable(t_ast *ast, t_env **env, t_env *tmp, int i)

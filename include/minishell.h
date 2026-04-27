@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 11:08:20 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/27 14:53:17 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_ast				*new_ast_node(void);
 pid_t				fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2],
 						int direction);
 char				**split(char *str);
+char				**del_null_str(char **cmd, int *i);
 char				*search_value(char *key, t_env *env);
 char				*get_value(char *str);
 char				*get_key(char *str);
@@ -148,7 +149,7 @@ int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
 int					here_doc(t_ast *ast, char **limiter, t_env *env);
-int					dup_fd(t_ast *ast, t_env *env);
+int					dup_fd(t_ast *ast);
 int					exec_no_fork(t_ast *ast, t_env **env);
 int					get_exit_status(int status);
 int					dup2_child(t_ast *ast, t_env **env, int fd_pipe[2],
