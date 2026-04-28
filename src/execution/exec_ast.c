@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 09:56:33 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/28 11:59:36 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	exec_no_fork(t_ast *ast, t_env **env)
 	if (!dup_fd(ast))
 		return (1);
 	if (!expander(ast->token, *env))
-		return (restore_fd(origin_stdout_in), 1);
+		return (restore_fd(origin_stdout_in), -1);
 	if (!ast->token || !ast->token[0])
 		return (restore_fd(origin_stdout_in), 0);
 	status = exec_build_in(ast, env);

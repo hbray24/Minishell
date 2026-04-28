@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 09:47:23 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:22:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,56 @@ int	delete_quote(char **str)
 	char	*res;
 	int		i;
 	int		j;
+	int		nb_quote;
 	char	quote;
+	char	quote2;
 
 	i = 0;
 	quote = 0;
 	j = 0;
-	res = alloc_new_str(ft_strlen(*str) - 1);
+	nb_quote = 0;
+	while ((*str)[i])
+	{
+		if (quote != (*str)[i] && ((*str)[i] == '\'' || (*str)[i] == '\"'))
+			quote = (*str)[i];
+		if (quote == (*str)[++i])
+		{
+			nb_quote += 2;
+			quote = 0;
+		}
+	}
+	quote = 0;
+	quote2 = 0;
+	i = 0;
+	nb_quote = (int)ft_strlen(*str) - nb_quote;
+	res = alloc_new_str(nb_quote);
 	if (!res)
 		return (-1);
 	while ((*str)[i])
 	{
-		if (!quote && ((*str)[i] == '\'' || (*str)[i] == '\"'))
-			quote = (*str)[i++];
-		else if ((*str)[i] == quote)
+		if ((*str)[i] == quote2)
+		{
+			quote2 = 1;
 			i++;
-		else
+		}
+		if (!quote2 && !quote && ((*str)[i] == '\'' || (*str)[i] == '\"'))
+			quote = (*str)[i++];
+		else if (!quote2 && (*str)[i] == quote)
+		{
+			quote2 = 1;
+			i++;
+		}
+		if (quote2 && ((*str)[i] == '\'' || (*str)[i] == '\"'))
+			quote2 = (*str)[i];
+		else if ((*str)[i])
 			res[j++] = (*str)[i++];
+		else
+			i++;
 	}
 	res[j] = '\0';
 	free(*str);
 	*str = res;
-	return ((quote == '\"'));
+	return (0);
 }
 
 char	*realloc_token(char *str, int start, int len_var, char *value)
@@ -48,7 +77,7 @@ char	*realloc_token(char *str, int start, int len_var, char *value)
 
 	new_str = alloc_new_str(ft_strlen(str) + (ft_strlen(value) - len_var));
 	if (!new_str)
-		return (NULL);
+		return (free(str), NULL);
 	i = 0;
 	k = 0;
 	while (str[k])
@@ -108,12 +137,13 @@ int	expander(char **cmd, t_env *env)
 		was_quote = 0;
 		if (ft_strchr(cmd[i], '\"') || ft_strchr(cmd[i], '\''))
 			was_quote = 1;
+		cmd[i] = search_variable(cmd[i], env);
+		if (!cmd[i])
+			return (0);
 		status = single_or_double_q(&cmd[i]);
 		if (status == -1)
 			return (0);
-		if (status)
-			cmd[i] = search_variable(cmd[i], env);
-		if (cmd[i] && cmd[i][0] == '\0' && was_quote == 0)
+		if (cmd[i][0] == '\0' && was_quote == 0)
 			cmd = del_null_str(cmd, &i);
 		i++;
 	}

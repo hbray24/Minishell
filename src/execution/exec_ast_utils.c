@@ -6,26 +6,27 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 11:33:36 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:32:18 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	close_pipe(int fd_pipe[2])
+int	close_pipe(int fd_pipe[2])
 {
 	if (close(fd_pipe[0]) == -1)
 	{
 		perror("Minishell :close_pipe");
 		if (close(fd_pipe[1]) == -1)
 			perror("Minishell :close_pipe");
-		exit(1);
+		return (1);
 	}
 	if (close(fd_pipe[1]) == -1)
 	{
 		perror("Minishell :close_pipe");
-		exit(1);
+		return (1);
 	}
+	return (0);
 }
 
 int	return_error_fd(void)

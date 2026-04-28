@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 14:52:47 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/28 10:54:29 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ int	dup2_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 	{
 		if (dup2(fd_pipe[1], 1) == -1)
 		{
-			perror("Minishell :dup2");
+			perror("Minishell: dup2");
 			return (1);
 		}
-		close_pipe(fd_pipe);
+		if (close_pipe(fd_pipe))
+			return (1);
 		exec_ast(ast->l_child, env, 1);
 		return (1);
 	}
@@ -67,12 +68,13 @@ int	dup2_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 	{
 		if (dup2(fd_pipe[0], 0) == -1)
 		{
-			perror("Minishell :dup2");
-			return (1);
+			perror("Minishell: dup2");
+			return (2);
 		}
-		close_pipe(fd_pipe);
+		if (close_pipe(fd_pipe))
+			return (2);
 		exec_ast(ast->r_child, env, 1);
-		return (1);
+		return (2);
 	}
-	return (1);
+	return (0);
 }

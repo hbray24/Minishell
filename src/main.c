@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 11:03:13 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/28 11:59:32 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	parse(t_token **token, t_env **env)
 	ignore_signal();
 	(*env)->first_node_ast = &ast;
 	status = exec_ast(ast, env, 0);
+	if (status == -1)
+		return (free_all(token, env, (*env)->first_node_ast), exit(1));
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	clear_ast((*env)->first_node_ast);
