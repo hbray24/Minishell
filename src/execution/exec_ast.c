@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 08:47:12 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/28 09:56:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,14 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 			return (1);
 		if (!dup_fd(ast))
 			return (1);
-		expander(ast->token, *env);
+		if (!expander(ast->token, *env))
+		{
+			free_all(NULL, env, (*env)->first_node_ast);
+			exit (1);
+		}
 		if (exec_build_in(ast, env) != -1)
 		{
-			clear_ast((*env)->first_node_ast);
-			clear_env(env);
+			free_all(NULL, env, (*env)->first_node_ast);
 			exit(0);
 		}
 		execve_cmd(ast, env);

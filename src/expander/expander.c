@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 13:51:20 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/28 09:47:23 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	expander(char **cmd, t_env *env)
 			return (0);
 		if (status)
 			cmd[i] = search_variable(cmd[i], env);
-		if (cmd[i][0] == '\0' && was_quote == 0)
+		if (cmd[i] && cmd[i][0] == '\0' && was_quote == 0)
 			cmd = del_null_str(cmd, &i);
 		i++;
 	}

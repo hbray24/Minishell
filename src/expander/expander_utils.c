@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 11:19:34 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/28 09:47:38 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*alloc_new_str(int len)
 
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
-		perror("Minishell :alloc_new_str");
+		return (perror("Minishell :alloc_new_str"), NULL);
 	return (res);
 }
 

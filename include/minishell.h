@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 14:53:17 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/28 09:49:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void				restore_fd(int origin_stdout_in[2]);
 void				close_pipe(int fd_pipe[2]);
 void				init_signal_heredoc(void);
 void				signal_heredoc(int sig);
+void				free_all(t_token **token, t_env **env, t_ast **ast);
 long long			atollong(char *str);
 int					gestion_term(int action);
 int					add_env(t_env **env_list, t_env *new_node);
