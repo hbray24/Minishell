@@ -59,8 +59,6 @@ The development of this minishell relied heavily on the following foundational r
 
 - [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) (Abstract Syntax Tree) Concepts: Used to design the parser logic, ensuring commands, pipes, and redirections are evaluated in the correct order of precedence.
 
-- [Bash Features](https://www.gnu.org/software/bash/manual/bash.html#Shell-Syntax)
-
 - [Doc SHELL](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html) 
 
 - Linux Man Pages: The primary source of truth for all allowed system calls (man 2 fork, man 2 pipe, man 3 execve, man 2 dup2, man 3 tcsetattr).
