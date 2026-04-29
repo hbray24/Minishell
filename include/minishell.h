@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/28 10:32:46 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/29 09:50:16 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ char				*alloc_new_str(int len);
 char				*realloc_token(char *str, int start, int len_var,
 						char *value);
 char				*expand_env_var(char *str, t_env *env, int *i);
+char				*new_status(char *str, t_env *env, int flags, int *i);
+char				*remove_quote(char **str, char *res);
 void				clear_token(t_token **token);
 void				free_array(char **str);
 void				clear_env(t_env **env);
@@ -161,5 +163,6 @@ int					delete_quote(char **str);
 int					count_redir(t_token *token);
 int					open_file(char **tmp);
 int					check_quote_limiter(char **str);
+int					check_nb_quote(char *str);
 
 #endif

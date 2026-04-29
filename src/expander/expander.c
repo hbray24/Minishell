@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 15:22:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/29 09:51:12 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,55 +15,11 @@
 int	delete_quote(char **str)
 {
 	char	*res;
-	int		i;
-	int		j;
-	int		nb_quote;
-	char	quote;
-	char	quote2;
 
-	i = 0;
-	quote = 0;
-	j = 0;
-	nb_quote = 0;
-	while ((*str)[i])
-	{
-		if (quote != (*str)[i] && ((*str)[i] == '\'' || (*str)[i] == '\"'))
-			quote = (*str)[i];
-		if (quote == (*str)[++i])
-		{
-			nb_quote += 2;
-			quote = 0;
-		}
-	}
-	quote = 0;
-	quote2 = 0;
-	i = 0;
-	nb_quote = (int)ft_strlen(*str) - nb_quote;
-	res = alloc_new_str(nb_quote);
+	res = alloc_new_str((int)ft_strlen(*str) - check_nb_quote(*str));
 	if (!res)
 		return (-1);
-	while ((*str)[i])
-	{
-		if ((*str)[i] == quote2)
-		{
-			quote2 = 1;
-			i++;
-		}
-		if (!quote2 && !quote && ((*str)[i] == '\'' || (*str)[i] == '\"'))
-			quote = (*str)[i++];
-		else if (!quote2 && (*str)[i] == quote)
-		{
-			quote2 = 1;
-			i++;
-		}
-		if (quote2 && ((*str)[i] == '\'' || (*str)[i] == '\"'))
-			quote2 = (*str)[i];
-		else if ((*str)[i])
-			res[j++] = (*str)[i++];
-		else
-			i++;
-	}
-	res[j] = '\0';
+	res = remove_quote(str, res);
 	free(*str);
 	*str = res;
 	return (0);

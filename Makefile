@@ -6,7 +6,7 @@
 #    By: hbray <hbray@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/23 17:10:15 by asauvage          #+#    #+#              #
-#    Updated: 2026/04/27 13:51:46 by hbray            ###   ########.fr        #
+#    Updated: 2026/04/29 09:52:27 by hbray            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS = src/build_in/ft_cd_utils.c \
 	   src/expander/expander.c \
 	   src/parsing/ast_utils.c \
 	   src/parsing/ast.c \
+	   src/parsing/check_nb_quote.c \
 	   src/parsing/lexer.c \
 	   src/parsing/split_utils.c \
 	   src/parsing/split.c \

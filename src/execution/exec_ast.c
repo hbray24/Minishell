@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 11:59:36 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/29 10:13:39 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 		close(origin_stdout_in[1]);
 		execve_cmd(ast, env);
 	}
-	close_fd(ast);
 	restore_fd(origin_stdout_in);
 	waitpid(pid, &status, 0);
 	return (get_exit_status(status));

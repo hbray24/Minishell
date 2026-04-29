@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 14:38:14 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/04/29 09:51:43 by hbray            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	check_syntax(t_token *token)
 	if (token->pre && (token->pre->type > 3 && token->pre->type < 9)
 		&& (token->type > 2 && token->type < 9))
 		return (err_syntax(token->pre->token));
+	if (check_nb_quote(token->token) % 2)
+	{
+		write(2, "quotation syntax error not closed\n", 35);
+		return (2);
+	}
 	return (0);
 }
 
