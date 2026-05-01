@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:25:58 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 10:23:45 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 18:31:35 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ void	without_env(t_env **env_list)
 	if (!search_value("_", *env_list))
 		add_env(env_list, create_env_node(ft_strdup("_"),
 				ft_strdup("/usr/bin/env")));
+	if (!search_value("PATH", *env_list))
+		add_env(env_list, create_env_node(ft_strdup("PATH"),
+				ft_strdup("/usr/lib64/ccache:/usr/local/bin:/usr/bin")));
 }
 
 t_env	*init_env(char **envp)

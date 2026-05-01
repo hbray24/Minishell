@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 10:32:18 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 18:16:45 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,26 @@ int	return_error_fd(void)
 	return (0);
 }
 
+void	check_open_fd(t_ast *ast, t_type type)
+{
+	if ((type == REDIR_IN || type == HERE_DOC) && ast->fd[0] > -1)
+		close(ast->fd[0]);
+	if ((type == REDIR_OUT || type == REDIR_ADD) && ast->fd[1] > -1)
+		close(ast->fd[1]);
+}
+
 int	check_fd(t_ast *ast, t_env *env)
 {
 	int	i;
 	int	j;
 	int	y;
 
-	y = 0;
+	y = -1;
 	j = 0;
 	i = 0;
 	while ((ast->limiter && ast->limiter[j]) || (ast->files && ast->files[i]))
 	{
+		check_open_fd(ast, ast->redir[++y]);
 		expander_simple_array(&ast->files[i], env);
 		if (ast->redir[y] == REDIR_OUT)
 			ast->fd[1] = open(ast->files[i++], O_CREAT | O_WRONLY | O_TRUNC,
@@ -60,7 +69,6 @@ int	check_fd(t_ast *ast, t_env *env)
 			ast->fd[0] = here_doc(ast, &ast->limiter[j++], env);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 			return (return_error_fd());
-		y++;
 	}
 	return (1);
 }

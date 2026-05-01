@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 10:25:44 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 17:13:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 18:19:46 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	open_file(char **tmp)
 	}
 	if (fd == -1)
 	{
-		perror("Minishell :open_file");
+		write(2, "Minishell: ", 12);
+		ft_putstr_fd(*tmp, 2);
+		perror("");
 		return (fd);
 	}
 	return (fd);
