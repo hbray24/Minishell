@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 10:20:27 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:43:32 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ pid_t	fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 		dup2_child(ast, env, fd_pipe, direction);
 		clear_ast((*env)->first_node_ast);
 		clear_env(env);
+		close_std_fd();
 		exit (1);
 	}
 	return (pid);

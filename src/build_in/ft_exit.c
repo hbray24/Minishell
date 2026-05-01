@@ -6,11 +6,17 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/01 10:45:48 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:41:45 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	close_std_fd(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+}
 
 int	error(char *str, t_env *env)
 {
@@ -84,7 +90,6 @@ int	ft_exit(t_ast *ast, t_env *env)
 	clear_ast(env->first_node_ast);
 	clear_env(&env);
 	rl_clear_history();
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	close_std_fd();
 	exit(status);
 }

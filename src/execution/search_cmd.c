@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:31:33 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/24 11:09:36 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 17:46:12 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ char	*strcat_path_cmd(char *dst, char *src)
 	len = ft_strlen(dst) + ft_strlen(src) + 2;
 	res = malloc(sizeof(char) * (len));
 	if (!res)
-	{
-		perror("Minishell :strcat_path_cmd");
-		return (0);
-	}
+		return (perror("Minishell"), NULL);
 	i = 0;
 	while (src[i])
 	{
@@ -73,7 +70,7 @@ char	*search_in_path(char *cmd, char **path)
 	{
 		tmp = strcat_path_cmd(cmd, path[i]);
 		if (!tmp)
-			exit (1);
+			return (NULL);
 		if (!access(tmp, X_OK))
 			return (tmp);
 		free(tmp);
