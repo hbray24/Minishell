@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 11:00:08 by asauvage          #+#    #+#             */
-/*   Updated: 2025/12/02 14:07:25 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:51:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	len_f = verif_malloc(s, start, len);
 	res = malloc((len_f + 1) * sizeof(char));
 	if (res == NULL)
-		return (0);
+		return (perror("Minishell: ft_substr"), NULL);
 	res[0] = '\0';
 	if (start > ft_strlen(s))
 		return (res);

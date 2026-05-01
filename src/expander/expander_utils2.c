@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:49:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/29 16:52:45 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:12:26 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,4 @@ char	*remove_quote(char **str, char *res)
 	printf("%d, c=[%d]\n", j, res[j - 1]);
 	res[j] = '\0';
 	return (res);
-}
-
-char	*new_status(char *str, t_env *env, int flags, int *i)
-{
-	char	*tmp;
-
-	if (flags != 1 && str[*i] == '$' && str[*i + 1] == '?')
-	{
-		tmp = ft_itoa(env->status);
-		if (!tmp)
-			return (NULL);
-		str = realloc_token(str, *i + 1, 1, tmp);
-		free(tmp);
-		if (!str)
-			return (NULL);
-		*i += 2;
-	}
-	return (str);
 }

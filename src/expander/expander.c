@@ -3,104 +3,168 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/29 09:51:12 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 17:14:02 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	delete_quote(char **str)
-{
-	char	*res;
-
-	res = alloc_new_str((int)ft_strlen(*str) - check_nb_quote(*str));
-	if (!res)
-		return (-1);
-	res = remove_quote(str, res);
-	free(*str);
-	*str = res;
-	return (0);
-}
-
-char	*realloc_token(char *str, int start, int len_var, char *value)
+int	len_status(int status)
 {
 	int		i;
-	int		k;
-	char	*new_str;
+	char	*tmp;
 
-	new_str = alloc_new_str(ft_strlen(str) + (ft_strlen(value) - len_var));
-	if (!new_str)
-		return (free(str), NULL);
+	tmp = ft_itoa(status);
+	if (!tmp)
+		return (perror("Minishell: len_status"), -1);
 	i = 0;
-	k = 0;
-	while (str[k])
-	{
-		if (k == start - 1)
-		{
-			while (value && *value)
-				new_str[i++] = *value++;
-			if (!value && !ft_isalpha(str[k + 1]) && str[k + 1] != '_')
-				new_str[i++] = '$';
-			k += len_var + 1;
-		}
-		if (str[k])
-			new_str[i++] = str[k++];
-	}
-	free(str);
-	new_str[i] = '\0';
-	return (new_str);
+	while (tmp[i])
+		i++;
+	return (i);
 }
 
-char	*expand_env_var(char *str, t_env *env, int *i)
+int	len_variable(char *cmd, int *i, t_env *env)
 {
-	char	*sub_str;
-	char	*tmp;
-	int		j;
-	int		val_len;
+	int		len;
+	char	*variable;
+	int		start;
 
-	val_len = 0;
-	(*i)++;
-	j = *i;
-	if (!ft_isalpha(str[*i]) && str[*i] != '_')
-		return (str);
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	len = 0;
+	start = *i;
+	if (cmd[*i] == '?')
+		return (len_status(env->status));
+	while (cmd && cmd[*i] && cmd[*i] != '\'' && cmd[*i] != '\"')
 		(*i)++;
-	sub_str = ft_substr(str, j, *i - j);
-	if (!sub_str)
-		return (NULL);
-	tmp = search_value(sub_str, env);
-	free(sub_str);
-	if (tmp)
-		val_len = ft_strlen(tmp);
-	str = realloc_token(str, j, *i - j, tmp);
-	*i = (j - 1) + val_len;
-	return (str);
+	variable = ft_substr(cmd, start, *i - start);
+	if (!variable)
+		return (-1);
+	len = ft_strlen(search_value(variable, env));
+	// printf("len: [%d], index i: [%d]\n", len, *i);
+	free(variable);
+	return (len);
+}
+
+int	calc_len(char *cmd, t_env *env)
+{
+	int		i;
+	char	quote;
+	int		len;
+	int		status;
+
+	i = 0;
+	quote = 0;
+	len = 0;
+	status = 0;
+	while (cmd && cmd[i])
+	{
+		if (!quote && (cmd[i] == '\'' || cmd[i] == '\"'))
+			quote = cmd[i++];
+		if (cmd[i] && quote != '\'' && cmd[i] == '$' && ++i)
+			status = len_variable(cmd, &i, env);
+		if (status == -1)
+			return (-1);
+		len += status;
+		if (cmd[i] && quote == cmd[i])
+			quote = 0;
+		else if (cmd[i] && ++i)
+			len++;
+	}
+	return (len);
+}
+
+int	replace_by_status(char *str, int j, int status)
+{
+	char	*tmp_status;
+	int		k;
+
+	k = 0;
+	tmp_status = ft_itoa(status);
+	if (!tmp_status)
+		return (perror("Minishell"), -1);
+	while (tmp_status[j])
+		str[j++] = tmp_status[k++];
+	free(tmp_status);
+	return (1);
+}
+
+int	replace_var_value(char *res, char *str, int *i, t_env *env)
+{
+	char	*variable;
+	char	*tmp;
+	int		start;
+	int		j;
+
+	start = *i;
+	j = 0;
+	if (str[*i] == '?' && (*i)++)
+		return (replace_by_status(res, j, env->status));
+	while (str && str[*i] && str[*i] != '\'' && str[*i] != '\"')
+		(*i)++;
+	tmp = ft_substr(str, start, *i - start);
+	if (!tmp)
+		return (-1);
+	variable = search_value(tmp, env);
+	j = 0;
+	free(tmp);
+	while (variable && variable[j])
+	{
+		res[j] = variable[j];
+		j++;
+	}
+	res[j] = '\0';
+	return (j);
+}
+
+char	*replace_cmd(char *str, t_env *env, char *res, char quote)
+{
+	int		i;
+	int		status;
+	int		j;
+
+	j = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		status = 0;
+		if (!quote && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i++];
+		if (str[i] && quote != '\'' && str[i] == '$' && ++i)
+			status = replace_var_value(&res[j], str, &i, env);
+		if (status == -1)
+			return (free(str), free(res), NULL);
+		j += status;
+		if (str[i] && quote != str[i])
+			res[j++] = str[i++];
+		if (str[i] && quote == str[i] && ++i)
+			quote = 0;
+	}
+	free(str);
+	return (res);
 }
 
 int	expander(char **cmd, t_env *env)
 {
-	int	status;
-	int	i;
-	int	was_quote;
+	int		i;
+	int		len;
+	char	*res;
+	char	quote;
 
-	status = 1;
 	i = 0;
 	while (cmd && cmd[i])
 	{
-		was_quote = 0;
-		if (ft_strchr(cmd[i], '\"') || ft_strchr(cmd[i], '\''))
-			was_quote = 1;
-		cmd[i] = search_variable(cmd[i], env);
+		quote = 0;
+		len = calc_len(cmd[i], env);
+		if (len == -1)
+			return (0);
+		res = ft_calloc(len + 1, sizeof(char));
+		if (!res)
+			return (perror("Minishell"), 0);
+		cmd[i] = replace_cmd(cmd[i], env, res, quote);
 		if (!cmd[i])
 			return (0);
-		status = single_or_double_q(&cmd[i]);
-		if (status == -1)
-			return (0);
-		if (cmd[i][0] == '\0' && was_quote == 0)
-			cmd = del_null_str(cmd, &i);
 		i++;
 	}
 	return (1);
@@ -108,27 +172,27 @@ int	expander(char **cmd, t_env *env)
 
 int	expander_simple_array(char **str, t_env *env)
 {
-	int	status;
-	int	i;
-	int	was_quote;
+	char	quote;
+	char	*res;
+	int		len;
 
-	status = 1;
-	i = 0;
-	was_quote = 1;
 	if (!str || !*str)
 		return (1);
-	if (ft_strchr(*str, '\"') || ft_strchr(*str, '\''))
-		was_quote = 1;
-	status = single_or_double_q(str);
-	if (status == -1)
+	quote = 0;
+	len = calc_len(*str, env);
+	if (len == -1)
 		return (0);
-	if (status)
-		*str = search_variable(*str, env);
-	if ((*str)[0] == '\0' && was_quote == 0)
+	res = ft_calloc(len + 1, sizeof(char));
+	if (!res)
+		return (perror("Minishell"), 0);
+	res = replace_cmd(*str, env, res, quote);
+	if (!*res)
+		return (0);
+	if (res[0] == '\0')
 	{
-		free(*str);
+		free(res);
 		*str = NULL;
 	}
-	i++;
+	*str = res;
 	return (1);
 }

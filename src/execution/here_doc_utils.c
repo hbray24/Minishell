@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 10:25:44 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 10:30:03 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 17:13:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ int	open_file(char **tmp)
 		return (fd);
 	}
 	return (fd);
+}
+
+int	delete_quote(char **str)
+{
+	char	*res;
+
+	res = alloc_new_str((int)ft_strlen(*str) - check_nb_quote(*str));
+	if (!res)
+		return (-1);
+	res = remove_quote(str, res);
+	free(*str);
+	*str = res;
+	return (0);
 }
 
 int	check_quote_limiter(char **str)

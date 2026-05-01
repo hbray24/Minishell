@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/29 09:49:22 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 17:13:02 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ char	*search_key(char *key, t_env *env)
 	return (NULL);
 }
 
-int	single_or_double_q(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str && *str && (*str)[i])
-	{
-		if ((*str)[i] == '\"' || (*str)[i] == '\'')
-			return (delete_quote(str));
-		i++;
-	}
-	return (1);
-}
-
 char	*alloc_new_str(int len)
 {
 	char	*res;
@@ -56,28 +42,4 @@ char	*alloc_new_str(int len)
 	if (!res)
 		return (perror("Minishell :alloc_new_str"), NULL);
 	return (res);
-}
-
-char	*search_variable(char *str, t_env *env)
-{
-	int		i;
-	int		flags;
-
-	i = 0;
-	flags = 0;
-	while (str && str[i])
-	{
-		if (str[i] == '\'')
-			flags = 1;
-		str = new_status(str, env, flags, &i);
-		if (flags != 1 && str[i] == '$')
-			str = expand_env_var(str, env, &i);
-		else
-			i++;
-		if (!str)
-			return (NULL);
-		if (str[i] == '\'' && flags == 1)
-			flags = 0;
-	}
-	return (str);
 }

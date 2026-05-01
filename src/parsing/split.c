@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 13:00:48 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/01 10:36:50 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:30:29 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	next_token(char *str, int i)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i = skip_w_quote(str, i);
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (i);
 }
@@ -56,7 +57,8 @@ int	len_word(char *str, int *start)
 	{
 		if (str[end] == '\'' || str[end] == '\"')
 			end = skip_w_quote(str, end);
-		end++;
+		if (str[end])
+			end++;
 	}
 	if (ft_issep(str, start, 0))
 		ft_issep(str, &end, 1);
@@ -71,10 +73,7 @@ char	*ft_dup_token(char *res, char *str, int *i)
 	len_w = len_word(str, i);
 	res = malloc(sizeof(char) * (len_w + 1));
 	if (!res)
-	{
-		write(2, "Minishell: Malloc\n", 19);
-		return (NULL);
-	}
+		return (perror("Minishell"), NULL);
 	start = 0;
 	while (start < len_w)
 	{
@@ -96,17 +95,14 @@ char	**split(char *str)
 	nb_word = count_token(str);
 	res = malloc(sizeof(char *) * (nb_word + 1));
 	if (!res)
-		return (NULL);
+		return (perror("Minishell:"), NULL);
 	i = 0;
 	w = 0;
 	while (w < nb_word)
 	{
 		res[w] = ft_dup_token(res[w], str, &i);
 		if (!res[w])
-		{
-			free_array(res);
-			return (NULL);
-		}
+			return (free_array(res), NULL);
 		w++;
 	}
 	res[w] = NULL;
