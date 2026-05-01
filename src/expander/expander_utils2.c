@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:49:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/29 09:50:04 by hbray            ###   ########.fr       */
+/*   Updated: 2026/04/29 16:52:45 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*remove_quote(char **str, char *res)
 
 	i = 0;
 	j = 0;
+	quote2 = 0;
+	quote = 0;
 	while ((*str)[i])
 	{
 		if ((*str)[i] == quote2 && i++)
@@ -50,6 +52,7 @@ char	*remove_quote(char **str, char *res)
 		else
 			i++;
 	}
+	printf("%d, c=[%d]\n", j, res[j - 1]);
 	res[j] = '\0';
 	return (res);
 }

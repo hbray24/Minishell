@@ -6,17 +6,18 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 16:28:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 10:33:21 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 10:45:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	error(char *str)
+int	error(char *str, t_env *env)
 {
-	ft_putstr_fd("Hbray: exit: ", 2);
+	write(2, "Minishell: exit: ", 18);
 	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": numeric arguments required", 2);
+	write(2, ": numeric argument required\n", 29);
+	env->status = 2;
 	return (2);
 }
 
@@ -35,7 +36,7 @@ int	check_limit_nb(unsigned long long res, int new_nb, int m)
 	return (0);
 }
 
-long long	atollong(char *str)
+int	atollong(char *str, t_env *env)
 {
 	unsigned long long	nb;
 	int					m;
@@ -54,12 +55,13 @@ long long	atollong(char *str)
 	while (ft_isdigit(str[i]))
 	{
 		if (check_limit_nb(nb, (str[i] - '0'), m))
-			return (error(str));
+			return (error(str, env));
 		nb = nb * 10 + str[i++] - '0';
 	}
 	if (str[i])
-		return (error(str));
-	return ((long long)nb * m);
+		return (error(str, env));
+	env->status = ((long long)nb * m) % 256;
+	return (0);
 }
 
 int	ft_exit(t_ast *ast, t_env *env)
@@ -70,16 +72,19 @@ int	ft_exit(t_ast *ast, t_env *env)
 	write(1, "exit\n", 5);
 	if (ast && ast->token[1])
 	{
-		if (ast->token[2])
+		if (!atollong(ast->token[1], env) && ast->token[2])
 		{
 			write(2, "Minishell: exit: too many arguments\n", 37);
 			return (1);
 		}
-		env->status = atollong(ast->token[1]) % 256;
 	}
+	if (ast)
+		restore_fd(ast->origin_std);
 	status = env->status;
 	clear_ast(env->first_node_ast);
 	clear_env(&env);
 	rl_clear_history();
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	exit(status);
 }

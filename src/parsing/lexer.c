@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:58:14 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/29 09:51:43 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 10:36:41 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	lexer(char *str, t_token *token, t_env **env)
 	tokens = split(str);
 	if (!tokens)
 	{
-		write(2, "Hbray: Malloc\n", 15);
+		write(2, "Minishell: Malloc\n", 19);
 		return (1);
 	}
 	i = 0;

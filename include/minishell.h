@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/29 09:50:16 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 10:44:45 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum s_type
 typedef struct s_ast
 {
 	int				fd[2];
+	int				origin_std[2];
 	int				status;
 	char			**token;
 	char			**files;
@@ -129,7 +130,7 @@ void				restore_fd(int origin_stdout_in[2]);
 void				init_signal_heredoc(void);
 void				signal_heredoc(int sig);
 void				free_all(t_token **token, t_env **env, t_ast **ast);
-long long			atollong(char *str);
+int					atollong(char *str, t_env *env);
 int					gestion_term(int action);
 int					close_pipe(int fd_pipe[2]);
 int					add_env(t_env **env_list, t_env *new_node);

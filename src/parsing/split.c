@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 13:00:48 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/21 11:38:50 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 10:36:50 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_dup_token(char *res, char *str, int *i)
 	res = malloc(sizeof(char) * (len_w + 1));
 	if (!res)
 	{
-		write(2, "hbray: Malloc\n", 15);
+		write(2, "Minishell: Malloc\n", 19);
 		return (NULL);
 	}
 	start = 0;

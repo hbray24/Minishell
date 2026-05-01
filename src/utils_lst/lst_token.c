@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:43:45 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 10:23:37 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 10:37:11 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token	*malloc_struct(void)
 	token = malloc(sizeof(t_token));
 	if (!token)
 	{
-		write(2, "hbray: Malloc\n", 15);
+		write(2, "Minishell: Malloc\n", 19);
 		return (NULL);
 	}
 	ft_memset(token, 0, sizeof(t_token));
@@ -33,7 +33,7 @@ int	create_token(t_token *token)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 	{
-		write(2, "Hbray: Malloc\n", 15);
+		write(2, "Minishell: Malloc\n", 19);
 		return (0);
 	}
 	ft_memset(new_token, 0, sizeof(t_token));

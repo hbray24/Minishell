@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/29 10:13:39 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/01 10:20:27 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exec_pipe(t_ast *ast, t_env **env)
 	return (get_exit_status(status));
 }
 
-int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
+int	exec_extern(t_ast *ast, t_env **env)
 {
 	pid_t	pid;
 	int		status;
@@ -59,11 +59,11 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		close(origin_stdout_in[0]);
-		close(origin_stdout_in[1]);
+		close(ast->origin_std[0]);
+		close(ast->origin_std[1]);
 		execve_cmd(ast, env);
 	}
-	restore_fd(origin_stdout_in);
+	restore_fd(ast->origin_std);
 	waitpid(pid, &status, 0);
 	return (get_exit_status(status));
 }
@@ -71,22 +71,21 @@ int	exec_extern(t_ast *ast, t_env **env, int origin_stdout_in[2])
 int	exec_no_fork(t_ast *ast, t_env **env)
 {
 	int	status;
-	int	origin_stdout_in[2];
 
 	if (!check_fd(ast, *env))
 		return (1);
-	origin_stdout_in[0] = dup(0);
-	origin_stdout_in[1] = dup(1);
+	ast->origin_std[0] = dup(0);
+	ast->origin_std[1] = dup(1);
 	if (!dup_fd(ast))
 		return (1);
 	if (!expander(ast->token, *env))
-		return (restore_fd(origin_stdout_in), -1);
+		return (restore_fd(ast->origin_std), -1);
 	if (!ast->token || !ast->token[0])
-		return (restore_fd(origin_stdout_in), 0);
+		return (restore_fd(ast->origin_std), 0);
 	status = exec_build_in(ast, env);
 	if (status != -1)
-		return (restore_fd(origin_stdout_in), status);
-	return (exec_extern(ast, env, origin_stdout_in));
+		return (restore_fd(ast->origin_std), status);
+	return (exec_extern(ast, env));
 }
 
 int	exec_ast(t_ast *ast, t_env **env, int create_fork)
