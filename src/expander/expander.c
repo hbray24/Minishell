@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 17:14:02 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:35:07 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	len_status(int status)
 	i = 0;
 	while (tmp[i])
 		i++;
+	free(tmp);
 	return (i);
 }
 
