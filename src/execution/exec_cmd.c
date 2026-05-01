@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 17:42:36 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/01 18:54:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	exec_build_in(t_ast *ast, t_env **env)
 		status |= ft_exit(ast, *env);
 	else
 		return (-1);
+	close_std_fd();
 	return (status);
 }
 
