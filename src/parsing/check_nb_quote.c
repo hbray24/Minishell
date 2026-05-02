@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 09:10:04 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 17:22:55 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 11:03:55 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_nb_quote(char *str)
 	quote = 0;
 	while (str[i])
 	{
-		if (quote != str[i] && (str[i] == '\'' || str[i] == '\"'))
+		if (!quote && (str[i] == '\'' || str[i] == '\"'))
 		{
 			nb_quote += 1;
 			quote = str[i];
