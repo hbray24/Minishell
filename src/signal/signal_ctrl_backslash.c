@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_ctrl_backslash.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:52:48 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/27 10:23:13 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/02 14:46:19 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	gestion_term(int action)
 	static struct termios	back_up;
 	static int				save;
 
+	if (!isatty(STDIN_FILENO))
+		return (0);
 	if (save == 0)
 	{
 		if (tcgetattr(STDIN_FILENO, &back_up) == -1)

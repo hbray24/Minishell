@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbray <hbray@student.42.fr>                +#+  +:+       +#+        */
+/*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 20:01:58 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/23 11:16:49 by hbray            ###   ########.fr       */
+/*   Updated: 2026/05/02 14:37:17 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	add_node_element(t_ast *ast, t_token *token, int *i)
 			return (0);
 	}
 	else if (token->type == REDIR_ADD || token->type == REDIR_IN
-		|| token->type == REDIR_OUT || token->type == HERE_DOC)
+		|| token->type == REDIR_OUT)
 		ast->redir[(*i)++] = token->type;
 	else if (token->type == FILES)
 	{

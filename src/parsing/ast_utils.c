@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:49:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/22 11:16:46 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 14:37:04 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	count_redir(t_token *token)
 	while (token && !token->limite)
 	{
 		if (token->type == REDIR_ADD || token->type == REDIR_IN
-			|| token->type == REDIR_OUT || token->type == HERE_DOC)
+			|| token->type == REDIR_OUT)
 			i++;
 		token = token->next;
 	}

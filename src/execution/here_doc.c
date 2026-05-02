@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 11:49:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 14:40:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	child_heredoc(char **limiter, int open_fd, char *tmp, t_env *env)
 	free(tmp);
 	clear_ast(env->first_node_ast);
 	clear_env(&env);
+	close_std_fd();
 	rl_clear_history();
 	if (g_signal_status == 130)
 		exit(130);
