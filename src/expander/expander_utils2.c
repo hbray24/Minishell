@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:49:08 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 17:12:26 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 10:47:05 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,5 @@ char	*remove_quote(char **str, char *res)
 		else
 			i++;
 	}
-	printf("%d, c=[%d]\n", j, res[j - 1]);
-	res[j] = '\0';
 	return (res);
 }

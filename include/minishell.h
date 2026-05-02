@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/01 17:42:19 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 10:43:58 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ char				*search_old_path(t_env *env);
 char				*search_new_path(t_ast *ast, char *old_path);
 char				*search_value(char *key, t_env *env);
 char				*search_variable(char *str, t_env *env);
-char				*search_key(char *key, t_env *env);
 char				*alloc_new_str(int len);
 char				*realloc_token(char *str, int start, int len_var,
 						char *value);
@@ -131,6 +130,9 @@ void				init_signal_heredoc(void);
 void				signal_heredoc(int sig);
 void				free_all(t_token **token, t_env **env, t_ast **ast);
 void				close_std_fd(void);
+int					len_status(int status);
+int					len_variable(char *cmd, int *i, t_env *env);
+int					calc_len(char *cmd, t_env *env);
 int					atollong(char *str, t_env *env);
 int					gestion_term(int action);
 int					close_pipe(int fd_pipe[2]);
