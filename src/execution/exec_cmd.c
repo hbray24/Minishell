@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 17:46:48 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 18:08:16 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,30 +89,33 @@ int	exec_build_in(t_ast *ast, t_env **env)
 	return (status);
 }
 
+void	exit_cmd(t_env **env, int status)
+{
+	free_all(NULL, env, (*env)->first_node_ast);
+	close_std_fd();
+	exit (status);
+}
+
 int	execve_cmd(t_ast *ast, t_env **env)
 {
 	char	*path;
 
+	if (ast->token[0] && !ast->token[0][0])
+		exit_cmd(env, 0);
 	(*env)->env = linked_list_to_double_array(env);
 	if (!(*env)->env)
-	{
-		free_all(NULL, env, (*env)->first_node_ast);
-		close_std_fd();
-		exit (1);
-	}
+		exit_cmd(env, 1);
 	path = find_cmd_path(ast->token[0], (*env)->env);
 	if (path == NULL)
 	{
 		write(2, "Minishell: Cmd not found\n", 26);
 		free_array((*env)->env);
-		free_all(NULL, env, (*env)->first_node_ast);
-		close_std_fd();
-		exit(127);
+		exit_cmd(env, 127);
 	}
 	execve(path, ast->token, (*env)->env);
 	free_array((*env)->env);
 	free_all(NULL, env, (*env)->first_node_ast);
-	free(path);
 	close_std_fd();
+	free(path);
 	exit (126);
 }
