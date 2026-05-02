@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:10:21 by asauvage          #+#    #+#             */
-/*   Updated: 2026/04/27 10:56:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:30:01 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void	clear_ast(t_ast **ast)
 	free_array((*ast)->files);
 	free_array((*ast)->limiter);
 	free((*ast)->redir);
+	if ((*ast)->fd[0] > -1)
+		close((*ast)->fd[0]);
+	if ((*ast)->fd[0] > -1)
+		close((*ast)->fd[0]);
 	if ((*ast)->l_child)
 		clear_ast(&(*ast)->l_child);
 	if ((*ast)->r_child)

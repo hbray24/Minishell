@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 11:54:20 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:32:29 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void				clear_env(t_env **env);
 void				clear_ast(t_ast **ast);
 void				ft_unset(t_ast *ast, t_env **env);
 void				ft_echo(t_ast *ast);
-void				close_fd(t_ast *ast);
 void				ignore_signal(void);
 void				restore_signal(void);
 void				init_signal(void);

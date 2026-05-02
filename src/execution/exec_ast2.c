@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:42:57 by hbray             #+#    #+#             */
-/*   Updated: 2026/04/28 10:54:29 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:31:28 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	dup_fd(t_ast *ast)
 			return (0);
 		}
 		close(ast->fd[1]);
+		ast->fd[1] = -1;
 	}
 	if (ast->fd[0] > -1)
 	{
@@ -31,6 +32,7 @@ int	dup_fd(t_ast *ast)
 			return (0);
 		}
 		close(ast->fd[0]);
+		ast->fd[0] = -1;
 	}
 	return (1);
 }

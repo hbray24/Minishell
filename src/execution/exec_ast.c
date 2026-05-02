@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 15:38:04 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:28:11 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	exec_extern(t_ast *ast, t_env **env)
 		close(ast->origin_std[0]);
 		close(ast->origin_std[1]);
 		execve_cmd(ast, env);
+		close_std_fd();
 	}
 	restore_fd(ast->origin_std);
 	waitpid(pid, &status, 0);

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 16:00:07 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:19:00 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void	child_heredoc(char **limiter, int open_fd, char *tmp, t_env *env)
 	clear_env(&env);
 	rl_clear_history();
 	if (g_signal_status == 130)
+	{
+		close(STDOUT_FILENO);
 		exit(130);
+	}
 	close_std_fd();
 	exit(0);
 }
@@ -108,27 +111,27 @@ int	here_doc(char **limiter, t_env *env)
 int	fill_here_doc(t_ast *ast, t_env *env)
 {
 	int	i;
+	int	status;
 
 	if (ast->type == PIPE)
 	{
-		if (fill_here_doc(ast->l_child, env) == -1)
-			return (0);
-		if (fill_here_doc(ast->r_child, env) == -1)
-			return (0);
+		status = fill_here_doc(ast->l_child, env);
+		if (status == -1 || status == -3)
+			return (status);
+		status = fill_here_doc(ast->r_child, env);
+		if (status == -1 || status == -3)
+			return (status);
 		return (1);
 	}
 	i = 0;
-	if (ast->type == EXEC)
+	while (ast->limiter && ast->limiter[i])
 	{
-		while (ast->limiter && ast->limiter[i])
-		{
-			if (ast->fd[0] > -1)
-				close(ast->fd[0]);
-			ast->fd[0] = here_doc(&ast->limiter[i], env);
-			if (ast->fd[0] == -1 || ast->fd[0] == -3)
-				return (ast->fd[0]);
-			i++;
-		}
+		if (ast->fd[0] > -1)
+			close(ast->fd[0]);
+		ast->fd[0] = here_doc(&ast->limiter[i], env);
+		if (ast->fd[0] == -1 || ast->fd[0] == -3)
+			return (ast->fd[0]);
+		i++;
 	}
 	return (1);
 }

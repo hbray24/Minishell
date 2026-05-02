@@ -6,19 +6,11 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 15:21:46 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:32:25 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	close_fd(t_ast *ast)
-{
-	if (ast->fd[0] >= 0)
-		close(ast->fd[0]);
-	if (ast->fd[1] >= 0)
-		close(ast->fd[1]);
-}
 
 char	**fill_env_array(char **build_env, t_env *start)
 {

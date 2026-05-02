@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 11:57:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:54:56 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ int	return_error_fd(void)
 void	check_open_fd(t_ast *ast, t_type type)
 {
 	if ((type == REDIR_IN || type == HERE_DOC) && ast->fd[0] > -1)
+	{
 		close(ast->fd[0]);
+		ast->fd[0] = -1;
+	}
 	if ((type == REDIR_OUT || type == REDIR_ADD) && ast->fd[1] > -1)
+	{
 		close(ast->fd[1]);
+		ast->fd[1] = -1;
+	}
 }
 
 int	check_fd(t_ast *ast, t_env *env)
