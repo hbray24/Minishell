@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 12:51:21 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 14:50:47 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,8 @@ int	expander_simple_array(char **str, t_env *env)
 	res = ft_calloc(len + 1, sizeof(char));
 	if (!res)
 		return (perror("Minishell"), 0);
-	res = replace_cmd(*str, env, res, quote);
-	if (!*res)
+	*str = replace_cmd(*str, env, res, quote);
+	if (!*str)
 		return (0);
-	if (res[0] == '\0')
-	{
-		free(res);
-		*str = NULL;
-	}
-	*str = res;
 	return (1);
 }

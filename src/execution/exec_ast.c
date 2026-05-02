@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 19:00:31 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 15:31:04 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,16 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 {
 	if (!ast)
 		return (0);
-	else if (ast->type == PIPE)
+	if (ast->type == PIPE)
 		return (exec_pipe(ast, env));
 	if (ast->type == EXEC && !create_fork)
 		return (exec_no_fork(ast, env));
 	else if (ast->type == EXEC && create_fork)
 	{
 		if (!check_fd(ast, *env))
-			return (1);
+			return (free_all(NULL, env, (*env)->first_node_ast), 1);
 		if (!dup_fd(ast))
-			return (1);
+			return (free_all(NULL, env, (*env)->first_node_ast), 1);
 		if (!expander(ast->token, *env))
 		{
 			free_all(NULL, env, (*env)->first_node_ast);
@@ -115,5 +115,5 @@ int	exec_ast(t_ast *ast, t_env **env, int create_fork)
 		}
 		execve_cmd(ast, env);
 	}
-	return (1);
+	return (free_all(NULL, env, (*env)->first_node_ast), 1);
 }
