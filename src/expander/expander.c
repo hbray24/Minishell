@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 12:30:18 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 12:51:21 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	replace_var_value(char *res, char *str, int *i, t_env *env)
 	j = 0;
 	if (str[*i] == '?' && (*i)++)
 		return (replace_by_status(res, j, env->status));
-	while (str && str[*i] && str[*i] != '\'' && str[*i] != '\"')
+	while (str && str[*i] && str[*i] != '\'' && str[*i] != '\"'
+		&& str[*i] != '$')
 		(*i)++;
 	tmp = ft_substr(str, start, *i - start);
 	if (!tmp)
@@ -69,11 +70,11 @@ char	*replace_cmd(char *str, t_env *env, char *res, char quote)
 			quote = str[i++];
 		if (str[i] && quote != '\'' && str[i] == '$' && ++i)
 			status = replace_var_value(&res[j], str, &i, env);
+		else if (str[i] && quote != str[i])
+			res[j++] = str[i++];
 		if (status == -1)
 			return (free(str), free(res), NULL);
 		j += status;
-		if (str[i] && quote != str[i])
-			res[j++] = str[i++];
 		if (str[i] && quote == str[i] && ++i)
 			quote = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 12:29:26 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 12:49:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	len_variable(char *cmd, int *i, t_env *env)
 	start = *i;
 	if (cmd[*i] == '?')
 		return (len_status(env->status));
-	while (cmd && cmd[*i] && cmd[*i] != '\'' && cmd[*i] != '\"')
+	while (cmd && cmd[*i] && cmd[*i] != '\'' && cmd[*i] != '\"'
+		&& cmd[*i] != '$')
 		(*i)++;
 	variable = ft_substr(cmd, start, *i - start);
 	if (!variable)
@@ -64,13 +65,13 @@ int	calc_len(char *cmd, t_env *env)
 			quote = cmd[i++];
 		if (cmd[i] && quote != '\'' && cmd[i] == '$' && ++i)
 			status = len_variable(cmd, &i, env);
+		else if (cmd[i] && ++i)
+			len++;
 		if (status == -1)
 			return (-1);
 		len += status;
 		if (cmd[i] && quote == cmd[i] && ++i)
 			quote = 0;
-		else if (cmd[i] && ++i)
-			len++;
 	}
 	return (len);
 }
