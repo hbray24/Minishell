@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 14:40:56 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:00:07 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	child_heredoc(char **limiter, int open_fd, char *tmp, t_env *env)
 	free(tmp);
 	clear_ast(env->first_node_ast);
 	clear_env(&env);
-	close_std_fd();
 	rl_clear_history();
 	if (g_signal_status == 130)
 		exit(130);
+	close_std_fd();
 	exit(0);
 }
 
@@ -70,7 +70,7 @@ int	end_heredoc(int open_fd, char *tmp, int status)
 		close(open_fd);
 		unlink(tmp);
 		free(tmp);
-		return (-1);
+		return (-3);
 	}
 	close(open_fd);
 	open_fd = open(tmp, O_RDWR, 0777);
@@ -125,8 +125,8 @@ int	fill_here_doc(t_ast *ast, t_env *env)
 			if (ast->fd[0] > -1)
 				close(ast->fd[0]);
 			ast->fd[0] = here_doc(&ast->limiter[i], env);
-			if (ast->fd[0] == -1)
-				return (-1);
+			if (ast->fd[0] == -1 || ast->fd[0] == -3)
+				return (ast->fd[0]);
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 15:52:48 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 15:26:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 15:58:33 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	gestion_term(int action)
 	static struct termios	back_up;
 	static int				save;
 
-	// if (!isatty(STDIN_FILENO))
-	// 	return (0);
+	if (!isatty(STDIN_FILENO))
+		return (0);
 	if (save == 0)
 	{
 		if (tcgetattr(STDIN_FILENO, &back_up) == -1)

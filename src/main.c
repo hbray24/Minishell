@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:12:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 11:54:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 15:55:49 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	parse(t_token **token, t_env **env)
 	clear_token(token);
 	ignore_signal();
 	(*env)->first_node_ast = &ast;
-	if (!fill_here_doc(ast, *env))
+	status = fill_here_doc(ast, *env);
+	if (status == -1)
 		return (free_all(token, env, (*env)->first_node_ast), exit(1));
+	if (status == -3)
+		return (clear_ast((*env)->first_node_ast));
 	status = exec_ast(ast, env, 0);
 	if (status == -1)
 		return (free_all(token, env, (*env)->first_node_ast), exit(1));
