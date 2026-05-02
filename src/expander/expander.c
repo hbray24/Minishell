@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 11:30:51 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 10:44:09 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 12:30:18 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	replace_var_value(char *res, char *str, int *i, t_env *env)
 		res[j] = variable[j];
 		j++;
 	}
-	res[j] = '\0';
 	return (j);
 }
 

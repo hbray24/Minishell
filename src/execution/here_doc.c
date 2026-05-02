@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/01 18:19:28 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 11:49:16 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	end_heredoc(int open_fd, char *tmp, int status)
 	return (open_fd);
 }
 
-int	here_doc(t_ast *ast, char **limiter, t_env *env)
+int	here_doc(char **limiter, t_env *env)
 {
 	int		open_fd;
 	char	*tmp;
@@ -86,8 +86,6 @@ int	here_doc(t_ast *ast, char **limiter, t_env *env)
 	int		status;
 
 	tmp = NULL;
-	if (ast->fd[0] > -1)
-		close(ast->fd[0]);
 	open_fd = open_file(&tmp);
 	if (open_fd == -1)
 		return (open_fd);
@@ -104,4 +102,32 @@ int	here_doc(t_ast *ast, char **limiter, t_env *env)
 		child_heredoc(limiter, open_fd, tmp, env);
 	waitpid(pid, &status, 0);
 	return (end_heredoc(open_fd, tmp, status));
+}
+
+int	fill_here_doc(t_ast *ast, t_env *env)
+{
+	int	i;
+
+	if (ast->type == PIPE)
+	{
+		if (fill_here_doc(ast->l_child, env) == -1)
+			return (0);
+		if (fill_here_doc(ast->r_child, env) == -1)
+			return (0);
+		return (1);
+	}
+	i = 0;
+	if (ast->type == EXEC)
+	{
+		while (ast->limiter && ast->limiter[i])
+		{
+			if (ast->fd[0] > -1)
+				close(ast->fd[0]);
+			ast->fd[0] = here_doc(&ast->limiter[i], env);
+			if (ast->fd[0] == -1)
+				return (-1);
+			i++;
+		}
+	}
+	return (1);
 }

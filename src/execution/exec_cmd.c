@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 14:37:05 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 18:54:43 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 12:33:59 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	execve_cmd(t_ast *ast, t_env **env)
 	execve(path, ast->token, (*env)->env);
 	free_array((*env)->env);
 	free_all(NULL, env, (*env)->first_node_ast);
+	free(path);
 	close_std_fd();
 	exit (126);
 }

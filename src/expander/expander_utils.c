@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:28:35 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 10:45:24 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 12:29:26 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	calc_len(char *cmd, t_env *env)
 		if (status == -1)
 			return (-1);
 		len += status;
-		if (cmd[i] && quote == cmd[i])
+		if (cmd[i] && quote == cmd[i] && ++i)
 			quote = 0;
 		else if (cmd[i] && ++i)
 			len++;

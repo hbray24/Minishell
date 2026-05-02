@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 10:43:58 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 11:54:20 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,8 @@ int					ft_exit(t_ast *ast, t_env *env);
 int					execve_cmd(t_ast *ast, t_env **env);
 int					exec_build_in(t_ast *ast, t_env **env);
 int					create_token(t_token *token);
-int					here_doc(t_ast *ast, char **limiter, t_env *env);
+int					here_doc(char **limiter, t_env *env);
+int					fill_here_doc(t_ast *ast, t_env *env);
 int					dup_fd(t_ast *ast);
 int					exec_no_fork(t_ast *ast, t_env **env);
 int					get_exit_status(int status);

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 09:33:37 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/01 19:00:57 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 11:57:43 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ void	check_open_fd(t_ast *ast, t_type type)
 int	check_fd(t_ast *ast, t_env *env)
 {
 	int	i;
-	int	j;
 	int	y;
 
 	y = -1;
-	j = 0;
 	i = 0;
-	while ((ast->limiter && ast->limiter[j]) || (ast->files && ast->files[i]))
+	while (ast->files && ast->files[i])
 	{
 		check_open_fd(ast, ast->redir[++y]);
 		expander_simple_array(&ast->files[i], env);
@@ -65,8 +63,6 @@ int	check_fd(t_ast *ast, t_env *env)
 					0644);
 		else if (ast->redir[y] == REDIR_IN)
 			ast->fd[0] = open(ast->files[i++], O_RDONLY);
-		else if (ast->redir[y] == HERE_DOC)
-			ast->fd[0] = here_doc(ast, &ast->limiter[j++], env);
 		if (ast->fd[1] == -1 || ast->fd[0] == -1)
 			return (return_error_fd());
 	}
