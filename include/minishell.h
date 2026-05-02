@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:04:32 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 16:32:29 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 19:06:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ int					count_redir(t_token *token);
 int					open_file(char **tmp);
 int					check_quote_limiter(char **str);
 int					check_nb_quote(char *str);
+void				init_ctrl_pipe(void);
 
 #endif

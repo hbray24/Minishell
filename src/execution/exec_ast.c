@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:46:23 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 17:46:35 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 19:17:09 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ pid_t	fork_pipe_child(t_ast *ast, t_env **env, int fd_pipe[2], int direction)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
+		if (ast->type == PIPE)
+			init_ctrl_pipe();
 		dup2_child(ast, env, fd_pipe, direction);
 		clear_ast((*env)->first_node_ast);
 		clear_env(env);
@@ -46,6 +46,12 @@ int	exec_pipe(t_ast *ast, t_env **env)
 	pid_right = fork_pipe_child(ast, env, fd_pipe, RIGHT);
 	close_pipe(fd_pipe);
 	waitpid(pid_left, &status, 0);
+	if (g_signal_status == 130 || g_signal_status == 131)
+	{
+		free_all(NULL, env, (*env)->first_node_ast);
+		close_std_fd();
+		exit(g_signal_status);
+	}
 	waitpid(pid_right, &status, 0);
 	return (get_exit_status(status));
 }
