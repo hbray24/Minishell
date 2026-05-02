@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 13:12:06 by hbray             #+#    #+#             */
-/*   Updated: 2026/05/02 16:00:05 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:50:52 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	init_signal(void)
 {
 	struct sigaction	sig_action;
 
-	signal(SIGPIPE, SIG_IGN);
 	sigemptyset(&sig_action.sa_mask);
 	sigaddset(&sig_action.sa_mask, SIGINT);
 	sigaddset(&sig_action.sa_mask, SIGQUIT);

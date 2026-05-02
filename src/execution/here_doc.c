@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:32:59 by asauvage          #+#    #+#             */
-/*   Updated: 2026/05/02 16:19:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:54:13 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,27 +111,28 @@ int	here_doc(char **limiter, t_env *env)
 int	fill_here_doc(t_ast *ast, t_env *env)
 {
 	int	i;
-	int	status;
 
 	if (ast->type == PIPE)
 	{
-		status = fill_here_doc(ast->l_child, env);
-		if (status == -1 || status == -3)
-			return (status);
-		status = fill_here_doc(ast->r_child, env);
-		if (status == -1 || status == -3)
-			return (status);
+		i = fill_here_doc(ast->l_child, env);
+		if (i == -1 || i == -3)
+			return (i);
+		i = fill_here_doc(ast->r_child, env);
+		if (i == -1 || i == -3)
+			return (i);
 		return (1);
 	}
-	i = 0;
-	while (ast->limiter && ast->limiter[i])
+	i = -1;
+	while (ast->limiter && ast->limiter[++i])
 	{
 		if (ast->fd[0] > -1)
+		{
 			close(ast->fd[0]);
+			ast->fd[0] = -2;
+		}
 		ast->fd[0] = here_doc(&ast->limiter[i], env);
 		if (ast->fd[0] == -1 || ast->fd[0] == -3)
 			return (ast->fd[0]);
-		i++;
 	}
 	return (1);
 }
